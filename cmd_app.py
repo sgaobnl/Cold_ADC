@@ -98,7 +98,7 @@ class CMD_ACQ:
             self.bc.cots_adc_data(avr = 3)
             time.sleep(0.1)
             val = self.bc.cots_adc_data(avr = avg_points)
-            print (val)
+            return val
             
             
 env = "RT"
@@ -107,5 +107,12 @@ flg_bjt_r = True #default BJT reference
 cq = CMD_ACQ()
 cq.init_chk()
 cq.ref_set(flg_bjt_r = flg_bjt_r )
-cq.ref_mon()
+tmp = cq.ref_mon(flg_bjt_r = True, mon_src = "VREFP", aux_src = "AUX_VOLTAGE")
+print (tmp)
+tmp = cq.ref_mon(flg_bjt_r = True, mon_src = "VREFN", aux_src = "AUX_VOLTAGE")
+print (tmp)
+tmp = cq.ref_mon(flg_bjt_r = True, mon_src = "VCMI", aux_src = "AUX_VOLTAGE")
+print (tmp)
+tmp = cq.ref_mon(flg_bjt_r = True, mon_src = "VCMO", aux_src = "AUX_VOLTAGE")
+print (tmp)
 
