@@ -100,35 +100,36 @@ class CMD_ACQ:
             val = self.bc.cots_adc_data(avr = avg_points)
             return val
             
-    def bjt_ref_aux(self, mon_src = "VREFP", mux_src = "AUX_VOLTAGE" avg_points =5  ):
+    def bjt_ref_aux(self, mon_src = "VREFP", mux_src = "AUX_VOLTAGE", avg_points =5  ):
         self.bc.cots_adc_bjt_mon_src(src = mon_src)
         self.bc.cots_adc_mux_mon_src(src = mux_src )
         self.bc.cots_adc_data(avr = 3)
         time.sleep(0.1)
         val = self.bc.cots_adc_data(avr = avg_points)
+        
         return val
 
     def all_bjt_ref_auxs(self ):
-        vref  = cq.bjt_ref_mon(mon_src = "VREF_ext",  mux_src = "AUX_VOLTAGE")
-        vrefn = cq.bjt_ref_mon(mon_src = "VREFN",     mux_src = "AUX_VOLTAGE")
-        vrefp = cq.bjt_ref_mon(mon_src = "VREFP",     mux_src = "AUX_VOLTAGE")
-        vcmi  = cq.bjt_ref_mon(mon_src = "VCMI",      mux_src = "AUX_VOLTAGE")
-        vcmo  = cq.bjt_ref_mon(mon_src = "VCMO",      mux_src = "AUX_VOLTAGE")
-        vbgr  = cq.bjt_ref_mon(mon_src = "VBGR_1.2V", mux_src = "AUX_VOLTAGE")
-        vdac0_5k   = cq.bjt_ref_mon(mon_src = "Vdac0_5k",  mux_src = "AUX_ISOURCE")
-        vdac1_5k   = cq.bjt_ref_mon(mon_src = "Vdac1_5k",  mux_src = "AUX_ISOURCE")
-        ibuff0_5k  = cq.bjt_ref_mon(mon_src = "ibuff0_5k", mux_src = "AUX_ISOURCE")
-        ibuff1_5k  = cq.bjt_ref_mon(mon_src = "ibuff1_5k", mux_src = "AUX_ISOURCE")
-        isink_adc1_5k  = cq.bjt_ref_mon(mon_src = "Isink_adc1_5k", mux_src = "AUX_ISINK")
-        isink_adc0_5k  = cq.bjt_ref_mon(mon_src = "Isink_adc0_5k", mux_src = "AUX_ISINK")
-        isink_sha1_5k  = cq.bjt_ref_mon(mon_src = "Isink_sha1_5k", mux_src = "AUX_ISINK")
-        isink_sha0_5k  = cq.bjt_ref_mon(mon_src = "Isink_sha0_5k", mux_src = "AUX_ISINK")
-        isink_refbuf0_5k  = cq.bjt_ref_mon(mon_src = "Isink_refbuf0_5k", mux_src = "AUX_ISINK")
-        isink_refbuf1_5k  = cq.bjt_ref_mon(mon_src = "Isink_refbuf1_5k", mux_src = "AUX_ISINK")
+        vref  = cq.bjt_ref_aux(mon_src = "VREF_ext",  mux_src = "AUX_VOLTAGE")
+        vrefn = cq.bjt_ref_aux(mon_src = "VREFN",     mux_src = "AUX_VOLTAGE")
+        vrefp = cq.bjt_ref_aux(mon_src = "VREFP",     mux_src = "AUX_VOLTAGE")
+        vcmi  = cq.bjt_ref_aux(mon_src = "VCMI",      mux_src = "AUX_VOLTAGE")
+        vcmo  = cq.bjt_ref_aux(mon_src = "VCMO",      mux_src = "AUX_VOLTAGE")
+        vbgr  = cq.bjt_ref_aux(mon_src = "VBGR_1.2V", mux_src = "AUX_VOLTAGE")
+        vdac0_5k   = cq.bjt_ref_aux(mon_src = "Vdac0_5k",  mux_src = "AUX_ISOURCE")
+        vdac1_5k   = cq.bjt_ref_aux(mon_src = "Vdac1_5k",  mux_src = "AUX_ISOURCE")
+        ibuff0_5k  = cq.bjt_ref_aux(mon_src = "ibuff0_5k", mux_src = "AUX_ISOURCE")
+        ibuff1_5k  = cq.bjt_ref_aux(mon_src = "ibuff1_5k", mux_src = "AUX_ISOURCE")
+        isink_adc1_5k  = cq.bjt_ref_aux(mon_src = "Isink_adc1_5k", mux_src = "AUX_ISINK")
+        isink_adc0_5k  = cq.bjt_ref_aux(mon_src = "Isink_adc0_5k", mux_src = "AUX_ISINK")
+        isink_sha1_5k  = cq.bjt_ref_aux(mon_src = "Isink_sha1_5k", mux_src = "AUX_ISINK")
+        isink_sha0_5k  = cq.bjt_ref_aux(mon_src = "Isink_sha0_5k", mux_src = "AUX_ISINK")
+        isink_refbuf0_5k  = cq.bjt_ref_aux(mon_src = "Isink_refbuf0_5k", mux_src = "AUX_ISINK")
+        isink_refbuf1_5k  = cq.bjt_ref_aux(mon_src = "Isink_refbuf1_5k", mux_src = "AUX_ISINK")
         return (vref, vrefn, vrefp, vcmi, vcmo, vbgr, vdac0_5k, vdac1_5k, ibuff0_5k, ibuff1_5k, 
                 isink_adc1_5k, isink_adc0_5k, isink_sha1_5k, isink_sha0_5k, isink_refbuf0_5k, isink_refbuf1_5k )
 
-    def ref_vmon(self, vmon = "VBGR" avg_points =5  ):
+    def ref_vmon(self, vmon = "VBGR", avg_points =5  ):
         self.bc.cots_adc_mux_mon_src(src = "VOLTAGE_MON")
         self.bc.cost_adc_v_mon_ena(1)
         self.bc.cost_adc_v_mon_select(vmon)
@@ -139,17 +140,18 @@ class CMD_ACQ:
         return val
 
     def all_ref_vmons(self ):
-        vbgr  = cq.ref_vmon(mon_src = "VBGR"  )
-        vcmi  = cq.ref_vmon(mon_src = "VCMI"  )
-        vcmo  = cq.ref_vmon(mon_src = "VCMO"  )
-        vrefp = cq.ref_vmon(mon_src = "VREFP" )
-        vrefn = cq.ref_vmon(mon_src = "VREFN" )
-        vssa  = cq.ref_vmon(mon_src = "VSSA"  )
+        vbgr  = cq.ref_vmon(vmon = "VBGR"  )
+        vcmi  = cq.ref_vmon(vmon = "VCMI"  )
+        vcmo  = cq.ref_vmon(vmon = "VCMO"  )
+        vrefp = cq.ref_vmon(vmon = "VREFP" )
+        vrefn = cq.ref_vmon(vmon = "VREFN" )
+        vssa  = cq.ref_vmon(vmon = "VSSA"  )
+        return (vbgr, vcmi, vcmo, vrefp, vrefn, vssa)
 
-    def ref_imon(self, imon = "ICMOS_REF_5k" avg_points =5  ):
+    def ref_imon(self, imon = "ICMOS_REF_5k", avg_points =5  ):
         self.bc.cots_adc_mux_mon_src(src = "CURRENT_MON")
         self.bc.cost_adc_i_mon_ena(1)
-        self.bc.cost_adc_i_mon_select(vmon)
+        self.bc.cost_adc_i_mon_select(imon)
         self.bc.cots_adc_data(avr = 3)
         time.sleep(0.1)
         val = self.bc.cots_adc_data(avr = avg_points)
@@ -157,14 +159,14 @@ class CMD_ACQ:
         return val
 
     def all_ref_imons(self ):
-        icmos_ref_5k = cq.ref_imon(mon_src = "ICMOS_REF_5k" )
-        isha0_5k     = cq.ref_imon(mon_src = "ISHA0_5k" )
-        iadc0_5k     = cq.ref_imon(mon_src = "IADC0_5k" )
-        isha1_5k     = cq.ref_imon(mon_src = "ISHA1_5k" )
-        iadc1_5k     = cq.ref_imon(mon_src = "IADC1_5k" )
-        ibuff_cmos   = cq.ref_imon(mon_src = "IBUFF_CMOS" )
-        iref_5k      = cq.ref_imon(mon_src = "IREF_5k" )
-        irefbuffer0  = cq.ref_imon(mon_src = "IREFBUFFER0" )
+        icmos_ref_5k = cq.ref_imon(imon = "ICMOS_REF_5k" )
+        isha0_5k     = cq.ref_imon(imon = "ISHA0_5k" )
+        iadc0_5k     = cq.ref_imon(imon = "IADC0_5k" )
+        isha1_5k     = cq.ref_imon(imon = "ISHA1_5k" )
+        iadc1_5k     = cq.ref_imon(imon = "IADC1_5k" )
+        ibuff_cmos   = cq.ref_imon(imon = "IBUFF_CMOS" )
+        iref_5k      = cq.ref_imon(imon = "IREF_5k" )
+        irefbuffer0  = cq.ref_imon(imon = "IREFBUFFER0" )
         return (icmos_ref_5k, isha0_5k, iadc0_5k, isha1_5k, iadc1_5k, ibuff_cmos, iref_5k, irefbuffer0 )
 
 
@@ -176,16 +178,16 @@ cq = CMD_ACQ()
 cq.init_chk()
 cq.ref_set(flg_bjt_r = flg_bjt_r )
 tmp = cq.all_bjt_ref_auxs()
-print tmp
+print (tmp)
 tmp = cq.all_ref_vmons()
-print tmp
+print (tmp)
 tmp = cq.all_ref_imons()
-print tmp
+print (tmp)
 cq.ref_set(flg_bjt_r = False )
 tmp = cq.all_ref_vmons()
-print tmp
+print (tmp)
 tmp = cq.all_ref_imons()
-print tmp
+print (tmp)
 
 
 
