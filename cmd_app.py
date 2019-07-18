@@ -107,4 +107,5 @@ flg_bjt_r = True #default BJT reference
 cq = CMD_ACQ()
 cq.init_chk()
 cq.ref_set(flg_bjt_r = flg_bjt_r )
+cq.ref_mon()
 
