@@ -98,6 +98,7 @@ class UDP(UDP_frames):
 
 # Read register from FPGA to PC, this is an overloading function for wib and FEMB both
     def read_reg(self, reg, femb_addr = None ):
+        time.sleep(0.001)
         regVal = int(reg)
         if (regVal < 0) or (regVal > self.MAX_REG_NUM):
            #print "FEMB_UDP--> Error read_reg: Invalid register number"
