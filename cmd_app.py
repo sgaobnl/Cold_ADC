@@ -91,14 +91,14 @@ class CMD_ACQ:
             self.bc.adc_set_cmos_ibuff(ibuff0_cmos, ibuff1_cmos)
             print ("CMOS bias source for the input buffer is set!") 
 
-    def ref_mon(self, flg_bjt_r = True, mon_src = "VREFP", mux_src = "AUX_VOLTAGE", vmon = "VBGR", imon = "ICMOS_REF_5k", avg_points =5  ):
-        if (flg_bjt_r):
-            self.bc.cots_adc_bjt_mon_src(src = mon_src)
-            self.bc.cots_adc_mux_mon_src(src = mux_src )
-            self.bc.cots_adc_data(avr = 3)
-            time.sleep(0.1)
-            val = self.bc.cots_adc_data(avr = avg_points)
-            return val
+#    def ref_mon(self, flg_bjt_r = True, mon_src = "VREFP", mux_src = "AUX_VOLTAGE", vmon = "VBGR", imon = "ICMOS_REF_5k", avg_points =5  ):
+#        if (flg_bjt_r):
+#            self.bc.cots_adc_bjt_mon_src(src = mon_src)
+#            self.bc.cots_adc_mux_mon_src(src = mux_src )
+#            self.bc.cots_adc_data(avr = 3)
+#            time.sleep(0.1)
+#            val = self.bc.cots_adc_data(avr = avg_points)
+#            return val
             
     def bjt_ref_aux(self, mon_src = "VREFP", mux_src = "AUX_VOLTAGE", avg_points =5  ):
         self.bc.cots_adc_bjt_mon_src(src = mon_src)
@@ -106,7 +106,7 @@ class CMD_ACQ:
         self.bc.cots_adc_data(avr = 3)
         time.sleep(0.1)
         val = self.bc.cots_adc_data(avr = avg_points)
-        
+        print ("MUX = %s, %s = %f"%(mux_src, mon_src, val))
         return val
 
     def all_bjt_ref_auxs(self ):
@@ -137,6 +137,7 @@ class CMD_ACQ:
         time.sleep(0.1)
         val = self.bc.cots_adc_data(avr = avg_points)
         self.bc.cost_adc_v_mon_ena(0)
+        print ("MUX = VOLTAGE_MON, %s = %f"%( vmon, val))
         return val
 
     def all_ref_vmons(self ):
@@ -156,6 +157,7 @@ class CMD_ACQ:
         time.sleep(0.1)
         val = self.bc.cots_adc_data(avr = avg_points)
         self.bc.cost_adc_i_mon_ena(0)
+        print ("MUX = CURRENT_MON, %s = %f"%( imon, val))
         return val
 
     def all_ref_imons(self ):
