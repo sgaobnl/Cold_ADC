@@ -200,38 +200,30 @@ class CMD_ACQ:
                 chns[j].append(frames[i].ADCdata[j]) 
         return chns 
     
-    def Word_order_cfg(self, PktNum=128 ):        
-        self.bc.Acq_start_stop(1)
+    def Word_order_cfg(self, PktNum=128 ):  
         for num in range(8):
             self.bc.word_order_slider(num)
+            self.bc.Acq_start_stop(1)
             chns = self.get_adcdata(PktNum=128)
-            for i in range(16):
-                print (hex(chns[i][0]))
-            print ("EEEEEEE")
-            if((chns[0][0]  > 0xE000) and 
-               (chns[1][0]  > 0x4000) and  (chns[1][0]  < 0xE000) and
-               (chns[2][0]  < 0x4000) and 
-               (chns[3][0]  > 0x4000) and  (chns[2][0]  < 0xE000) and            
-               (chns[4][0]  > 0x4000) and  (chns[4][0]  < 0xE000) and               
-               (chns[5][0]  > 0x4000) and  (chns[5][0]  < 0xE000) and               
-               (chns[6][0]  > 0x4000) and  (chns[6][0]  < 0xE000) and               
-               (chns[7][0]  > 0x4000) and  (chns[7][0]  < 0xE000) and               
-               (chns[8][0]  > 0xE000) and 
-               (chns[9][0]  > 0x4000) and  (chns[9][0]  < 0xE000) and
-               (chns[10][0] < 0x4000) and  
-               (chns[11][0] > 0x4000) and  (chns[10][0] < 0xE000) and            
-               (chns[12][0] > 0x4000) and  (chns[12][0] < 0xE000) and               
-               (chns[13][0] > 0x4000) and  (chns[13][0] < 0xE000) and               
-               (chns[14][0] > 0x4000) and  (chns[14][0] < 0xE000) and               
-               (chns[15][0] > 0x4000) and  (chns[15][0] < 0xE000) ):             
+            if((chns[0][1]  > 0xE000) and 
+               (chns[1][1]  > 0x4000) and  (chns[1][1]  < 0xE000) and
+               (chns[2][1]  < 0x4000) and 
+               (chns[3][1]  > 0x4000) and  (chns[2][1]  < 0xE000) and            
+               (chns[4][1]  > 0x4000) and  (chns[4][1]  < 0xE000) and               
+               (chns[5][1]  > 0x4000) and  (chns[5][1]  < 0xE000) and               
+               (chns[6][1]  > 0x4000) and  (chns[6][1]  < 0xE000) and               
+               (chns[7][1]  > 0x4000) and  (chns[7][1]  < 0xE000) and               
+               (chns[8][1]  > 0xE000) and 
+               (chns[9][1]  > 0x4000) and  (chns[9][1]  < 0xE000) and
+               (chns[10][1] < 0x4000) and  
+               (chns[11][1] > 0x4000) and  (chns[10][1] < 0xE000) and            
+               (chns[12][1] > 0x4000) and  (chns[12][1] < 0xE000) and               
+               (chns[13][1] > 0x4000) and  (chns[13][1] < 0xE000) and               
+               (chns[14][1] > 0x4000) and  (chns[14][1] < 0xE000) and               
+               (chns[15][1] > 0x4000) and  (chns[15][1] < 0xE000) ):             
                 print ("ADC word order is %d"%num)
                 break
-
-            #self.bc.getdata()
-#            break
-
-
-
+            self.bc.Acq_start_stop(0)
 
 env = "RT"
 flg_bjt_r = True #default BJT reference

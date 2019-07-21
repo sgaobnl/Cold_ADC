@@ -226,7 +226,24 @@ class UDP(UDP_frames):
         if checkflg == True:
             self.check_packets(packet_cnts)
         return user_data
-    
+
+    def clr_server_buf(self):
+        #set up listening socket
+        sock_data = self.socket_gen("Listen")
+        sock_data.settimeout(1)
+        sock_data.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 81920000) #open a large buffer for that
+        sock_data.bind(('', self.UDP_PORT_HSDATA))                          #high-speed data UDP port 32003
+        recvbuf = 9014 #match to 0xefc
+
+        while(1):
+            try:
+                tmp = sock_data.recv(recvbuf)    
+                print (len(tmp))
+            except socket.timeout:
+                print ("Server Buffer is cleared")
+                sock_data.close()
+                break
+      
     def check_packets(self,data):
         num = len(data)
         if (num == 2 or num > 2):
