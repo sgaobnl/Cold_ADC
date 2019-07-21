@@ -190,7 +190,7 @@ class CMD_ACQ:
 
 
     def Word_order_cfg(self ):        
-        self.bc.adc_start_stop(1)
+        self.bc.Acq_start_stop(1)
         for num in range(8):
             self.bc.word_order_slider(num)
             tmp = self.bc.get_data(PktNum=5,checkflg=True )
