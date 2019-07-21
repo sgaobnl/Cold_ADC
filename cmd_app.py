@@ -186,6 +186,15 @@ class CMD_ACQ:
         self.bc.adc_ibuff_ctrl(curr_src)
 
 
+    def Word_order_cfg(self ):        
+        self.bc.adc_start_stop(1)
+        for num in range(8):
+            self.bc.word_order_slider(num)
+            tmp = self.bc.get_data(PktNum=5,checkflg=True )
+            print (len(tmp))
+            #self.bc.getdata()
+            break
+
 
 
 
@@ -195,16 +204,23 @@ flg_bjt_r = True #default BJT reference
 cq = CMD_ACQ()
 cq.init_chk()
 cq.ref_set(flg_bjt_r = flg_bjt_r )
-tmp = cq.all_bjt_ref_auxs()
+cp.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
+cp.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                         adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
+                         adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
+cp.Word_order_cfg( )        
+
+
+#tmp = cq.all_bjt_ref_auxs()
 #print (tmp)
-tmp = cq.all_ref_vmons()
+#tmp = cq.all_ref_vmons()
 #print (tmp)
-tmp = cq.all_ref_imons()
+#tmp = cq.all_ref_imons()
 #print (tmp)
-cq.ref_set(flg_bjt_r = False )
-tmp = cq.all_ref_vmons()
+#cq.ref_set(flg_bjt_r = False )
+#tmp = cq.all_ref_vmons()
 #print (tmp)
-tmp = cq.all_ref_imons()
+#tmp = cq.all_ref_imons()
 #print (tmp)
 
 
