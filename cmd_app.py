@@ -190,7 +190,7 @@ class CMD_ACQ:
         self.bc.adc_ibuff_ctrl(curr_src)
 
     def get_adcdata(self, PktNum=128 ):
-        rawdata = self.bc.get_data(PktNum,1) #packet check
+        rawdata = self.bc.get_data(PktNum,1, Jumbo="Jumbo") #packet check
         frames_inst = Frames(PktNum,rawdata)     
         frames = frames_inst.packets()
         #Change it to emit all 16 channels data 
@@ -205,22 +205,25 @@ class CMD_ACQ:
         for num in range(8):
             self.bc.word_order_slider(num)
             chns = self.get_adcdata(PktNum=128)
-            if((chns[0][0]  > 0xF000) and 
+            for i in range(16):
+                print (hex(chns[i][0]))
+            print ("EEEEEEE")
+            if((chns[0][0]  > 0xE000) and 
                (chns[1][0]  > 0x4000) and  (chns[1][0]  < 0xB000) and
-               (chns[2][0]  > 0x4000) and  (chns[2][0]  < 0xB000) and            
-               (chns[3][0]  < 0x4000) and  
+               (chns[2][0]  < 0x4000) and 
+               (chns[3][0]  > 0x4000) and  (chns[2][0]  < 0xB000) and            
                (chns[4][0]  > 0x4000) and  (chns[4][0]  < 0xB000) and               
                (chns[5][0]  > 0x4000) and  (chns[5][0]  < 0xB000) and               
                (chns[6][0]  > 0x4000) and  (chns[6][0]  < 0xB000) and               
                (chns[7][0]  > 0x4000) and  (chns[7][0]  < 0xB000) and               
                (chns[8][0]  > 0xF000) and 
                (chns[9][0]  > 0x4000) and  (chns[9][0]  < 0xB000) and
-               (chns[10][0] > 0x4000) and  (chns[10][0] < 0xB000) and            
-               (chns[11][0] < 0x4000) and  
+               (chns[10][0] < 0x4000) and  
+               (chns[11][0] > 0x4000) and  (chns[10][0] < 0xB000) and            
                (chns[12][0] > 0x4000) and  (chns[12][0] < 0xB000) and               
                (chns[13][0] > 0x4000) and  (chns[13][0] < 0xB000) and               
                (chns[14][0] > 0x4000) and  (chns[14][0] < 0xB000) and               
-               (chns[15][0] > 0x4000) and  (chns[15][0] < 0xB000) )               
+               (chns[15][0] > 0x4000) and  (chns[15][0] < 0xB000) ):             
                 print ("ADC word order is %d"%num)
                 break
 
