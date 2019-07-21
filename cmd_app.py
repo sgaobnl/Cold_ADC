@@ -188,15 +188,35 @@ class CMD_ACQ:
             self.bc.adc_sha_input(0)
         self.bc.adc_ibuff_ctrl(curr_src)
 
-
-    def Word_order_cfg(self ):        
+    def get_adcdata(self, PktNum=128 ):
+        rawdata = self.bc.get_data(PktNum,1) #packet check
+        frames_inst = Frames(PktNum,rawdata)     
+        frames = frames_inst.packets()
+        #Change it to emit all 16 channels data 
+        chns=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]] #16-bit
+        for i in range(PktNum):
+            for j in range(16): #16 channels
+                chns[j].append(frames[i].ADCdata[j]) 
+        return chns 
+    
+    def Word_order_cfg(self, PktNum=128 ):        
         self.bc.Acq_start_stop(1)
         for num in range(8):
             self.bc.word_order_slider(num)
-            tmp = self.bc.get_data(PktNum=5,checkflg=True )
-            print (len(tmp))
+            chns = self.get_adcdata(PktNum=128)
+            if((chns[0][0] > 0xF000) and 
+               (chns[1][0] > 0x4000) and  (chns[1][0] < 0xB000) and
+               (chns[2][0] > 0x4000) and  (chns[1][0] < 0xB000)             
+               (chns[1][0] > 0x4000) and  (chns[1][0] < 0xB000) 
+               (chns[1][0] > 0x4000) and  (chns[1][0] < 0xB000)                
+               (chns[1][0] > 0x4000) and  (chns[1][0] < 0xB000)                
+               (chns[1][0] > 0x4000) and  (chns[1][0] < 0xB000)                
+               (chns[1][0] > 0x4000) and  (chns[1][0] < 0xB000)                
+               (chns[1][0] > 0x4000) and  (chns[1][0] < 0xB000)                
+               
+            print ("EEEEEEEEEEEEEEEEEEE")
             #self.bc.getdata()
-            break
+#            break
 
 
 
