@@ -204,11 +204,11 @@ flg_bjt_r = True #default BJT reference
 cq = CMD_ACQ()
 cq.init_chk()
 cq.ref_set(flg_bjt_r = flg_bjt_r )
-cp.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
-cp.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
+cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
                          adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
                          adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
-cp.Word_order_cfg( )        
+cq.Word_order_cfg( )        
 
 
 #tmp = cq.all_bjt_ref_auxs()
