@@ -169,7 +169,26 @@ class CMD_ACQ:
         return (icmos_ref_5k, isha0_5k, iadc0_5k, isha1_5k, iadc1_5k, ibuff_cmos, iref_5k, irefbuffer0 )
 
 
-            
+    def Converter_Config(self, edge_sel = "Normal", out_format = "two-complement", 
+                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                         adc_output_sel = "cal_ADCdata", adc_bias_uA = 50):
+        self.bc.adc_edge_select(mode = edge_sel)
+        self.bc.adc_outputformat(oformat = out_format)
+        self.bc.adc_sync_mode(mode = adc_sync_mode)
+        self.bc.adc_test_input(mode = adc_test_input)
+        self.bc.adc_output_select(option = adc_output_sel)
+        self.bc.adc_set_adc_bias(val = adc_bias_uA)
+        
+    def Input_buffer_cfg( self, sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd"):        
+        self.bc.adc_sdc_select(sdc)
+        self.bc.adc_db_select(db)
+        self.bc.adc_sha_input(sha)
+        self.bc.adc_ibuff_ctrl(curr_src)
+
+
+
+
+
 env = "RT"
 flg_bjt_r = True #default BJT reference
 
