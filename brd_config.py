@@ -946,44 +946,45 @@ class Brd_Config:
             #samples = int(avr/math.pow(2,(6-i))) #change 16000 to avr
             samples = int(avr) #change 16000 to avr
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.cal_stages,(0x7-i))  # calibrate stage6
-            time.sleep(0.1)
+            tdly = 0.01
+            time.sleep(tdly)
             #reg 44 setting
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_adc,0x3)   #force adc0,adc1
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.stage_select,(0x6-i)) #put stage6 in forcing mode
             #reg 46 setting
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.clear_reg_adc,0x3) # clear adc0,adc1 calibration registers
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.clear_reg_adc,0x0) # S0 appears at ADC0,ADC1 output
             #record an average value for S0
-            time.sleep(0.1)
+            time.sleep(tdly)
             
             adc0_S0,adc1_S0, adc0_s0_statics, adc1_s0_statics = self.adc_average(samples,"neg")
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_lsb_adc,0x3) #force adc0 LSB to 1, s1 appears at ADC0,ADC1 output
             #record an average value for S1
-            time.sleep(0.1)
+            time.sleep(tdly)
             adc0_S1,adc1_S1, adc0_s1_statics, adc1_s1_statics = self.adc_average(samples)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.caldac_ctrl_adc,0x3) # S2 and S3 measurement, S2 appears at ADC0,ADC1 output 
             #record on average value for s2
-            time.sleep(0.1)
+            time.sleep(tdly)
             adc0_S2,adc1_S2, adc0_s2_statics, adc1_s2_statics = self.adc_average(samples)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_lsb_adc,0x0) #ADC0 ADC1 back to normal mode
             #reg 45
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_msb_adc,0x3) #force adc0 adc1 msb to 1, S3 appears at the ADC output
         
             #record on average value for S3
-            time.sleep(0.1)
+            time.sleep(tdly)
             adc0_S3,adc1_S3,adc0_s3_statics, adc1_s3_statics = self.adc_average(samples,"neg")
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_adc,0x0)      #clear reg44
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_msb_adc,0x0)  #clear reg45
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.caldac_ctrl_adc,0x0)#clear reg46
-            time.sleep(0.1)
+            time.sleep(tdly)
             #Compute W0 = S1 + (-S0) W2 = S2 + (-S3)
             adc0_W0 = self.subtract(adc0_S1 + adc0_S0)
             adc0_W2 = self.subtract(adc0_S2 + adc0_S3)
@@ -1000,19 +1001,19 @@ class Brd_Config:
             adc1_w2h = (adc1_W2 >> 8) & 0xff            
             
             self.adc.I2C_write_checked(self.chip_id,self.page,(0xc-2*i),adc0_w0l)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.I2C_write_checked(self.chip_id,self.page,(0xd-2*i),adc0_w0h)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.I2C_write_checked(self.chip_id,self.page,(0x2c-2*i),adc0_w2l)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.I2C_write_checked(self.chip_id,self.page,(0x2d-2*i),adc0_w2h)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.I2C_write_checked(self.chip_id,self.page,(0x4c-2*i),adc1_w0l)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.I2C_write_checked(self.chip_id,self.page,(0x4d-2*i),adc1_w0h)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.I2C_write_checked(self.chip_id,self.page,(0x6c-2*i),adc1_w2l)
-            time.sleep(0.1)
+            time.sleep(tdly)
             self.adc.I2C_write_checked(self.chip_id,self.page,(0x6d-2*i),adc1_w2h)   
 
             if saveflag == "savefig":
