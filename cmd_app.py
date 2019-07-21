@@ -236,7 +236,11 @@ cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary",
                          adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
                          adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
 cq.Word_order_cfg( )        
+cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                         adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
 
+cq.bc.adc_autocali(samples=2000,flag=None)
 
 #tmp = cq.all_bjt_ref_auxs()
 #print (tmp)
