@@ -182,7 +182,7 @@ class CMD_ACQ:
     def Input_buffer_cfg( self, sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd"):        
         self.bc.adc_sdc_select(sdc)
         self.bc.adc_db_select(db)
-        self.bc.adc_sha_input(sha)
+        self.bc.adc_sha_se(sha)
         self.bc.adc_ibuff_ctrl(curr_src)
 
 
