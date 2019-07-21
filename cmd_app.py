@@ -201,6 +201,7 @@ class CMD_ACQ:
         return chns 
     
     def Word_order_cfg(self, PktNum=128 ):  
+        woc_f = False
         for num in range(8):
             self.bc.word_order_slider(num)
             self.bc.Acq_start_stop(1)
@@ -222,25 +223,30 @@ class CMD_ACQ:
                (chns[14][1] > 0x4000) and  (chns[14][1] < 0xE000) and               
                (chns[15][1] > 0x4000) and  (chns[15][1] < 0xE000) ):             
                 print ("ADC word order is %d"%num)
-                break
+                woc_f = True
+                break               
             self.bc.Acq_start_stop(0)
+        return woc_f
 
 env = "RT"
 flg_bjt_r = True #default BJT reference
-
 cq = CMD_ACQ()
-cq.init_chk()
-cq.ref_set(flg_bjt_r = flg_bjt_r )
-cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
-cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+woc_f = False
+while(woc_f==False):
+    cq.init_chk()
+    cq.ref_set(flg_bjt_r = flg_bjt_r )
+    cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
+    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
                          adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
                          adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
-cq.Word_order_cfg( )        
+    woc_f = cq.Word_order_cfg()
+      
 cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
                          adc_sync_mode ="Normal", adc_test_input = "Normal", 
                          adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
 
-cq.bc.adc_autocali(samples=2000,flag=None)
+print ("Manual Calibration starting, wait...")
+cq.bc.adc_autocali(avr=2000,saveflag="savefig")
 
 #tmp = cq.all_bjt_ref_auxs()
 #print (tmp)
