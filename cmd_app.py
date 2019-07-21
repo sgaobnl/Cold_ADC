@@ -209,21 +209,21 @@ class CMD_ACQ:
                 print (hex(chns[i][0]))
             print ("EEEEEEE")
             if((chns[0][0]  > 0xE000) and 
-               (chns[1][0]  > 0x4000) and  (chns[1][0]  < 0xB000) and
+               (chns[1][0]  > 0x4000) and  (chns[1][0]  < 0xE000) and
                (chns[2][0]  < 0x4000) and 
-               (chns[3][0]  > 0x4000) and  (chns[2][0]  < 0xB000) and            
-               (chns[4][0]  > 0x4000) and  (chns[4][0]  < 0xB000) and               
-               (chns[5][0]  > 0x4000) and  (chns[5][0]  < 0xB000) and               
-               (chns[6][0]  > 0x4000) and  (chns[6][0]  < 0xB000) and               
-               (chns[7][0]  > 0x4000) and  (chns[7][0]  < 0xB000) and               
-               (chns[8][0]  > 0xF000) and 
-               (chns[9][0]  > 0x4000) and  (chns[9][0]  < 0xB000) and
+               (chns[3][0]  > 0x4000) and  (chns[2][0]  < 0xE000) and            
+               (chns[4][0]  > 0x4000) and  (chns[4][0]  < 0xE000) and               
+               (chns[5][0]  > 0x4000) and  (chns[5][0]  < 0xE000) and               
+               (chns[6][0]  > 0x4000) and  (chns[6][0]  < 0xE000) and               
+               (chns[7][0]  > 0x4000) and  (chns[7][0]  < 0xE000) and               
+               (chns[8][0]  > 0xE000) and 
+               (chns[9][0]  > 0x4000) and  (chns[9][0]  < 0xE000) and
                (chns[10][0] < 0x4000) and  
-               (chns[11][0] > 0x4000) and  (chns[10][0] < 0xB000) and            
-               (chns[12][0] > 0x4000) and  (chns[12][0] < 0xB000) and               
-               (chns[13][0] > 0x4000) and  (chns[13][0] < 0xB000) and               
-               (chns[14][0] > 0x4000) and  (chns[14][0] < 0xB000) and               
-               (chns[15][0] > 0x4000) and  (chns[15][0] < 0xB000) ):             
+               (chns[11][0] > 0x4000) and  (chns[10][0] < 0xE000) and            
+               (chns[12][0] > 0x4000) and  (chns[12][0] < 0xE000) and               
+               (chns[13][0] > 0x4000) and  (chns[13][0] < 0xE000) and               
+               (chns[14][0] > 0x4000) and  (chns[14][0] < 0xE000) and               
+               (chns[15][0] > 0x4000) and  (chns[15][0] < 0xE000) ):             
                 print ("ADC word order is %d"%num)
                 break
 
