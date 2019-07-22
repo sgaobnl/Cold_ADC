@@ -252,10 +252,13 @@ while(woc_f==False):
                          adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
                          adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
     woc_f = cq.Word_order_cfg()
-
+#
+cq.Converter_Config(edge_sel = "Nominal", out_format = "two-complement", 
+                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
 print ("Manual Calibration starting, wait...")
 cq.bc.adc_autocali(avr=2000,saveflag="savefig")
-      
+###      
 cq.Converter_Config(edge_sel = "Nominal", out_format = "offset binary", 
                          adc_sync_mode ="Normal", adc_test_input = "Normal", 
                          adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
