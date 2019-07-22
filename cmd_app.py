@@ -57,8 +57,8 @@ class CMD_ACQ:
                 vrefn_ioft = 1
                 vcmi_ioft = 1
                 vcmo_ioft = 1
-            self.bc.adc_set_vrefs(vrefp_voft, vrefn_voft, vcmi_voft, vcmo_voft)
-            self.bc.adc_set_ioffset(vrefp_ioft, vrefn_ioft, vcmi_ioft, vcmo_ioft)
+            self.bc.adc_set_vrefs(vrefp_voft, vrefn_voft, vcmo_voft, vcmi_voft )
+            self.bc.adc_set_ioffset(vrefp_ioft, vrefn_ioft, vcmo_ioft, vcmi_ioft)
             print ("BJT reference is set to pre-calibrated values!")
             ibuff0_15 = 0x99
             ibuff1_16 = 0x99
@@ -236,17 +236,19 @@ while(woc_f==False):
     cq.init_chk()
     cq.ref_set(flg_bjt_r = flg_bjt_r )
     cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
-    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+    cq.Converter_Config(edge_sel = "Nominal", out_format = "offset binary", 
                          adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
-                         adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
+                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
     woc_f = cq.Word_order_cfg()
-      
-cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cal_ADCdata", adc_bias_uA = 50)
 
 print ("Manual Calibration starting, wait...")
 cq.bc.adc_autocali(avr=2000,saveflag="savefig")
+      
+cq.Converter_Config(edge_sel = "Nominal", out_format = "offset binary", 
+                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+
+
 
 #tmp = cq.all_bjt_ref_auxs()
 #print (tmp)

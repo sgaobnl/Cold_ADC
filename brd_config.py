@@ -946,7 +946,7 @@ class Brd_Config:
             #samples = int(avr/math.pow(2,(6-i))) #change 16000 to avr
             samples = int(avr) #change 16000 to avr
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.cal_stages,(0x7-i))  # calibrate stage6
-            tdly = 0.01
+            tdly = 0.1
             time.sleep(tdly)
             #reg 44 setting
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_adc,0x3)   #force adc0,adc1
