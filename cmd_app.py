@@ -228,6 +228,18 @@ class CMD_ACQ:
             self.bc.Acq_start_stop(0)
         return woc_f
 
+    def fe_cfg(self,sts, snc, sg, st,sdacsw, amp, fpga_dac, delay=10, period=200, width=0xa00 ):  
+        self.bc.sts = sts
+        self.bc.snc = snc
+        self.bc.sg  = sg 
+        self.bc.st  = st 
+        self.bc.sdacsw = sdacsw
+        self.bc.sdac = 0x0
+        self.bc.fe_spi_config()
+        self.bc.fe_fpga_dac(fpga_dac)
+        self.bc.fe_pulse_param(delay, period, width)
+
+
 env = "RT"
 flg_bjt_r = True #default BJT reference
 cq = CMD_ACQ()
