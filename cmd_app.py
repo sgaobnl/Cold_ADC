@@ -40,10 +40,10 @@ class CMD_ACQ:
             self.bc.adc_bias_curr_src("BJT")
             print ("Bias currents come from BJT-based references")
             if (env == "RT"):
-                vrefp_voft = 0xe4#0xf8#0xe4
-                vrefn_voft = 0x24#0x10#0x24
-                vcmi_voft = 0x60#0x50#0x60
-                vcmo_voft = 0x82
+                vrefp_voft = 0xf0#0xe4#0xf8#0xe4
+                vrefn_voft = 0x08#0x24#0x10#0x24
+                vcmi_voft = 0x5c#0x60#0x50#0x60
+                vcmo_voft = 0x82#0x82
                 vrefp_ioft = 1
                 vrefn_ioft = 1
                 vcmi_ioft = 1
@@ -92,15 +92,6 @@ class CMD_ACQ:
             self.bc.adc_set_cmos_ibuff(ibuff0_cmos, ibuff1_cmos)
             print ("CMOS bias source for the input buffer is set!") 
 
-#    def ref_mon(self, flg_bjt_r = True, mon_src = "VREFP", mux_src = "AUX_VOLTAGE", vmon = "VBGR", imon = "ICMOS_REF_5k", avg_points =5  ):
-#        if (flg_bjt_r):
-#            self.bc.cots_adc_bjt_mon_src(src = mon_src)
-#            self.bc.cots_adc_mux_mon_src(src = mux_src )
-#            self.bc.cots_adc_data(avr = 3)
-#            time.sleep(0.1)
-#            val = self.bc.cots_adc_data(avr = avg_points)
-#            return val
-            
     def bjt_ref_aux(self, mon_src = "VREFP", mux_src = "AUX_VOLTAGE", avg_points =5  ):
         self.bc.cots_adc_bjt_mon_src(src = mon_src)
         self.bc.cots_adc_mux_mon_src(src = mux_src )
@@ -235,7 +226,7 @@ class CMD_ACQ:
             
         return woc_f
 
-    def fe_cfg(self,sts, snc, sg, st,sdacsw, amp, fpga_dac, delay=10, period=200, width=0xa00 ):  
+    def fe_cfg(self,sts=16*[0], snc=16*[0], sg=16*[10], st=16*[11],sdacsw=0, fpga_dac=0, delay=10, period=200, width=0xa00 ):  
         self.bc.sts = sts
         self.bc.snc = snc
         self.bc.sg  = sg 
@@ -259,23 +250,39 @@ while(woc_f==False):
     cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
     cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
                          adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
-                         adc_output_sel = "uncali_ADCdata", adc_bias_uA = 50)
+                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
     woc_f = cq.Word_order_cfg()
-#
-x = '1'
-while (x != '0'):
-    cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
-                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-    
-    print ("Manual Calibration starting, wait...")
-    cq.bc.udp.clr_server_buf()
-    cq.bc.adc_autocali(avr=2000,saveflag="undef")
-    #time.sleep(1)
-    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-    x = input("0 to stop:")
+
+cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
+                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+
+print ("Manual Calibration starting, wait...")
+cq.bc.udp.clr_server_buf()
+cq.bc.adc_autocali(avr=2000,saveflag="undef")
+cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+
+sts = [1] + 15*[0],
+sdacsw = 1
+delay = 1
+cq.fe_cfg(sts=sts, sdacsw=sdacsw, delay = delay )
+
+#x = '1'
+#while (x != '0'):
+#    cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
+#                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
+#                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+#    
+#    print ("Manual Calibration starting, wait...")
+#    cq.bc.udp.clr_server_buf()
+#    cq.bc.adc_autocali(avr=2000,saveflag="undef")
+#    #time.sleep(1)
+#    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+#                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
+#                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+#    x = input("0 to stop:")
 
 #cq.Converter_Config(edge_sel = "Nominal", out_format = "two-complement", 
 #                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
