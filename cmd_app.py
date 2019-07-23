@@ -40,9 +40,9 @@ class CMD_ACQ:
             self.bc.adc_bias_curr_src("BJT")
             print ("Bias currents come from BJT-based references")
             if (env == "RT"):
-                vrefp_voft = 0xe4
-                vrefn_voft = 0x24
-                vcmi_voft = 0x60
+                vrefp_voft = 0xe4#0xf8#0xe4
+                vrefn_voft = 0x24#0x10#0x24
+                vcmi_voft = 0x60#0x50#0x60
                 vcmo_voft = 0x82
                 vrefp_ioft = 1
                 vrefn_ioft = 1
@@ -172,7 +172,7 @@ class CMD_ACQ:
 
     def Converter_Config(self, edge_sel = "Normal", out_format = "two-complement", 
                          adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cal_ADCdata", adc_bias_uA = 50):
+                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50):
         self.bc.adc_edge_select(mode = edge_sel)
         self.bc.adc_outputformat(oformat = out_format)
         self.bc.adc_sync_mode(mode = adc_sync_mode)
@@ -190,7 +190,9 @@ class CMD_ACQ:
         self.bc.adc_ibuff_ctrl(curr_src)
 
     def get_adcdata(self, PktNum=128 ):
+        self.bc.Acq_start_stop(1)
         rawdata = self.bc.get_data(PktNum,1, Jumbo="Jumbo") #packet check
+        self.bc.Acq_start_stop(0)
         frames_inst = Frames(PktNum,rawdata)     
         frames = frames_inst.packets()
         #Change it to emit all 16 channels data 
@@ -204,28 +206,33 @@ class CMD_ACQ:
         woc_f = False
         for num in range(8):
             self.bc.word_order_slider(num)
-            self.bc.Acq_start_stop(1)
-            chns = self.get_adcdata(PktNum=128)
-            if((chns[0][1]  > 0xE000) and 
-               (chns[1][1]  > 0x4000) and  (chns[1][1]  < 0xE000) and
-               (chns[2][1]  < 0x4000) and 
-               (chns[3][1]  > 0x4000) and  (chns[2][1]  < 0xE000) and            
-               (chns[4][1]  > 0x4000) and  (chns[4][1]  < 0xE000) and               
-               (chns[5][1]  > 0x4000) and  (chns[5][1]  < 0xE000) and               
-               (chns[6][1]  > 0x4000) and  (chns[6][1]  < 0xE000) and               
-               (chns[7][1]  > 0x4000) and  (chns[7][1]  < 0xE000) and               
-               (chns[8][1]  > 0xE000) and 
-               (chns[9][1]  > 0x4000) and  (chns[9][1]  < 0xE000) and
-               (chns[10][1] < 0x4000) and  
-               (chns[11][1] > 0x4000) and  (chns[10][1] < 0xE000) and            
-               (chns[12][1] > 0x4000) and  (chns[12][1] < 0xE000) and               
-               (chns[13][1] > 0x4000) and  (chns[13][1] < 0xE000) and               
-               (chns[14][1] > 0x4000) and  (chns[14][1] < 0xE000) and               
-               (chns[15][1] > 0x4000) and  (chns[15][1] < 0xE000) ):             
+            for i in range(10):
+                chns = self.get_adcdata(PktNum=128)
+                if((chns[0][1]  > 0xE000) and 
+                   (chns[1][1]  > 0x4000) and  (chns[1][1]  < 0xE000) and
+                   (chns[2][1]  < 0x4000) and 
+                   (chns[3][1]  > 0x4000) and  (chns[2][1]  < 0xE000) and            
+                   (chns[4][1]  > 0x4000) and  (chns[4][1]  < 0xE000) and               
+                   (chns[5][1]  > 0x4000) and  (chns[5][1]  < 0xE000) and               
+                   (chns[6][1]  > 0x4000) and  (chns[6][1]  < 0xE000) and               
+                   (chns[7][1]  > 0x4000) and  (chns[7][1]  < 0xE000) and               
+                   (chns[8][1]  > 0xE000) and 
+                   (chns[9][1]  > 0x4000) and  (chns[9][1]  < 0xE000) and
+                   (chns[10][1] < 0x4000) and  
+                   (chns[11][1] > 0x4000) and  (chns[10][1] < 0xE000) and            
+                   (chns[12][1] > 0x4000) and  (chns[12][1] < 0xE000) and               
+                   (chns[13][1] > 0x4000) and  (chns[13][1] < 0xE000) and               
+                   (chns[14][1] > 0x4000) and  (chns[14][1] < 0xE000) and               
+                   (chns[15][1] > 0x4000) and  (chns[15][1] < 0xE000) ):             
+                    woc_f = True
+                else:
+                    woc_f = False
+                    break
+            if woc_f == True:
                 print ("ADC word order is %d"%num)
-                woc_f = True
-                break               
-            self.bc.Acq_start_stop(0)
+                break
+                
+            
         return woc_f
 
     def fe_cfg(self,sts, snc, sg, st,sdacsw, amp, fpga_dac, delay=10, period=200, width=0xa00 ):  
@@ -247,21 +254,38 @@ woc_f = False
 while(woc_f==False):
     cq.init_chk()
     cq.ref_set(flg_bjt_r = flg_bjt_r )
+    time.sleep(1)
+    cq.all_ref_vmons( )
     cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
-    cq.Converter_Config(edge_sel = "Nominal", out_format = "offset binary", 
+    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
                          adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+                         adc_output_sel = "uncali_ADCdata", adc_bias_uA = 50)
     woc_f = cq.Word_order_cfg()
 #
-cq.Converter_Config(edge_sel = "Nominal", out_format = "two-complement", 
-                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-print ("Manual Calibration starting, wait...")
-cq.bc.adc_autocali(avr=2000,saveflag="savefig")
-###      
-cq.Converter_Config(edge_sel = "Nominal", out_format = "offset binary", 
-                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+x = '1'
+while (x != '0'):
+    cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
+                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+    
+    print ("Manual Calibration starting, wait...")
+    cq.bc.udp.clr_server_buf()
+    cq.bc.adc_autocali(avr=2000,saveflag="undef")
+    #time.sleep(1)
+    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+    x = input("0 to stop:")
+
+#cq.Converter_Config(edge_sel = "Nominal", out_format = "two-complement", 
+#                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+#print ("Manual Calibration starting, wait...")
+#cq.bc.adc_autocali(avr=2000,saveflag="savefig")
+####      
+#cq.Converter_Config(edge_sel = "Nominal", out_format = "offset binary", 
+#                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
 
 
 

@@ -64,17 +64,9 @@ class DataFrameThread(QThread):
         for i in range(self.CHUNK):
             for j in range(16): #16 channels
                 chns[j].append(frames[i].ADCdata[j])  
-
-#                tmp = frames[i].ADCdata[j]
-#                tmp_bs = "{0:16b}".format(tmp)
-#                if (tmp_bs[0] == '1'):
-#                    tmp2 = -1* (int(''.join('1' if x == '0' else '0' for x in tmp_bs), 2) + 1)
-#                else:
-#                    tmp2 = int(tmp_bs,2)
-#                chns[j].append(tmp2) 
-                
 #                tmp = self.brd_config.complement(frames[i].ADCdata[j], '2s')   
-#                chns[j].append(tmp)                 
+#                chns[j].append(tmp)   
+                
         #Calculate FFT
         #total_data=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]] 
         for i in range(len(self.total_data)):
@@ -1261,7 +1253,7 @@ class MainWindow(QWidget):
         
         lbl_edgeselect = QLabel("edge select")
         self.cbox_edgeselect = QComboBox()
-        self.cbox_edgeselect.addItem("Nominal")
+        self.cbox_edgeselect.addItem("Normal")
         self.cbox_edgeselect.addItem("inverted")
         self.cbox_edgeselect.activated[str].connect(self.fun_edgeselect)
         
