@@ -268,6 +268,8 @@ woc_f = False
 import pickle
 sts = 16*[0]
 rawdir = "D:/ColdADC/"
+import os
+import sys
 if (os.path.exists(rawdir)):
     pass
 else:
@@ -285,21 +287,22 @@ for sts_n in range(16):
         cq.fe_cfg(sts=sts, sdacsw=sdacsw, fpga_dac=fpga_dac, delay=delay )
         chns = cq.get_adcdata( PktNum=10000 )
         fn = rawdir + "Data_chn%d"%sts_n + "_dly%d"%delay + ".bin"
+        print (fn)
         with open(fn, 'wb') as f:
             pickle.dump(chns, f)
 
 
 
-pre = 0
-#for fpga_dac in range(1,16,1):
-c = []
-for fpga_dac in range(1,16):
-    cq.fe_cfg(sts=sts, sdacsw=sdacsw, fpga_dac=fpga_dac, delay=15 )
-    
-    chns = cq.get_adcdata( PktNum=500 )
-    print (fpga_dac, max(chns[0][0:200]), np.std(chns[8]), np.where(np.array(chns[0][0:200]) == max(chns[0][0:200]))[0][0] )
-    pre = max(chns[0])
-    c.append(max(chns[0])//16)
+#pre = 0
+##for fpga_dac in range(1,16,1):
+#c = []
+#for fpga_dac in range(1,16):
+#    cq.fe_cfg(sts=sts, sdacsw=sdacsw, fpga_dac=fpga_dac, delay=15 )
+#    
+#    chns = cq.get_adcdata( PktNum=500 )
+#    print (fpga_dac, max(chns[0][0:200]), np.std(chns[8]), np.where(np.array(chns[0][0:200]) == max(chns[0][0:200]))[0][0] )
+#    pre = max(chns[0])
+#    c.append(max(chns[0])//16)
     
 #print (np.std(c), np.mean(c))
     
