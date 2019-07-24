@@ -9,6 +9,7 @@ Created on Wed Jul 17 16:54:11 2019
 from brd_config import Brd_Config
 import time
 from frame import Frames
+import numpy as np
 #from udp import UDP 
 #from adc_i2c_uart import COLDADC_tool
 #
@@ -226,7 +227,7 @@ class CMD_ACQ:
             
         return woc_f
 
-    def fe_cfg(self,sts=16*[0], snc=16*[0], sg=16*[10], st=16*[11],sdacsw=0, fpga_dac=0, delay=10, period=200, width=0xa00 ):  
+    def fe_cfg(self,sts=16*[0], snc=16*[1], sg=16*[3], st=16*[2], sdacsw=0, fpga_dac=0, delay=10, period=200, width=0xa00 ):  
         self.bc.sts = sts
         self.bc.snc = snc
         self.bc.sg  = sg 
@@ -242,33 +243,48 @@ env = "RT"
 flg_bjt_r = True #default BJT reference
 cq = CMD_ACQ()
 woc_f = False
-while(woc_f==False):
-    cq.init_chk()
-    cq.ref_set(flg_bjt_r = flg_bjt_r )
-    time.sleep(1)
-    cq.all_ref_vmons( )
-    cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
-    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-                         adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-    woc_f = cq.Word_order_cfg()
+#while(woc_f==False):
+#    cq.init_chk()
+#    cq.ref_set(flg_bjt_r = flg_bjt_r )
+#    time.sleep(1)
+#    cq.all_ref_vmons( )
+#    cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
+#    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+#                         adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
+#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+#    woc_f = cq.Word_order_cfg()
+#
+#cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
+#                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+#
+#print ("Manual Calibration starting, wait...")
+#cq.bc.udp.clr_server_buf()
+#cq.bc.adc_autocali(avr=1000,saveflag="undef")
+#cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+#                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
+#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
 
-cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
-                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-
-print ("Manual Calibration starting, wait...")
-cq.bc.udp.clr_server_buf()
-cq.bc.adc_autocali(avr=2000,saveflag="undef")
-cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-
-sts = [1] + 15*[0],
+sts = [1] + 15*[0]
 sdacsw = 1
+fpga_dac=7
 delay = 1
-cq.fe_cfg(sts=sts, sdacsw=sdacsw, delay = delay )
-
+pre = 0
+#for fpga_dac in range(1,16,1):
+c = []
+for fpga_dac in range(1,16):
+    cq.fe_cfg(sts=sts, sdacsw=sdacsw, fpga_dac=fpga_dac, delay=15 )
+    
+    chns = cq.get_adcdata( PktNum=500 )
+    print (fpga_dac, max(chns[0][0:200]), np.std(chns[8]), np.where(np.array(chns[0][0:200]) == max(chns[0][0:200]))[0][0] )
+    pre = max(chns[0])
+    c.append(max(chns[0])//16)
+    
+#print (np.std(c), np.mean(c))
+    
+    
+ #   pre =  max(chns[0])-35000
+    
 #x = '1'
 #while (x != '0'):
 #    cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 

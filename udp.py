@@ -252,8 +252,8 @@ class UDP(UDP_frames):
                 else:
                     print("noncontinuous udp packet found!!! %d"%(i+1))
                 #break
-            else:
-                print("continuous packets")       
+#            else:
+#                print("continuous packets")       
     #__INIT__#
     def __init__(self):
         self.bitop = Bit_Op()
