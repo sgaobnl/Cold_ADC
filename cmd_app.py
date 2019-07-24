@@ -265,10 +265,31 @@ woc_f = False
 #                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
 #                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
 
-sts = [1] + 15*[0]
-sdacsw = 1
-fpga_dac=7
-delay = 1
+import pickle
+sts = 16*[0]
+rawdir = "D:/ColdADC/"
+if (os.path.exists(rawdir)):
+    pass
+else:
+    try:
+        os.makedirs(rawdir)
+    except OSError:
+        print ("Error to create folder ")
+        sys.exit()
+
+for sts_n in range(16):
+    sts[sts_n] = 1
+    for delay in range(50):
+        fpga_dac = 13
+        sdacsw = 1
+        cq.fe_cfg(sts=sts, sdacsw=sdacsw, fpga_dac=fpga_dac, delay=delay )
+        chns = cq.get_adcdata( PktNum=10000 )
+        fn = rawdir + "Data_chn%d"%sts_n + "_dly%d"%delay + ".bin"
+        with open(fn, 'wb') as f:
+            pickle.dump(chns, f)
+
+
+
 pre = 0
 #for fpga_dac in range(1,16,1):
 c = []
