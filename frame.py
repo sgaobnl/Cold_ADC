@@ -24,7 +24,10 @@ class Frame:
         self.ADCerr    = self.frame_data[3]
         self.reserved  = self.frame_data[4]
         self.header    = self.frame_data[5]
-        self.ADCdata   = self.frame_data[6:]   
+        if (self.reserved&0x0001):           
+            self.ADCdata   = 0x10000 + self.frame_data[6:]
+        else: 
+            self.ADCdata   = self.frame_data[6:]
         
 class Frames(Frame):
     def packets(self):
