@@ -3,7 +3,10 @@
 Created on Tue Feb 19 16:08:47 2019
 
 @author: JunbinZhang
+
+
 """
+import numpy as np
 class Frame:
     def info(self):
         print('CHECKSUM =%x'%self.chksum)
@@ -24,8 +27,10 @@ class Frame:
         self.ADCerr    = self.frame_data[3]
         self.reserved  = self.frame_data[4]
         self.header    = self.frame_data[5]
-        if (self.reserved&0x0001):           
-            self.ADCdata   = 0x10000 + self.frame_data[6:]
+
+        if (self.reserved&0x0001):      
+            self.ADCdata   = 0x10000 + np.array(self.frame_data[6:])
+            self.ADCdata = list(self.ADCdata)
         else: 
             self.ADCdata   = self.frame_data[6:]
         

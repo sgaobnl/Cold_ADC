@@ -63,7 +63,7 @@ class DataFrameThread(QThread):
         chns=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]] #16-bit
         for i in range(self.CHUNK):
             for j in range(16): #16 channels
-                chns[j].append(frames[i].ADCdata[j])  
+                chns[j].append(frames[i].ADCdata[j]&0xffff)  
 #                tmp = self.brd_config.complement(frames[i].ADCdata[j], '2s')   
 #                chns[j].append(tmp)   
                 

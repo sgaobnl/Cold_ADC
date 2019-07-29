@@ -25,11 +25,13 @@ import numpy as np
 
 class CMD_ACQ:
     def __init__(self):
+        self.word_order = 0
         self.bc = Brd_Config()
 
     def init_chk(self ):
         print ("ADC hard reset after power on")
         self.bc.adc.hard_reset()
+#        self.bc.adc_soft_reset()
         init_str = self.bc.adc_read_reg(0)
         if (init_str == '0x52'):
             print ("ADC hard reset is done, I2C link looks good!")
@@ -197,6 +199,7 @@ class CMD_ACQ:
     def Word_order_cfg(self, PktNum=128 ):  
         woc_f = False
         for num in range(8):
+#        for num in [2]:
             self.bc.word_order_slider(num)
             for i in range(10):
                 chns = self.get_adcdata(PktNum=128)
@@ -217,80 +220,107 @@ class CMD_ACQ:
                    (chns[14][1] > 0x4000) and  (chns[14][1] < 0xE000) and               
                    (chns[15][1] > 0x4000) and  (chns[15][1] < 0xE000) ):             
                     woc_f = True
+                    self.word_order = num
                 else:
                     woc_f = False
                     break
             if woc_f == True:
                 print ("ADC word order is %d"%num)
                 break
-                
-            
         return woc_f
 
-    def fe_cfg(self,sts=16*[0], snc=16*[1], sg=16*[3], st=16*[2], sdacsw=0, fpga_dac=0, delay=10, period=200, width=0xa00 ):  
+    def fe_cfg(self,sts=16*[0], snc=16*[0], sg=16*[3], st=16*[2], sdacsw=0, fpga_dac=0,asic_dac=0, delay=10, period=200, width=0xa00 ):  
         self.bc.sts = sts
         self.bc.snc = snc
         self.bc.sg  = sg 
         self.bc.st  = st 
         self.bc.sdacsw = sdacsw
-        self.bc.sdac = 0x0
+        self.bc.sdac = asic_dac
         self.bc.fe_spi_config()
+        if sdacsw == 1:
+            mode = "External"
+        else: 
+            mode = "Internal"
+        self.bc.fe_pulse_config(mode)
         self.bc.fe_fpga_dac(fpga_dac)
         self.bc.fe_pulse_param(delay, period, width)
 
-
-env = "RT"
-flg_bjt_r = True #default BJT reference
-cq = CMD_ACQ()
-woc_f = False
-#while(woc_f==False):
-#    cq.init_chk()
-#    cq.ref_set(flg_bjt_r = flg_bjt_r )
-#    time.sleep(1)
-#    cq.all_ref_vmons( )
-#    cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
-#    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-#                         adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
-#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-#    woc_f = cq.Word_order_cfg()
-#
-#cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
-#                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-#
-#print ("Manual Calibration starting, wait...")
-#cq.bc.udp.clr_server_buf()
-#cq.bc.adc_autocali(avr=1000,saveflag="undef")
-#cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-#                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-#                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-
-import pickle
-sts = 16*[0]
-rawdir = "D:/ColdADC/"
-import os
-import sys
-if (os.path.exists(rawdir)):
-    pass
-else:
-    try:
-        os.makedirs(rawdir)
-    except OSError:
-        print ("Error to create folder ")
-        sys.exit()
-
-for sts_n in range(16):
-    sts[sts_n] = 1
-    for delay in range(50):
-        fpga_dac = 13
-        sdacsw = 1
-        cq.fe_cfg(sts=sts, sdacsw=sdacsw, fpga_dac=fpga_dac, delay=delay )
-        chns = cq.get_adcdata( PktNum=10000 )
-        fn = rawdir + "Data_chn%d"%sts_n + "_dly%d"%delay + ".bin"
-        print (fn)
-        with open(fn, 'wb') as f:
-            pickle.dump(chns, f)
-
+for kk in range (1):
+    env = "RT"
+    flg_bjt_r = True #default BJT reference
+    cq = CMD_ACQ()
+    woc_f = False
+    while(woc_f==False):
+        cq.init_chk()
+        cq.ref_set(flg_bjt_r = flg_bjt_r )
+        time.sleep(1)
+        cq.all_ref_vmons( )
+        cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
+        cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                             adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
+                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+        cq.bc.udp.clr_server_buf()
+        woc_f = cq.Word_order_cfg()
+    
+    
+    cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
+                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+    
+    print ("Manual Calibration starting, wait...")
+    cq.bc.udp.clr_server_buf()
+    cq.bc.adc_autocali(avr=1000,saveflag="undef")
+    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                             adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                             adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+    print ("Manual Calibration is done, back to normal")
+    
+    import pickle
+    
+    rawdir = "D:/ColdADC/"
+    import os
+    import sys
+    
+    fpga_dac = 0
+    asic_dac = 5
+    rawdir = rawdir + "X%02d_C%02d_asicdac%d/"%(cq.word_order, kk, asic_dac)
+    
+    if (os.path.exists(rawdir)):
+        pass
+    else:
+        try:
+            os.makedirs(rawdir)
+        except OSError:
+            print ("Error to create folder ")
+            sys.exit()
+    tps=["05us","10us","20us","30us"]
+    for tp in tps:
+    
+        if tp == "05us":
+            tpi = 1
+        elif tp == "10us":
+            tpi = 0
+        elif tp == "20us":
+            tpi = 3
+        else:
+            tpi = 2
+        st=16*[tpi]
+        for sts_n in range(16):
+            sts = 16*[1]
+            sts[sts_n] = 1
+#            sts = [1,1,0,0,   1,0,1,1,  1, 0, 0, 1,   0, 1, 1, 1]
+            for delay in range(0,50,1):
+                sdacsw = 2
+                cq.fe_cfg(sts=sts, st=st, sdacsw=sdacsw, asic_dac=asic_dac, delay=delay )
+                chns = cq.get_adcdata( PktNum=12000 )
+                fn = rawdir + "Data_chn%d"%sts_n + "_%s"%tp + "_dly%d"%delay + ".bin"
+                print (fn)
+                with open(fn, 'wb') as f:
+                    pickle.dump(chns, f)
+     #           break
+#            break
+ #       break
+    
 
 
 #pre = 0

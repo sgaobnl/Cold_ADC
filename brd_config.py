@@ -516,7 +516,7 @@ class Brd_Config:
         return result
     
     def subtract(self,num):
-        return (num & 0xffff) #ignore the bit17
+        return (int(num) & 0xffff) #ignore the bit17
 
     def adc_average(self,pktnum,neg=None):
         #add for test  
