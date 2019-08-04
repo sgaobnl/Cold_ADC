@@ -255,7 +255,8 @@ for kk in range (1):
         cq.ref_set(flg_bjt_r = flg_bjt_r )
         time.sleep(1)
         cq.all_ref_vmons( )
-        cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")        
+        cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")      
+        cq.bc.adc_sha_clk_sel(mode = "internal")
         cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
                              adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
                              adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
@@ -282,8 +283,8 @@ for kk in range (1):
     import sys
     
     fpga_dac = 0
-    asic_dac = 5
-    rawdir = rawdir + "X%02d_C%02d_asicdac%d/"%(cq.word_order, kk, asic_dac)
+    asic_dac = 8
+    rawdir = rawdir + "tmp2%02d_C%02d_asicdac%d/"%(cq.word_order, kk, asic_dac)
     
     if (os.path.exists(rawdir)):
         pass
@@ -306,9 +307,9 @@ for kk in range (1):
             tpi = 2
         st=16*[tpi]
         for sts_n in range(16):
-            sts = 16*[1]
-            sts[sts_n] = 1
-#            sts = [1,1,0,0,   1,0,1,1,  1, 0, 0, 1,   0, 1, 1, 1]
+ #           sts = 16*[0]
+#            sts[sts_n] = 1
+            sts = [1,1,0,0,   1,0,1,1,  1, 0, 0, 1,   0, 1, 1, 1]
             for delay in range(0,50,1):
                 sdacsw = 2
                 cq.fe_cfg(sts=sts, st=st, sdacsw=sdacsw, asic_dac=asic_dac, delay=delay )
@@ -317,9 +318,9 @@ for kk in range (1):
                 print (fn)
                 with open(fn, 'wb') as f:
                     pickle.dump(chns, f)
-     #           break
-#            break
- #       break
+#                break
+            break
+        break
     
 
 
