@@ -16,9 +16,13 @@ class COLDADC_tool:
         #self.udp.write(self.fpga_reg.MASTER_RESET,1)
         #time.sleep(0.01)
         if(tool == 'uart' or tool == 'UART'):
+            self.uart_flag = True
             self.udp.write(self.fpga_reg.I2C_UART_SEL,1)
+#            print (self.uart_flag)
         else:
             self.udp.write(self.fpga_reg.I2C_UART_SEL,0)
+            self.uart_flag = False
+            
     def hard_reset(self):
         self.udp.write(self.fpga_reg.MASTER_RESET,1)
         time.sleep(0.5)
@@ -26,45 +30,110 @@ class COLDADC_tool:
         
         
     def I2C_read(self,chip_id,page,addr):
-        #load address
-        self.udp.write(self.fpga_reg.i2c_rw,1) #read
-        #load data
-        self.udp.write(self.fpga_reg.i2c_chip_id,chip_id)
-        #load byte count
-        self.udp.write(self.fpga_reg.i2c_page,page)
+        if (self.uart_flag):
+            if (page ==2):
+                if (addr == 1):
+                    ladr = ((0x80+49)&0xff)<<20  
+                elif (addr == 2):
+                    ladr = ((0x80+48)&0xff)<<20  
+                elif (addr == 3):
+                    ladr = ((0x80+50)&0xff)<<20
+                else: 
+                    print ("invaid address")
+                    ladr = ((0x80+0x7f)&0xff)<<20
+            else:
+                ladr = (addr&0xff)<<20          
+            ldata = (0x00&0xff)<<12 #useless
+            lwen = (0x00&0x01)<<7 #read 
+            data = (ladr&0x0ff00000) + (ldata&0x000ff000) + (lwen&0x80)
+            par_cnt = 0
+            for i in range(32):
+                if (data>>i)&0x01 == 0x01:
+                    par_cnt = par_cnt + 1
+            if par_cnt%2 == 1:
+                par_chk = 0
+            else:
+                par_chk =1
+            data = ((par_chk<<28)&0x10000000) + data
+            self.udp.write_reg(2, data + 0x01)
+            vreg = self.udp.read_reg(3)
+            rdadr = (vreg>>16)&0xff
+            rddata = (vreg>>8)&0xff
+            print (hex(vreg), hex(rdadr), hex(rddata))
+            time.sleep(0.1)
+            self.udp.write_reg(2, data + 0x00)
+            temp = rddata
+        else: 
+            #load address
+            self.udp.write(self.fpga_reg.i2c_rw,1) #read
+            #load data
+            self.udp.write(self.fpga_reg.i2c_chip_id,chip_id)
+            #load byte count
+            self.udp.write(self.fpga_reg.i2c_page,page)
+            
+            self.udp.write(self.fpga_reg.i2c_reg_addr,addr)
+            #run strobe
+            self.udp.write(self.fpga_reg.i2c_ena,1)
+            time.sleep(0.1)
+            check_done =1
+            while(check_done):
+                check_done = self.udp.read(self.fpga_reg.i2c_busy)
+            #print(self.udp.read(self.fpga_reg.i2c_ack_error))
+            temp = self.udp.read(self.fpga_reg.i2c_data_rd)
+            self.udp.write(self.fpga_reg.i2c_ena,0)
         
-        self.udp.write(self.fpga_reg.i2c_reg_addr,addr)
-        #run strobe
-        self.udp.write(self.fpga_reg.i2c_ena,1)
-        time.sleep(0.1)
-        check_done =1
-        while(check_done):
-            check_done = self.udp.read(self.fpga_reg.i2c_busy)
-        #print(self.udp.read(self.fpga_reg.i2c_ack_error))
-        temp = self.udp.read(self.fpga_reg.i2c_data_rd)
-        self.udp.write(self.fpga_reg.i2c_ena,0)
         return temp
 
     def I2C_write(self,chip_id,page,addr,data):
-        #load address
-        self.udp.write(self.fpga_reg.i2c_rw,0) #write
-        #load data
-        self.udp.write(self.fpga_reg.i2c_chip_id,chip_id)
-        #load byte count
-        self.udp.write(self.fpga_reg.i2c_page,page)
-        
-        self.udp.write(self.fpga_reg.i2c_reg_addr,addr)
-        
-        self.udp.write(self.fpga_reg.i2c_data_wr,data)
-        #run strobe
-        self.udp.write(self.fpga_reg.i2c_ena,1)
-        time.sleep(0.1)
-        check_done =1
-        while(check_done):
-            check_done = self.udp.read(self.fpga_reg.i2c_busy)
-        #print("DONE")           
-        self.udp.write(self.fpga_reg.i2c_ena,0)
-        self.udp.write(self.fpga_reg.i2c_ena,0)
+        if (self.uart_flag):
+            if (page ==2):
+                if (addr == 1):
+                    ladr = ((0x80+49)&0xff)<<20  
+                elif (addr == 2):
+                    ladr = ((0x80+48)&0xff)<<20  
+                elif (addr == 3):
+                    ladr = ((0x80+50)&0xff)<<20
+                else: 
+                    print ("invaid address")
+                    ladr = ((0x80+0x7f)&0xff)<<20
+            else:
+                ladr = (addr&0xff)<<20            
+            ldata = (data&0xff)<<12 
+            lwen = (0x01&0x01)<<7 #read 
+            data_w = (ladr&0x0ff00000) + (ldata&0x000ff000) + (lwen&0x80)
+            par_cnt = 0
+            for i in range(32):
+                if (data>>i)&0x01 == 0x01:
+                    par_cnt = par_cnt + 1
+            if par_cnt%2 == 1:
+                par_chk = 0
+            else:
+                par_chk =1
+            data_w = ((par_chk<<28)&0x10000000) + data_w
+            self.udp.write_reg(2, data_w + 0x01)
+            print (hex(addr), hex(data), hex(data_w))
+            time.sleep(0.1)
+            self.udp.write_reg(2, data_w + 0x00)
+        else: 
+            #load address
+            self.udp.write(self.fpga_reg.i2c_rw,0) #write
+            #load data
+            self.udp.write(self.fpga_reg.i2c_chip_id,chip_id)
+            #load byte count
+            self.udp.write(self.fpga_reg.i2c_page,page)
+            
+            self.udp.write(self.fpga_reg.i2c_reg_addr,addr)
+            
+            self.udp.write(self.fpga_reg.i2c_data_wr,data)
+            #run strobe
+            self.udp.write(self.fpga_reg.i2c_ena,1)
+            time.sleep(0.1)
+            check_done =1
+            while(check_done):
+                check_done = self.udp.read(self.fpga_reg.i2c_busy)
+            #print("DONE")           
+            self.udp.write(self.fpga_reg.i2c_ena,0)
+            self.udp.write(self.fpga_reg.i2c_ena,0)
 
     def I2C_write_checked(self,chip_id,page,reg,data):
         for i in range(10):
@@ -251,26 +320,27 @@ class COLDADC_tool:
 #        else:
 #            return self.ADC_I2C_read(reg)
     def __init__(self):
+        self.uart_flag = False
         self.udp = UDP()
         #self.adc_reg = ADC_REG()
         self.fpga_reg = FPGA_REG()
         self.bitop = Bit_Op()
 
 
-if __name__ == '__main__':
-    ADC = COLDADC_tool()
-    #ADC.ADC_I2C_write(0,1,[0x80,0xff],0x55)
-    #red=ADC.ADC_I2C_read(0,1,[0x81,0xff])
-    
-    ADC.config_tool("I2C")
-    ADC.I2C_write(0,1,0x8a,0xaa)
-    red = ADC.I2C_read(0,1,0x8a)
-    print(hex(red))
-    
-    ADC.config_tool("uart")
-    #ADC.UART_write(0,0x8c,0xaf)
-    red=ADC.UART_read(0,0x8a)
-    print(hex(red))
+#if __name__ == '__main__':
+#    ADC = COLDADC_tool()
+#    #ADC.ADC_I2C_write(0,1,[0x80,0xff],0x55)
+#    #red=ADC.ADC_I2C_read(0,1,[0x81,0xff])
+#    
+#    ADC.config_tool("I2C")
+#    ADC.I2C_write(0,1,0x8a,0xaa)
+#    red = ADC.I2C_read(0,1,0x8a)
+#    print(hex(red))
+#    
+#    ADC.config_tool("uart")
+#    #ADC.UART_write(0,0x8c,0xaf)
+#    red=ADC.UART_read(0,0x8a)
+#    print(hex(red))
     #ADC.ADC_UART_write([0x80,0xff],0x55)    
 #udp = UDP()
 #def write_reg(self, reg, data, femb_addr = None)

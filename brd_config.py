@@ -1303,7 +1303,7 @@ class Brd_Config:
         self.fe_reg = FE_REG()
         self.adc = COLDADC_tool()
         self.adc_reg = ADC_REG()
-        self.chip_id = 0
+        self.chip_id = 4
         self.page = 1
         self.user = User_defined()
         
