@@ -241,12 +241,12 @@ class UDP(UDP_frames):
             cycle = 1
         else:
             cycle = (PktNum // self.PKT_MAX) + 1
-        print('cycle=%d'%cycle)
+#        print('cycle=%d'%cycle)
 #        recv_raw=b""
         recv_raw=[]
         for i in range(cycle):    
-            if (i%1000==0):
-                print (i)
+#            if (i%1000==0):
+#                print (i)
             data = None
             try:
                 data = sock_data.recv(recvbuf) 
