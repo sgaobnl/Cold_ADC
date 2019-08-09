@@ -197,13 +197,6 @@ class CMD_ACQ:
                 chns[j].append(frames[i].ADCdata[j]) 
         return chns 
     
-    def get_adcdata_raw(self, PktNum=128 ):
-        self.bc.Acq_start_stop(1)
-        rawdata = self.bc.udp.get_pure_rawdata(PktNum )
-        self.bc.Acq_start_stop(0)
-#        rawdata = self.bc.get_data(PktNum,1, Jumbo="Jumbo") #packet check
-        return rawdata
-
     def chn_order_sync(self, PktNum=128 ):  
         print ("Starting ADC physical channel and logical channel mapping...")
         self.bc.adc_load_pattern_0(0x01, 0x01)
@@ -276,7 +269,7 @@ while(woc_f==False):
     cq.init_chk()
     cq.ref_set(flg_bjt_r = flg_bjt_r )
     time.sleep(1)
-#    cq.all_ref_vmons( )
+    cq.all_ref_vmons( )
     cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")      
     cq.bc.adc_sha_clk_sel(mode = "internal")
     cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
@@ -291,7 +284,7 @@ cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement",
 
 print ("Manual Calibration starting, wait...")
 cq.bc.udp.clr_server_buf()
-#cq.bc.adc_autocali(avr=1000,saveflag="undef")
+cq.bc.adc_autocali(avr=1000,saveflag="undef")
 cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
                          adc_sync_mode ="Normal", adc_test_input = "Normal", 
                          adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
@@ -305,8 +298,8 @@ import sys
 
 fpga_dac = 0
 asic_dac = 5
-#rawdir = rawdir + "D2_Xtalk_asicdac%d/"%(asic_dac)
-rawdir = rawdir + "C3_debug_asicdac%d/"%(asic_dac)
+rawdir = rawdir + "D2_Xtalk_asicdac%d/"%(asic_dac)
+#rawdir = rawdir + "F1_asicdac%d/"%(asic_dac)
 if (os.path.exists(rawdir)):
     pass
 else:
@@ -316,7 +309,7 @@ else:
         print ("Error to create folder ")
         sys.exit()
 tps=["05us","10us","20us","30us"]
-tps=["20us"]
+#tps=["20us"]
 for tp in tps:
     if tp == "05us":
         tpi = 1
@@ -330,19 +323,19 @@ for tp in tps:
     for sts_n in range(16):
         sts = 16*[0]
         sts[sts_n] = 1
-        sts = 16*[1]
+#        sts = 16*[1]
 #        sts = [1,1,0,0,   1,0,1,1,  1, 0, 0, 1,   0, 1, 1, 1]
         for delay in range(0,50,1):
             sdacsw = 2
             cq.fe_cfg(sts=sts, st=st, sdacsw=sdacsw, asic_dac=asic_dac, delay=delay )
-            chns = cq.get_adcdata_raw(PktNum=256 )
+            chns = cq.get_adcdata( PktNum=12000 )
             fn = rawdir + "Data_chn%d"%sts_n + "_%s"%tp + "_dly%d"%delay + ".bin"
             print (fn)
             with open(fn, 'wb') as f:
                 pickle.dump(chns, f)
-            break
-        break
-    break
+#            break
+#        break
+#    break
 
 
 #for kk in range (1):

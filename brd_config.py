@@ -40,9 +40,10 @@ class Brd_Config:
     def Acq_start_stop(self,Val):
         if Val == 1:
             self.udp_fifo_clear()        
-            self.udp.write(self.fpga_reg.ACQ_START,1)
+            self.udp.write_reg_checked(self.fpga_reg.ACQ_START[0],1)
         else:
-            self.udp.write(self.fpga_reg.ACQ_START,0)
+            self.udp.write_reg_checked(self.fpga_reg.ACQ_START[0],0)
+        time.sleep(0.01)
         
     def get_data(self,PktNum,chkflg,Jumbo):
         data = self.udp.get_rawdata(PktNum,chkflg,Jumbo)

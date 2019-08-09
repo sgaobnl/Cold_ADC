@@ -226,7 +226,37 @@ class UDP(UDP_frames):
         if checkflg == True:
             self.check_packets(packet_cnts)
         return user_data
-
+        
+    def get_pure_rawdata(self,PktNum,Jumbo=None):
+        #set up listening socket
+        sock_data = self.socket_gen("Listen")
+        sock_data.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 81920000) #open a large buffer for that
+        sock_data.bind(('', self.UDP_PORT_HSDATA))                          #high-speed data UDP port 32003
+        
+        if Jumbo == 'None':
+            recvbuf = 8192      
+        else:
+            recvbuf = 9014 #match to 0xefc
+        
+        if (PktNum < self.PKT_MAX) or (PktNum == self.PKT_MAX):
+            cycle = 1
+        else:
+            cycle = (PktNum // self.PKT_MAX) + 1
+        #print('cycle=%d'%cycle)
+        recv_raw=[]
+        for i in range(cycle):    
+            data = None
+            try:
+                data = sock_data.recv(recvbuf) 
+            except socket.timeout:
+                print ("UDP--> Error get_data: No data packet received from board, quitting")
+                sock_data.close()
+                return None
+            if data != None:
+               recv_raw.append(data)
+        sock_data.close()
+        return recv_raw
+    
     def clr_server_buf(self):
         #set up listening socket
         sock_data = self.socket_gen("Listen")

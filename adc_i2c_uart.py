@@ -45,7 +45,8 @@ class COLDADC_tool:
                 ladr = (addr&0xff)<<20          
             ldata = (0x00&0xff)<<12 #useless
             lwen = (0x00&0x01)<<7 #read 
-            data = (ladr&0x0ff00000) + (ldata&0x000ff000) + (lwen&0x80)
+            lchip_id = (chip_id&0x07)<<8
+            data = (ladr&0x0ff00000) + (ldata&0x000ff000) + (lchip_id&0x700) + (lwen&0x80)
             par_cnt = 0
             for i in range(32):
                 if (data>>i)&0x01 == 0x01:
@@ -59,7 +60,7 @@ class COLDADC_tool:
             vreg = self.udp.read_reg(3)
             rdadr = (vreg>>16)&0xff
             rddata = (vreg>>8)&0xff
-            print (hex(vreg), hex(rdadr), hex(rddata))
+            print (hex(chip_id), hex(vreg), hex(rdadr), hex(rddata))
             time.sleep(0.1)
             self.udp.write_reg(2, data + 0x00)
             temp = rddata
@@ -100,7 +101,8 @@ class COLDADC_tool:
                 ladr = (addr&0xff)<<20            
             ldata = (data&0xff)<<12 
             lwen = (0x01&0x01)<<7 #read 
-            data_w = (ladr&0x0ff00000) + (ldata&0x000ff000) + (lwen&0x80)
+            lchip_id = (chip_id&0x07)<<8
+            data_w = (ladr&0x0ff00000) + (ldata&0x000ff000) + (lchip_id&0x700) + (lwen&0x80)
             par_cnt = 0
             for i in range(32):
                 if (data>>i)&0x01 == 0x01:
@@ -111,7 +113,7 @@ class COLDADC_tool:
                 par_chk =1
             data_w = ((par_chk<<28)&0x10000000) + data_w
             self.udp.write_reg(2, data_w + 0x01)
-            print (hex(addr), hex(data), hex(data_w))
+            print (hex(chip_id), hex(addr), hex(data), hex(data_w))
             time.sleep(0.1)
             self.udp.write_reg(2, data_w + 0x00)
         else: 

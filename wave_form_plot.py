@@ -19,17 +19,17 @@ import matplotlib.mlab as mlab
 
 import pickle
 
-fn = "D:/ColdADC/Asicdac8/Data_chn0_05us_dly0.bin"
+fn = "D:/ColdADC/D1_debug_asicdac5/Data_chn0_20us_dly0.bin"
 with open (fn, 'rb') as fp:
     chns = pickle.load(fp)
 
-fig = plt.figure(figsize=(12,12))    
+fig = plt.figure(figsize=(8,8))    
 for i in range(16):
     ax = plt.subplot2grid((8,2), (i%8, i//8), colspan=1, rowspan=1)
     sps = (len(chns[i]))
     x = np.arange(sps)*0.5
-    ax.scatter(x[0:100], np.array(chns[i][0:100])&0x0000FFFF, marker ='.')
-    ax.plot(x[0:100], np.array(chns[i][0:100])&0x0000FFFF)
+    ax.scatter(x[0:200], np.array(chns[i][0:200])&0x0000FFFF, marker ='.')
+    ax.plot(x[0:200], np.array(chns[i][0:200])&0x0000FFFF)
 
 
 plt.tight_layout()
