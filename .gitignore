@@ -74,3 +74,6 @@ newcalis/stage6_time2.txt
 newcalis/stage6_time3.txt
 newcalis/stage6_time4.txt
 newcalis/stage6_time5.txt
+.delay_run_ana.py.un~
+.raw_data_decoder.py.un~
+.udp.py.un~

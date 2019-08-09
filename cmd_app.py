@@ -10,6 +10,7 @@ from brd_config import Brd_Config
 import time
 from frame import Frames
 import numpy as np
+
 #from udp import UDP 
 #from adc_i2c_uart import COLDADC_tool
 #
@@ -199,7 +200,7 @@ class CMD_ACQ:
     
     def get_adcdata_raw(self, PktNum=128 ):
         self.bc.Acq_start_stop(1)
-        rawdata = self.bc.udp.get_pure_rawdata(PktNum )
+        rawdata = self.bc.udp.get_pure_rawdata(PktNum+1000 )
         self.bc.Acq_start_stop(0)
 #        rawdata = self.bc.get_data(PktNum,1, Jumbo="Jumbo") #packet check
         return rawdata
@@ -335,11 +336,17 @@ for tp in tps:
         for delay in range(0,50,1):
             sdacsw = 2
             cq.fe_cfg(sts=sts, st=st, sdacsw=sdacsw, asic_dac=asic_dac, delay=delay )
-            chns = cq.get_adcdata_raw(PktNum=256 )
+            
+#            cq.bc.adc_load_pattern_0(0x01, 0x02)
+#            cq.bc.adc_load_pattern_1(0x03, 0x04)
+#            cq.bc.adc_test_data_mode(mode = "Test Pattern")
+            
+            chns = cq.get_adcdata_raw(PktNum=4000000 )
             fn = rawdir + "Data_chn%d"%sts_n + "_%s"%tp + "_dly%d"%delay + ".bin"
             print (fn)
             with open(fn, 'wb') as f:
                 pickle.dump(chns, f)
+#                f.write(chns)
             break
         break
     break

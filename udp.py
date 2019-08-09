@@ -236,15 +236,17 @@ class UDP(UDP_frames):
         if Jumbo == 'None':
             recvbuf = 8192      
         else:
-            recvbuf = 9014 #match to 0xefc
-        
+            recvbuf = 9014 #match to 0xefc      
         if (PktNum < self.PKT_MAX) or (PktNum == self.PKT_MAX):
             cycle = 1
         else:
             cycle = (PktNum // self.PKT_MAX) + 1
-        #print('cycle=%d'%cycle)
+        print('cycle=%d'%cycle)
+#        recv_raw=b""
         recv_raw=[]
         for i in range(cycle):    
+            if (i%1000==0):
+                print (i)
             data = None
             try:
                 data = sock_data.recv(recvbuf) 
@@ -254,6 +256,7 @@ class UDP(UDP_frames):
                 return None
             if data != None:
                recv_raw.append(data)
+#                recv_raw += data
         sock_data.close()
         return recv_raw
     
