@@ -341,7 +341,7 @@ for tp in tps:
 #            cq.bc.adc_load_pattern_1(0x03, 0x04)
 #            cq.bc.adc_test_data_mode(mode = "Test Pattern")
             
-            chns = cq.get_adcdata_raw(PktNum=4000000 )
+            chns = cq.get_adcdata_raw(PktNum=40000 )
             fn = rawdir + "Data_chn%d"%sts_n + "_%s"%tp + "_dly%d"%delay + ".bin"
             print (fn)
             with open(fn, 'wb') as f:
