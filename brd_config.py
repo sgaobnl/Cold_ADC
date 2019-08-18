@@ -10,13 +10,14 @@ from fe_reg import FE_REG
 from user_defined import User_defined
 from adc_i2c_uart import COLDADC_tool
 from adc_reg import ADC_REG
-from frame import Frames
 import sys
 import time
-import math
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import os.path
+from raw_data_decoder import raw_conv
+import numpy as np
+
 class Brd_Config:
     #----------------initialization----------------------#
     #-----------------------FPGA-----------------------------#
@@ -520,26 +521,33 @@ class Brd_Config:
         return (int(num) & 0xffff) #ignore the bit17
 
     def adc_average(self,pktnum,neg=None):
-        #add for test  
         self.Acq_start_stop(1)
-        #pktnum = 16000 # up to 128k points
-        adcdata = self.get_data(pktnum,1,'Jumbo')
-        #time.sleep(1)
+        rawdata = self.udp.get_pure_rawdata(pktnum+1000 )
+        chns = raw_conv(rawdata, pktnum)[0]
         self.Acq_start_stop(0)
         
-        frames_inst = Frames(pktnum,adcdata)
-        frames = frames_inst.packets()
-    
-        chns=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
-        for i in range(len(frames)):
-            for j in range(16): #16 channels
-                chns[j].append(self.complement(frames[i].ADCdata[j],"none"))
+#        #add for test  
+#        self.Acq_start_stop(1)
+#        #pktnum = 16000 # up to 128k points
+#        adcdata = self.get_data(pktnum,1,'Jumbo')
+#        #time.sleep(1)
+#        self.Acq_start_stop(0)
+#        
+#        frames_inst = Frames(pktnum,adcdata)
+#        frames = frames_inst.packets()
+#    
+#        chns=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
+#        for i in range(len(frames)):
+#            for j in range(16): #16 channels
+#                chns[j].append(self.complement(frames[i].ADCdata[j],"none"))
         
         temp0 = chns[0] + chns[1] + chns[2] + chns[3] + chns[4] + chns[5] + chns[6] + chns[7]
         temp1 = chns[8] + chns[9] + chns[10]+ chns[11]+ chns[12]+ chns[13]+ chns[14]+ chns[15]
           
-        val0 = round(sum(temp0)/len(temp0))
-        val1 = round(sum(temp1)/len(temp1))
+#        val0 = round(sum(temp0)/len(temp0))
+#        val1 = round(sum(temp1)/len(temp1))
+        val0 = round(np.mean(temp0))
+        val1 = round(np.mean(temp1))
         
         if neg == None:
             return (val0,val1, temp0, temp1)
@@ -947,7 +955,7 @@ class Brd_Config:
             #samples = int(avr/math.pow(2,(6-i))) #change 16000 to avr
             samples = int(avr) #change 16000 to avr
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.cal_stages,(0x7-i))  # calibrate stage6
-            tdly = 0.1
+            tdly = 0.01
             time.sleep(tdly)
             #reg 44 setting
             self.adc.ADC_I2C_write_checked(self.chip_id,self.page,self.adc_reg.force_adc,0x3)   #force adc0,adc1

@@ -80,7 +80,8 @@ class DataFrameThread(QThread):
         fn=[]
         for i in range(len(total_data)):
            #add window?
-           fft_data = total_data[i]*np.hanning(len(total_data[i]))
+           #fft_data = total_data[i]*np.hanning(len(total_data[i]))
+           fft_data = total_data[i]
            #p = 20*np.log10(np.abs(rfft(total_data[i])) / len(total_data[i])) #should use rfft
            p = 20*np.log10(np.abs(rfft(fft_data)) / len(fft_data)) #should use rfft
            f = np.linspace(0,self.fs/2, len(p))
@@ -2578,7 +2579,7 @@ class MainWindow(QWidget):
         #----------attributes definition---------#
         self.brd_config = Brd_Config()
         #self.brd_config.sockets_init()
-        self.CHUNK = 256
+        self.CHUNK = 256*16
         self.total_data=[]
         self.Channel = 0
         self.spi_param=[]
