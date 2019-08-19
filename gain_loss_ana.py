@@ -59,9 +59,9 @@ for fn_pre in ["Test1gainloss_tp10us_sg2_snc0dly",
         for i in range(0,avg_n):
             for j in range(len(avg_chns)):
                 if i == 0:
-                    avg_chns[j] = np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
+                    avg_chns[j] = (np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff)
                 else:
-                    avg_chns[j] = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
+                    avg_chns[j] = avg_chns[j] + (np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff)
         for j in range(len(avg_chns)):
             avg_chns[j] = avg_chns[j]//avg_n
             dly_avg_chns[j].append( list(avg_chns[j])    )
