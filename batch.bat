@@ -58,3 +58,4 @@ python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF DC Internal  6 RT BJT S
 python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  DC Internal  7 RT BJT SDC
 python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  DC Internal  8 RT BJT SDC
 
+
