@@ -20,7 +20,6 @@ import matplotlib.mlab as mlab
 import pickle
 
 def file_list(runpath):
-    files_cs = []
     if (os.path.exists(runpath)):
         for root, dirs, files in os.walk(runpath):
             break
@@ -29,18 +28,18 @@ def file_list(runpath):
 testno = 1
 tp = "tp10us"
 sg = "sg2"
-testno_str = "Test%02d"testno
+testno_str = "Test%02d"%testno
 f_dir = "D:/ColdADC/D2_gainmeas_acq/"
 
 period = 200
-avg_n = 50
-fs = file_list(runpath_fdir)
+avg_n = 2
+fs = file_list(runpath=f_dir)
 data_fs_900mV = []
 data_fs_200mV = []
 for f in fs:
-    if f.find(testno_str) and f.find(tp) and f.find(sg2)and f.find("snc0") and f.find(".bin"):
+    if f.find(testno_str) and f.find(tp) and f.find(sg)and f.find("snc0") and f.find(".bin"):
         data_fs_900mV.append(f)
-    if f.find(testno_str) and f.find(tp) and f.find(sg2)and f.find("snc1") and f.find(".bin"):
+    if f.find(testno_str) and f.find(tp) and f.find(sg)and f.find("snc1") and f.find(".bin"):
         data_fs_200mV.append(f)
 
 for asic_dac in range(3,16,1):
@@ -71,12 +70,15 @@ for asic_dac in range(3,16,1):
                         avg_chns[j] = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff 
             
                 avg_chns[j] = avg_chns[j]//avg_n
-                chn_pkp = np.max(avg_chns)  
-                chn_pkn = np.min(avg_chns)
-                chn_ped = (avg_chns[0])  
+                chn_pkp = np.max(avg_chns[j])  
+                chn_pkn = np.min(avg_chns[j])
+                chn_ped = (avg_chns[j][0])  
                 chn_ploc = np.where( avg_chns[j] == chn_pkp )[0][0]
                 avg_chns_amp.append([chn_pkp, chn_pkn, chn_ped, chn_ploc])
                 print (f, [chn_pkp, chn_pkn, chn_ped, chn_ploc])
+            break
+        break
+    break
 
 
 

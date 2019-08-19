@@ -48,3 +48,13 @@ python gain_measure_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF DC Internal  6 RT BJ
 python gain_measure_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  DC Internal  7 RT BJT SDC
 python gain_measure_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  DC Internal  8 RT BJT SDC
 
+python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_OFF DC Internal  1 RT BJT NoSDC
+python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF DC Internal  2 RT BJT NoSDC
+python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  DC Internal  3 RT BJT NoSDC
+python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  DC Internal  4 RT BJT NoSDC
+
+python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_OFF DC Internal  5 RT BJT SDC
+python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF DC Internal  6 RT BJT SDC
+python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  DC Internal  7 RT BJT SDC
+python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  DC Internal  8 RT BJT SDC
+
