@@ -26,8 +26,8 @@ def file_list(runpath):
     return files
 
 testno = 1
-tp = "tp10us"
-sg = "sg2"
+tp = "10us"
+sg = "14mVfC"
 testno_str = "Test%02d"%testno
 f_dir = "D:/ColdADC/D2_gainmeas_acq/"
 
@@ -37,28 +37,28 @@ fs = file_list(runpath=f_dir)
 data_fs_900mV = []
 data_fs_200mV = []
 for f in fs:
-    if f.find(testno_str) and f.find(tp) and f.find(sg)and f.find("snc0") and f.find(".bin"):
+    if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find("900mV")>0) and (f.find(".bin")>0):
         data_fs_900mV.append(f)
-    if f.find(testno_str) and f.find(tp) and f.find(sg)and f.find("snc1") and f.find(".bin"):
+    elif (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find("200mV")>0) and (f.find(".bin")>0):
         data_fs_200mV.append(f)
 
 for asic_dac in range(3,16,1):
     for data_fs in [data_fs_900mV, data_fs_200mV]:
         for f in data_fs:
-            if f.find("asic_dac%02d"%asic_dac) > 0:
+            if f.find("asicdac%02d"%asic_dac) > 0:
                 fn = f_dir + f
                 break
-            with open (fn, 'rb') as fp:
-                chns = pickle.load(fp)
-            poft = 0
-            for j in range(period):
-                if ((chns[0][j]&0x10000) == 0x10000):
-                    poft = j
-                    if poft <50:
-                        poft = 200+poft-50
-                    else:
-                        poft = poft-50
-                    break
+        with open (fn, 'rb') as fp:
+            chns = pickle.load(fp)
+        poft = 0
+        for j in range(period):
+            if ((chns[0][j]&0x10000) & 0x10000) > 0:
+                poft = j
+                if poft <50:
+                    poft = 200+poft-50
+                else:
+                    poft = poft-50
+                break
             avg_chns = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
             avg_chns_amp = []
 
