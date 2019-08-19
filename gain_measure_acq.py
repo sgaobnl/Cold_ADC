@@ -104,9 +104,9 @@ for asic_dac in range(3,0x10,1):
         for i in range(0,avg_n):
             for j in [1]:
                 if i == 0:
-                    avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i]&0xffff)
+                    avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
                 else:
-                    avg_chns = avg_chns + np.array(chns[j][poft+200*i:poft+200+200*i]&0xffff)
+                    avg_chns = avg_chns + (np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff)
     
         avg_chns = avg_chns//avg_n
         for i in range(len(avg_chns)):
@@ -116,7 +116,7 @@ for asic_dac in range(3,0x10,1):
         chn1_p.append(np.max(avg_chns))
     
     pk_dly = np.where( chn1_p == np.max(chn1_p))[0][0]
-    print ("Peak with delay = %d"%pk_dly)
+    print ("Peak %d with delay = %d"%(np.max(chn1_p), pk_dly))
     cq.bc.fe_pulse_param(delay=pk_dly, period=period, width=0xa00)
     
     chns = cq.get_adcdata_raw(PktNum=(period*avg_n + 1000) )

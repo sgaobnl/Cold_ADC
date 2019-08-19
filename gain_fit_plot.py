@@ -32,7 +32,7 @@ testno_str = "Test%02d"%testno
 f_dir = "D:/ColdADC/D2_gainmeas_acq/"
 
 period = 200
-avg_n = 2
+avg_n = 50
 fs = file_list(runpath=f_dir)
 data_fs_900mV = []
 data_fs_200mV = []
@@ -65,9 +65,9 @@ for asic_dac in range(3,16,1):
             for j in range(len(avg_chns)):
                 for i in range(0,avg_n):
                     if i == 0:
-                        avg_chns[j] = np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
+                        avg_chns[j] = (np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff)
                     else:
-                        avg_chns[j] = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff 
+                        avg_chns[j] = avg_chns[j] + (np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff)
             
                 avg_chns[j] = avg_chns[j]//avg_n
                 chn_pkp = np.max(avg_chns[j])  
