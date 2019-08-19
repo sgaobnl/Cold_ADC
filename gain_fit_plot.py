@@ -112,13 +112,12 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
     fit_results = linear_fit(xfc, yp)
     return x,yp, yn, yped, wfs, fit_results
 
-def Chn_Plot(asic_cali_900mV, asic_cali_200mV, chnno = 0):
-    p9 = Chn_Ana(asic_cali_900mV, chnno = chnno)
-    p2 = Chn_Ana(asic_cali_200mV, chnno = chnno)
+def Chn_Plot(asic_cali, chnno = 0):
+    p = Chn_Ana(asic_cali, chnno = chnno)
     
     fig = plt.figure(figsize=(12,6))
     ax1 = fig.add_subplot(121)
-    for wf in p9[4]:
+    for wf in p[4]:
         sps = len(wf)
         ax1.plot(np.range(sps)*0.5, wf, marker = '.')
     ax2 = fig.add_subplot(122)
@@ -132,18 +131,14 @@ f_dir = "D:/ColdADC/D2_gainmeas_acq/"
 period = 200
 avg_n = 50
 fs = file_list(runpath=f_dir)
-data_fs_900mV = []
-data_fs_200mV = []
+data_fs = []
 for f in fs:
-    if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find("900mV")>0) and (f.find(".bin")>0):
-        data_fs_900mV.append(f)
-    elif (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find("200mV")>0) and (f.find(".bin")>0):
-        data_fs_200mV.append(f)
+    if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0):
+        data_fs.append(f)
 
-asic_cali_900mV = Asic_Cali(data_fs_900mV)
-asic_cali_200mV = Asic_Cali(data_fs_200mV)
+asic_cali = Asic_Cali(data_fs)
 
-Chn_Plot(asic_cali_900mV, asic_cali_200mV, chnno = 0)
+Chn_Plot(asic_cali, chnno = 0)
 #
 #fn_pre = "Test%dgainloss_tp10us_sg2_snc0dly"%(testno)
 #testno = 1
