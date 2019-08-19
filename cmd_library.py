@@ -26,14 +26,12 @@ from raw_data_decoder import raw_conv
 
 class CMD_ACQ:
     def __init__(self):
-#        self.word_order = 0
         self.bc = Brd_Config()
 
     def init_chk(self ):
         self.bc.Acq_start_stop(0)
         print ("ADC hard reset after power on")
         self.bc.adc.hard_reset()
-#        self.bc.adc_soft_reset()
         init_str = self.bc.adc_read_reg(0)
         if (init_str == '0x52'):
             print ("ADC hard reset is done, I2C link looks good!")
@@ -44,9 +42,9 @@ class CMD_ACQ:
             print ("Internal BJT voltage references are used")
             self.bc.adc_bias_curr_src("BJT")
             print ("Bias currents come from BJT-based references")
-            if (env == "RT"):
-                vrefp_voft = 0xe4#0xf0#0xe4#0xf8#0xe4
-                vrefn_voft = 0x24#0x08#0x24#0x10#0x24
+            if (self.env == "RT"):
+                vrefp_voft = 0xf0#0xe4
+                vrefn_voft = 0x08#0x24
                 vcmi_voft = 0x5c#0x60#0x50#0x60
                 vcmo_voft = 0x82#0x82
                 vrefp_ioft = 1
@@ -77,7 +75,7 @@ class CMD_ACQ:
             print ("CMOS voltage references are used")
             self.bc.adc_bias_curr_src("CMOS_INTR")
             print ("Bias currents come from CMOS-basedreference with internal R")  
-            if (env == "RT"):
+            if (self.env == "RT"):
                 vrefp_voft = 0xce
                 vrefn_voft = 0x2b
                 vcmi_voft = 0x5b
@@ -259,13 +257,13 @@ class CMD_ACQ:
                 pass
         return woc_f
                 
-    def fe_cfg(self,sts=16*[0], snc=16*[0], sg=16*[3], st=16*[2], sdacsw=0, fpga_dac=0,asic_dac=0, delay=10, period=200, width=0xa00 ):  
+    def fe_cfg(self,sts=16*[0], snc=16*[0], sg=16*[3], st=16*[2], sbf = 16*[0], sdc = 0, sdacsw=0, fpga_dac=0,asic_dac=0, delay=10, period=200, width=0xa00 ):  
         self.bc.sts = sts
         self.bc.snc = snc
         self.bc.sg  = sg 
         self.bc.st  = st 
-        self.bc.sbf = 16*[1] #buffer on
-#        self.bc.sdc = 1 #FE AC
+        self.bc.sbf = sbf #buffer on
+        self.bc.sdc = sdc #FE AC
         self.bc.sdacsw = sdacsw
         self.bc.sdac = asic_dac
         self.bc.fe_spi_config()
@@ -279,123 +277,36 @@ class CMD_ACQ:
         self.bc.fe_fpga_dac(fpga_dac)
         self.bc.fe_pulse_param(delay, period, width)
 
-env = "RT"
-flg_bjt_r = True #default BJT reference
-cq = CMD_ACQ()
-woc_f = False
-while(woc_f==False):
-    cq.init_chk()
-    cq.ref_set(flg_bjt_r = flg_bjt_r )
-    time.sleep(1)
-    cq.all_ref_vmons( )
-    cq.Input_buffer_cfg(sdc = "Bypass", db = "Bypass", sha = "Single-ended", curr_src = "BJT-sd")      
-    cq.bc.adc_sha_clk_sel(mode = "internal")
-    cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-                         adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-    cq.bc.udp.clr_server_buf()
-    woc_f = cq.chn_order_sync()
 
-cq.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
-                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+    def adc_cfg(self, adc_sdc="Bypass", adc_db="Bypass", adc_sha="Single-Ended", adc_curr_src="BJT-sd", env="RT", flg_bjt_r=True):
+        #default BJT reference
+        woc_f = False
+        while(woc_f==False):
+            self.init_chk()
+            self.ref_set(flg_bjt_r = flg_bjt_r )
+            time.sleep(1)
+            self.all_ref_vmons( )
+            self.Input_buffer_cfg(sdc = adc_sdc, db = adc_db, sha = adc_sha, curr_src = adc_curr_src)      
+            #self.Input_buffer_cfg(sdc = "On", db = "Bypass", sha = "Diff", curr_src = "BJT-sd")      
+            self.bc.adc_sha_clk_sel(mode = "internal")
+            self.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                                 adc_sync_mode ="Analog pattern", adc_test_input = "Normal", 
+                                 adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+            self.bc.udp.clr_server_buf()
+            woc_f = self.chn_order_sync()
+        
+        self.Converter_Config(edge_sel = "Normal", out_format = "two-complement", 
+                                 adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                                 adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+        
+        print ("Manual Calibration starting, wait...")
+        self.bc.udp.clr_server_buf()
+        self.bc.adc_autocali(avr=20000,saveflag="undef")
+        self.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+                                 adc_sync_mode ="Normal", adc_test_input = "Normal", 
+                                 adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+        print ("Manual Calibration is done, back to normal")
 
-print ("Manual Calibration starting, wait...")
-cq.bc.udp.clr_server_buf()
-cq.bc.adc_autocali(avr=20000,saveflag="undef")
-cq.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-                         adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                         adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
-print ("Manual Calibration is done, back to normal")
-
-import pickle
-
-rawdir = "D:/ColdADC/"
-import os
-import sys
-
-fpga_dac = 0
-asic_dac = 0
-rawdir = rawdir + "Test12_D2_noise_study/"
-if (os.path.exists(rawdir)):
-    pass
-else:
-    try:
-        os.makedirs(rawdir)
-    except OSError:
-        print ("Error to create folder ")
-        sys.exit()
-
-tp="10us"
-if tp == "05us":
-    tpi = 1
-elif tp == "10us":
-    tpi = 0
-elif tp == "20us":
-    tpi = 3
-else:
-    tpi = 2
-sts=16*[0]
-st = 16*[tpi]
-sg_str = "14mVfC"
-if (sg_str == "47mVfC" ):
-    sg = 16*[0] #4.7mV/fC   
-elif (sg_str == "14mVfC"):
-    sg = 16*[2] #14mV/fC 
-    
-snc_str = "200mV"
-if (snc_str == "900mV"):
-    snc = 16*[0] #900mV
-else:
-    snc = 16*[1]
-    
-sdacsw = 0 #disable
-cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sdacsw=sdacsw, fpga_dac=fpga_dac )   
-chns = cq.get_adcdata_raw(PktNum=2000000 )
-for i in range(len(chns)):
-    print (np.mean(chns[i]), np.std(chns[i]))
-
-fn = rawdir + "noise_tp%s_"%tp + "sg%d_"%sg[0] + "snc%d"%snc[0] + ".bin"
-
-print (fn)
-with open(fn, 'wb') as f:
-    pickle.dump(chns, f)
-
- 
-#tps=["05us","10us","20us","30us"]
-#tps=["10us"]
-#for tp in tps:
-#    if tp == "05us":
-#        tpi = 1
-#    elif tp == "10us":
-#        tpi = 0
-#    elif tp == "20us":
-#        tpi = 3
-#    else:
-#        tpi = 2
-#    st=16*[tpi]
-#    for sts_n in range(16):
-#        sts = 16*[0]
-##        sts[sts_n] = 1
-##        sts = 16*[1]
-##        sts = [1,1,0,0,   1,0,1,1,  1, 0, 0, 1,   0, 1, 1, 1]
-#        for delay in range(0,50,1):
-#            sdacsw = 2
-#
-#                      sts=sts, st=st, sdacsw=sdacsw, asic_dac=asic_dac, delay=delay )
-#            
-##            cq.bc.adc_load_pattern_0(0x01, 0x02)
-##            cq.bc.adc_load_pattern_1(0x03, 0x04)
-##            cq.bc.adc_test_data_mode(mode = "Test Pattern")
-#            
-#            chns = cq.get_adcdata_raw(PktNum=40000 )
-#            fn = rawdir + "Data_chn%d"%sts_n + "_%s"%tp + "_dly%d"%delay + ".bin"
-#            print (fn)
-#            with open(fn, 'wb') as f:
-#                pickle.dump(chns, f)
-##                f.write(chns)
-#            break
-#        break
-#    break
-#
-#
+#cq = CMD_ACQ() 
+#cq.adc_cfg(adc_sdc="Bypass", adc_db="Bypass", adc_sha="Single-Ended", adc_curr_src="BJT-sd", env="RT", flg_bjt_r=True)
+#cq.adc_cfg(adc_sdc="On", adc_db="Bypass", adc_sha="Diff", adc_curr_src="BJT-sd", env="RT", flg_bjt_r=True)

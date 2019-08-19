@@ -5,8 +5,12 @@ Created on Wed Jul 17 16:54:11 2019
 
 @author: shanshangao
 """
+#import numpy as np
+from cmd_library import CMD_ACQ
+import time
 import numpy as np
 from raw_data_decoder import raw_conv
+
 import pickle
 import os
 import sys
@@ -61,7 +65,7 @@ if (sdc_str == "DC"):
     sdc = 0
 else:
     sdc = 1
-
+ 
 if (sdacsw_str == "disable"):
     sdacsw = 0 #disable
 elif (sdacsw_str == "External"):
@@ -69,9 +73,9 @@ elif (sdacsw_str == "External"):
 elif (sdacsw_str == "Internal"):
     sdacsw = 2 #disable
 fpga_dac = 0
-asic_dac = 8
-print ("sdacsw = %d, fpga_dac = %d, asic_dac = %d"%(sdacsw, fpga_dac, asic_dac) )
-   
+asic_dac = 0
+ 
+
 cq = CMD_ACQ() 
 if (adc_sdc_en):
     cq.adc_cfg(adc_sdc="On", adc_db="Bypass", adc_sha="Diff", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
@@ -79,7 +83,7 @@ else:
     cq.adc_cfg(adc_sdc="Bypass", adc_db="Bypass", adc_sha="Single-Ended", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
 
 rawdir = "D:/ColdADC/"
-rawdir = rawdir + "D2_gainmeas_acq/"
+rawdir = rawdir + "D2_noise_acq/"
 if (os.path.exists(rawdir)):
     pass
 else:
@@ -89,35 +93,14 @@ else:
         print ("Error to create folder ")
         sys.exit()
 
-for asic_dac in range(3,0x10,1):
-    chn1_p = []
-    cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf = sbf, sdc = sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac, delay = 0 )   
-    period = 200
-    avg_n = 50
-    for delay in range(0,50,1):
-        cq.bc.fe_pulse_param(delay=delay, period=period, width=0xa00)
-        chns = cq.get_adcdata(PktNum=(period*avg_n + 1000) )
-        poft = 0
-        chn_tmp = []
-        for i in range(0,avg_n):
-            for j in [1]:
-                if i == 0:
-                    avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])
-                else:
-                    avg_chns = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i]) 
-    
-        avg_chns = avg_chns//avg_n
-        chn1_p.append(np.where(avg_chns == np.max(avg_chns))[0][0])
-    
-    pk_dly = np.where( chn1_p == np.max(chn1_p))[0][0]
-    print ("Peak with delay = %d"%pk_dly)
-    cq.bc.fe_pulse_param(delay=pk_dly, period=period, width=0xa00)
-    
-    chns = cq.get_adcdata_raw(PktNum=(period*avg_n + 1000) )
-    
-    fn = rawdir + "Test%d"%testno + "gain_tp%s_"%tp + "sg%d_"%sg[0] + "snc%d"%snc[0] + "asicdac%02d"%asic_dac +  ".bin"
-    
-    print (fn)
-    with open(fn, 'wb') as f:
-        pickle.dump(chns, f)
+cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sdacsw=sdacsw, fpga_dac=fpga_dac )   
+chns = cq.get_adcdata_raw(PktNum=2000000 )
+for i in range(len(chns)):
+    print (np.mean(chns[i]), np.std(chns[i]))
+
+fn = rawdir + "Noise_Test%2d_"%testno + tp + sg_str + snc_str + sbf_str + sdc_str + env + ".bin"
+
+print (fn)
+with open(fn, 'wb') as f:
+    pickle.dump(chns, f)
 

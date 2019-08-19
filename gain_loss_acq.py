@@ -5,6 +5,9 @@ Created on Wed Jul 17 16:54:11 2019
 
 @author: shanshangao
 """
+#import numpy as np
+from cmd_library import CMD_ACQ
+import time
 import numpy as np
 from raw_data_decoder import raw_conv
 import pickle
@@ -71,7 +74,7 @@ elif (sdacsw_str == "Internal"):
 fpga_dac = 0
 asic_dac = 8
 print ("sdacsw = %d, fpga_dac = %d, asic_dac = %d"%(sdacsw, fpga_dac, asic_dac) )
-   
+
 cq = CMD_ACQ() 
 if (adc_sdc_en):
     cq.adc_cfg(adc_sdc="On", adc_db="Bypass", adc_sha="Diff", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
@@ -79,7 +82,7 @@ else:
     cq.adc_cfg(adc_sdc="Bypass", adc_db="Bypass", adc_sha="Single-Ended", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
 
 rawdir = "D:/ColdADC/"
-rawdir = rawdir + "D2_gainmeas_acq/"
+rawdir = rawdir + "D2_gainloss_acq/"
 if (os.path.exists(rawdir)):
     pass
 else:
@@ -89,35 +92,13 @@ else:
         print ("Error to create folder ")
         sys.exit()
 
-for asic_dac in range(3,0x10,1):
-    chn1_p = []
-    cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf = sbf, sdc = sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac, delay = 0 )   
+cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf = sbf, sdc = sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac, delay = 0 )   
+for delay in range(0,50,1):
     period = 200
-    avg_n = 50
-    for delay in range(0,50,1):
-        cq.bc.fe_pulse_param(delay=delay, period=period, width=0xa00)
-        chns = cq.get_adcdata(PktNum=(period*avg_n + 1000) )
-        poft = 0
-        chn_tmp = []
-        for i in range(0,avg_n):
-            for j in [1]:
-                if i == 0:
-                    avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])
-                else:
-                    avg_chns = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i]) 
-    
-        avg_chns = avg_chns//avg_n
-        chn1_p.append(np.where(avg_chns == np.max(avg_chns))[0][0])
-    
-    pk_dly = np.where( chn1_p == np.max(chn1_p))[0][0]
-    print ("Peak with delay = %d"%pk_dly)
-    cq.bc.fe_pulse_param(delay=pk_dly, period=period, width=0xa00)
-    
-    chns = cq.get_adcdata_raw(PktNum=(period*avg_n + 1000) )
-    
-    fn = rawdir + "Test%d"%testno + "gain_tp%s_"%tp + "sg%d_"%sg[0] + "snc%d"%snc[0] + "asicdac%02d"%asic_dac +  ".bin"
-    
+    cq.bc.fe_pulse_param(delay=delay, period=period, width=0xa00)
+    chns = cq.get_adcdata_raw(PktNum=20000 )
+
+    fn = rawdir + "Test%d"%testno + "gainloss_tp%s_"%tp + "sg%d_"%sg[0] + "snc%d"%snc[0] + "dly%02d"%delay +  ".bin"
     print (fn)
     with open(fn, 'wb') as f:
         pickle.dump(chns, f)
-
