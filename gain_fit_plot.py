@@ -18,12 +18,108 @@ import matplotlib.patches as mpatches
 import matplotlib.mlab as mlab
 
 import pickle
+from asic_dac_fit import asic_dac_fit
 
 def file_list(runpath):
     if (os.path.exists(runpath)):
         for root, dirs, files in os.walk(runpath):
             break
     return files
+
+def Asic_Cali(data_fs):
+    asic_info = []
+    for asic_dac in range(3,16,1):
+        for f in data_fs:
+            if f.find("asicdac%02d"%asic_dac) > 0:
+                fn = f_dir + f
+                break
+        with open (fn, 'rb') as fp:
+            chns = pickle.load(fp)
+    
+        poft = 0
+        for j in range(period):
+            if ((chns[0][j]&0x10000) & 0x10000) > 0:
+                poft = j
+                if poft <50:
+                    poft = 200+poft-50
+                else:
+                    poft = poft-50
+                break
+    
+        chns_info = []
+        for chnno in range(len(chns)):
+            for i in range(0,avg_n):
+                if i == 0:
+                    avg_chns = (np.array(chns[chnno][poft+200*i:poft+200+200*i])&0xffff)
+                else:
+                    avg_chns = avg_chns + (np.array(chns[chnno][poft+200*i:poft+200+200*i])&0xffff)
+            avg_chns = avg_chns//avg_n
+            chn_pkp = np.max(avg_chns)  
+            chn_pkn = np.min(avg_chns)
+            chn_ped = (avg_chns[0])  
+            chn_ploc = np.where( avg_chns == chn_pkp )[0][0]
+            chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-40:chn_ploc+60]])
+
+        asic_info.append(chns_info)
+    return asic_info
+
+def linear_fit(x, y):
+    error_fit = False 
+    try:
+        results = sm.OLS(y,sm.add_constant(x)).fit()
+    except ValueError:
+        print "Gain Error " 
+        error_fit = True 
+    if ( error_fit == False ):
+        error_gain = False 
+        try:
+            slope = results.params[1]
+        except IndexError:
+            slope = 0
+            error_gain = True
+        try:
+            constant = results.params[0]
+        except IndexError:
+            constant = 0
+    else:
+        slope = 0
+        constant = 0
+        error_gain = True
+
+    y_fit = np.array(x)*slope + constant
+    delta_y = abs(y - y_fit)
+    inl = delta_y / (max(y)-min(y))
+    peakinl = max(inl)
+    return slope, constant, peakinl, error_gain
+
+def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
+    x = []
+    yp = []
+    yn = []
+    yped = []
+    wfs  =[]
+    for t in asic_cali:
+        x.append(t[chnno][0])
+        yp.append(t[chnno][1])
+        yn.append(t[chnno][2])
+        yped.append(t[chnno][3])
+        wfs.append(t[chnno][4])
+    fc_per_v = cap / (1.602E-19 * 6250)
+    fc_daclsb = asic_dac_fit() * fc_per_v
+    xfc = np.array(x)*fc_daclsb
+    fit_results = linear_fit(xfc, yp):
+    return x,yp, yn, yped, wfs, fit_results
+
+def Chn_Plot(asic_cali_900mV, asic_cali_200mV, chnno = 0):
+    p9 = Chn_Ana(asic_cali_900mV, chnno = chnno):
+    p2 = Chn_Ana(asic_cali_200mV, chnno = chnno):
+    
+    fig = plt.figure(figsize=(12,6))
+    ax1 = fig.add_subplot(121)
+    for wf in p9[4]:
+        sps = len(wf)
+        ax1.plot(np.range(sps)*0.5, wf, marker = '.')
+    ax2 = fig.add_subplot(122)
 
 testno = 1
 tp = "10us"
@@ -42,48 +138,11 @@ for f in fs:
     elif (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find("200mV")>0) and (f.find(".bin")>0):
         data_fs_200mV.append(f)
 
-for asic_dac in range(3,16,1):
-    for data_fs in [data_fs_900mV, data_fs_200mV]:
-        for f in data_fs:
-            if f.find("asicdac%02d"%asic_dac) > 0:
-                fn = f_dir + f
-                break
-        with open (fn, 'rb') as fp:
-            chns = pickle.load(fp)
-        poft = 0
-        for j in range(period):
-            if ((chns[0][j]&0x10000) & 0x10000) > 0:
-                poft = j
-                if poft <50:
-                    poft = 200+poft-50
-                else:
-                    poft = poft-50
-                break
-            avg_chns = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
-            avg_chns_amp = []
+asic_cali_900mV = Asic_Cali(data_fs_900mV)
+asic_cali_200mV = Asic_Cali(data_fs_200mV)
 
-            for j in range(len(avg_chns)):
-                for i in range(0,avg_n):
-                    if i == 0:
-                        avg_chns[j] = (np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff)
-                    else:
-                        avg_chns[j] = avg_chns[j] + (np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff)
-            
-                avg_chns[j] = avg_chns[j]//avg_n
-                chn_pkp = np.max(avg_chns[j])  
-                chn_pkn = np.min(avg_chns[j])
-                chn_ped = (avg_chns[j][0])  
-                chn_ploc = np.where( avg_chns[j] == chn_pkp )[0][0]
-                avg_chns_amp.append([chn_pkp, chn_pkn, chn_ped, chn_ploc])
-                print (f, [chn_pkp, chn_pkn, chn_ped, chn_ploc])
-            break
-        break
-    break
-
-
-
-
-
+Chn_Plot(asic_cali_900mV, asic_cali_200mV, chnno = 0)
+#
 #fn_pre = "Test%dgainloss_tp10us_sg2_snc0dly"%(testno)
 #testno = 1
 #chn_sel = 4
