@@ -31,6 +31,9 @@ tp = "tp10us"
 sg = "sg2"
 testno_str = "Test%02d"testno
 f_dir = "D:/ColdADC/D2_gain_loss/"
+
+period = 200
+avg_n = 50
 fs = file_list(runpath_fdir)
 data_fs_900mV = []
 data_fs_200mV = []
@@ -48,11 +51,30 @@ for asic_dac in range(3,16,1):
                 break
             with open (f, 'rb') as fp:
                 chns = pickle.load(fp)
+            poft = 0
+            for j in range(period):
+                if ((chns[0][j]&0x10000) == 0x10000):
+                    poft = j
+                    if poft <50:
+                        poft = 200+poft-50
+                    else:
+                        poft = poft-50
+                    break
+            avg_chns = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+            for i in range(0,avg_n):
+                for j in range(len(avg_chns)):
+                    if i == 0:
+                        avg_chns[i] = np.array(chns[j][poft+200*i:poft+200+200*i])
+                    else:
+                        avg_chns[j] = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i]) 
+            
+
+            for j in [1]:
+                if i == 0:
+                    avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])
+ 
 
 
-
-period = 200
-avg_n = 50
 poft = 0
 chn_tmp = []
 for i in range(0,avg_n):

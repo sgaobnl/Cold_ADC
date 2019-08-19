@@ -106,7 +106,7 @@ for asic_dac in range(3,0x10,1):
                 if i == 0:
                     avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
                 else:
-                    avg_chns = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
+                    avg_chns = avg_chns + np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
     
         avg_chns = avg_chns//avg_n
         for i in range(len(avg_chns)):

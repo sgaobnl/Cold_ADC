@@ -98,7 +98,7 @@ for delay in range(0,50,1):
     cq.bc.fe_pulse_param(delay=delay, period=period, width=0xa00)
     chns = cq.get_adcdata_raw(PktNum=20000 )
 
-    fn = rawdir + "Gainloss_Test%02d_"%testno + tp + sg_str + snc_str + sbf_str + sdc_str + env + "_asicdac%02d"%asic_dac +".bin"
+    fn = rawdir + "Gainloss_Test%02d_"%testno + tp + sg_str + snc_str + sbf_str + sdc_str + env + "_delay%02d"%delay +".bin"
     print (fn)
     with open(fn, 'wb') as f:
         pickle.dump(chns, f)
