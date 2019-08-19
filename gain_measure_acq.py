@@ -93,6 +93,7 @@ for asic_dac in range(3,0x10,1):
     chn1_p = []
     cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf = sbf, sdc = sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac, delay = 0 )   
     period = 200
+
     avg_n = 50
     for delay in range(0,50,1):
         cq.bc.fe_pulse_param(delay=delay, period=period, width=0xa00)
@@ -102,12 +103,16 @@ for asic_dac in range(3,0x10,1):
         for i in range(0,avg_n):
             for j in [1]:
                 if i == 0:
-                    avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])
+                    avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
                 else:
-                    avg_chns = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i]) 
+                    avg_chns = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
     
         avg_chns = avg_chns//avg_n
-        chn1_p.append(np.where(avg_chns == np.max(avg_chns))[0][0])
+        for i in range(len(avg_chns)):
+            if (avg_chns[i] >= 0xfff0):
+                avg_chns[i] = 0
+        
+        chn1_p.append(np.max(avg_chns))
     
     pk_dly = np.where( chn1_p == np.max(chn1_p))[0][0]
     print ("Peak with delay = %d"%pk_dly)

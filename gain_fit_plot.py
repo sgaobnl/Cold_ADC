@@ -19,9 +19,68 @@ import matplotlib.mlab as mlab
 
 import pickle
 
+def file_list(runpath):
+    files_cs = []
+    if (os.path.exists(runpath)):
+        for root, dirs, files in os.walk(runpath):
+            break
+    return files
+
+testno = 0
+tp = "tp10us"
+sg = "sg2"
+testno_str = "Test%02d"testno
 f_dir = "D:/ColdADC/D2_gain_loss/"
-testno = 1
+fs = file_list(runpath_fdir)
+data_fs_900mV = []
+data_fs_200mV = []
+for f in fs:
+    if f.find(testno_str) and f.find(tp) and f.find(sg2)and f.find("snc0") and f.find(".bin"):
+        data_fs_900mV.append(f)
+    if f.find(testno_str) and f.find(tp) and f.find(sg2)and f.find("snc1") and f.find(".bin"):
+        data_fs_200mV.append(f)
+
+for asic_dac in range(3,16,1):
+    for data_fs in [data_fs_900mV, data_fs_200mV]:
+        for f in data_fs:
+            if f.find("asic_dac%02d"%asic_dac) > 0:
+                f = f_dir + f
+                break
+            with open (f, 'rb') as fp:
+                chns = pickle.load(fp)
+
+
+
+period = 200
+avg_n = 50
+poft = 0
+chn_tmp = []
+for i in range(0,avg_n):
+    for j in [1]:
+        if i == 0:
+            avg_chns = np.array(chns[j][poft+200*i:poft+200+200*i])
+        else:
+            avg_chns = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i]) 
+
+avg_chns = avg_chns//avg_n
+for i in range(len(avg_chns)):
+    if (avg_chns[i] >= 0xfff0):
+        avg_chns[i] = 0
+
+chn_ploc = np.where( avg_chns == np.max(avg_chns))[0][0]
+
+chn1_p.append(np.max(avg_chns))
+    
+    pk_dly = np.where( chn1_p == np.max(chn1_p))[0][0]
+    print ("Peak with delay = %d"%pk_dly)
+
+
+
+
+
+
 fn_pre = "Test%dgainloss_tp10us_sg2_snc0dly"%(testno)
+testno = 1
 chn_sel = 4
 fig = plt.figure(figsize=(12,6))
 ax1 = fig.add_subplot(121)
@@ -59,12 +118,12 @@ for fn_pre in ["Test1gainloss_tp10us_sg2_snc0dly",
         for i in range(0,avg_n):
             for j in range(len(avg_chns)):
                 if i == 0:
-                    avg_chns[j] = np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
+                    avg_chns[j] = np.array(chns[j][poft+200*i:poft+200+200*i])
                 else:
-                    avg_chns[j] = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i])&0xffff
+                    avg_chns[j] = avg_chns[j] + np.array(chns[j][poft+200*i:poft+200+200*i])
         for j in range(len(avg_chns)):
             avg_chns[j] = avg_chns[j]//avg_n
-            dly_avg_chns[j].append( list(avg_chns[j])    )
+            dly_avg_chns[j].append( list(avg_chns[j]&0xffff)    )
     
     for i in range(len(dly_avg_chns)):
         tmp = reversed(dly_avg_chns[i])
