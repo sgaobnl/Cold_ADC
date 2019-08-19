@@ -5,6 +5,7 @@ Created on Wed Jul 17 16:54:11 2019
 
 @author: shanshangao
 """
+from cmd_library import CMD_ACQ
 import numpy as np
 from raw_data_decoder import raw_conv
 import pickle
