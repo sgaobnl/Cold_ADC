@@ -36,13 +36,13 @@ class CMD_ACQ:
         if (init_str == '0x52'):
             print ("ADC hard reset is done, I2C link looks good!")
     
-    def ref_set(self, flg_bjt_r = True ):
+    def ref_set(self, flg_bjt_r = True, env = "RT" ):
         if (flg_bjt_r):
             self.bc.adc_ref_vol_src("BJT")
             print ("Internal BJT voltage references are used")
             self.bc.adc_bias_curr_src("BJT")
             print ("Bias currents come from BJT-based references")
-            if (self.env == "RT"):
+            if (env == "RT"):
                 vrefp_voft = 0xf0#0xe4
                 vrefn_voft = 0x08#0x24
                 vcmi_voft = 0x5c#0x60#0x50#0x60
@@ -75,7 +75,7 @@ class CMD_ACQ:
             print ("CMOS voltage references are used")
             self.bc.adc_bias_curr_src("CMOS_INTR")
             print ("Bias currents come from CMOS-basedreference with internal R")  
-            if (self.env == "RT"):
+            if (env == "RT"):
                 vrefp_voft = 0xce
                 vrefn_voft = 0x2b
                 vcmi_voft = 0x5b
@@ -283,7 +283,7 @@ class CMD_ACQ:
         woc_f = False
         while(woc_f==False):
             self.init_chk()
-            self.ref_set(flg_bjt_r = flg_bjt_r )
+            self.ref_set(flg_bjt_r = flg_bjt_r , env=env)
             time.sleep(1)
             self.all_ref_vmons( )
             self.Input_buffer_cfg(sdc = adc_sdc, db = adc_db, sha = adc_sha, curr_src = adc_curr_src)      
