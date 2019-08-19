@@ -104,22 +104,22 @@ class CMD_ACQ:
         return val
 
     def all_bjt_ref_auxs(self ):
-        vref  = cq.bjt_ref_aux(mon_src = "VREF_ext",  mux_src = "AUX_VOLTAGE")
-        vrefn = cq.bjt_ref_aux(mon_src = "VREFN",     mux_src = "AUX_VOLTAGE")
-        vrefp = cq.bjt_ref_aux(mon_src = "VREFP",     mux_src = "AUX_VOLTAGE")
-        vcmi  = cq.bjt_ref_aux(mon_src = "VCMI",      mux_src = "AUX_VOLTAGE")
-        vcmo  = cq.bjt_ref_aux(mon_src = "VCMO",      mux_src = "AUX_VOLTAGE")
-        vbgr  = cq.bjt_ref_aux(mon_src = "VBGR_1.2V", mux_src = "AUX_VOLTAGE")
-        vdac0_5k   = cq.bjt_ref_aux(mon_src = "Vdac0_5k",  mux_src = "AUX_ISOURCE")
-        vdac1_5k   = cq.bjt_ref_aux(mon_src = "Vdac1_5k",  mux_src = "AUX_ISOURCE")
-        ibuff0_5k  = cq.bjt_ref_aux(mon_src = "ibuff0_5k", mux_src = "AUX_ISOURCE")
-        ibuff1_5k  = cq.bjt_ref_aux(mon_src = "ibuff1_5k", mux_src = "AUX_ISOURCE")
-        isink_adc1_5k  = cq.bjt_ref_aux(mon_src = "Isink_adc1_5k", mux_src = "AUX_ISINK")
-        isink_adc0_5k  = cq.bjt_ref_aux(mon_src = "Isink_adc0_5k", mux_src = "AUX_ISINK")
-        isink_sha1_5k  = cq.bjt_ref_aux(mon_src = "Isink_sha1_5k", mux_src = "AUX_ISINK")
-        isink_sha0_5k  = cq.bjt_ref_aux(mon_src = "Isink_sha0_5k", mux_src = "AUX_ISINK")
-        isink_refbuf0_5k  = cq.bjt_ref_aux(mon_src = "Isink_refbuf0_5k", mux_src = "AUX_ISINK")
-        isink_refbuf1_5k  = cq.bjt_ref_aux(mon_src = "Isink_refbuf1_5k", mux_src = "AUX_ISINK")
+        vref  = self.bjt_ref_aux(mon_src = "VREF_ext",  mux_src = "AUX_VOLTAGE")
+        vrefn = self.bjt_ref_aux(mon_src = "VREFN",     mux_src = "AUX_VOLTAGE")
+        vrefp = self.bjt_ref_aux(mon_src = "VREFP",     mux_src = "AUX_VOLTAGE")
+        vcmi  = self.bjt_ref_aux(mon_src = "VCMI",      mux_src = "AUX_VOLTAGE")
+        vcmo  = self.bjt_ref_aux(mon_src = "VCMO",      mux_src = "AUX_VOLTAGE")
+        vbgr  = self.bjt_ref_aux(mon_src = "VBGR_1.2V", mux_src = "AUX_VOLTAGE")
+        vdac0_5k   = self.bjt_ref_aux(mon_src = "Vdac0_5k",  mux_src = "AUX_ISOURCE")
+        vdac1_5k   = self.bjt_ref_aux(mon_src = "Vdac1_5k",  mux_src = "AUX_ISOURCE")
+        ibuff0_5k  = self.bjt_ref_aux(mon_src = "ibuff0_5k", mux_src = "AUX_ISOURCE")
+        ibuff1_5k  = self.bjt_ref_aux(mon_src = "ibuff1_5k", mux_src = "AUX_ISOURCE")
+        isink_adc1_5k  = self.bjt_ref_aux(mon_src = "Isink_adc1_5k", mux_src = "AUX_ISINK")
+        isink_adc0_5k  = self.bjt_ref_aux(mon_src = "Isink_adc0_5k", mux_src = "AUX_ISINK")
+        isink_sha1_5k  = self.bjt_ref_aux(mon_src = "Isink_sha1_5k", mux_src = "AUX_ISINK")
+        isink_sha0_5k  = self.bjt_ref_aux(mon_src = "Isink_sha0_5k", mux_src = "AUX_ISINK")
+        isink_refbuf0_5k  = self.bjt_ref_aux(mon_src = "Isink_refbuf0_5k", mux_src = "AUX_ISINK")
+        isink_refbuf1_5k  = self.bjt_ref_aux(mon_src = "Isink_refbuf1_5k", mux_src = "AUX_ISINK")
         return (vref, vrefn, vrefp, vcmi, vcmo, vbgr, vdac0_5k, vdac1_5k, ibuff0_5k, ibuff1_5k, 
                 isink_adc1_5k, isink_adc0_5k, isink_sha1_5k, isink_sha0_5k, isink_refbuf0_5k, isink_refbuf1_5k )
 
@@ -134,12 +134,12 @@ class CMD_ACQ:
         return val
 
     def all_ref_vmons(self ):
-        vbgr  = cq.ref_vmon(vmon = "VBGR"  )
-        vcmi  = cq.ref_vmon(vmon = "VCMI"  )
-        vcmo  = cq.ref_vmon(vmon = "VCMO"  )
-        vrefp = cq.ref_vmon(vmon = "VREFP" )
-        vrefn = cq.ref_vmon(vmon = "VREFN" )
-        vssa  = cq.ref_vmon(vmon = "VSSA"  )
+        vbgr  = self.ref_vmon(vmon = "VBGR"  )
+        vcmi  = self.ref_vmon(vmon = "VCMI"  )
+        vcmo  = self.ref_vmon(vmon = "VCMO"  )
+        vrefp = self.ref_vmon(vmon = "VREFP" )
+        vrefn = self.ref_vmon(vmon = "VREFN" )
+        vssa  = self.ref_vmon(vmon = "VSSA"  )
         return (vbgr, vcmi, vcmo, vrefp, vrefn, vssa)
 
     def ref_imon(self, imon = "ICMOS_REF_5k", avg_points =5  ):
@@ -153,14 +153,14 @@ class CMD_ACQ:
         return val
 
     def all_ref_imons(self ):
-        icmos_ref_5k = cq.ref_imon(imon = "ICMOS_REF_5k" )
-        isha0_5k     = cq.ref_imon(imon = "ISHA0_5k" )
-        iadc0_5k     = cq.ref_imon(imon = "IADC0_5k" )
-        isha1_5k     = cq.ref_imon(imon = "ISHA1_5k" )
-        iadc1_5k     = cq.ref_imon(imon = "IADC1_5k" )
-        ibuff_cmos   = cq.ref_imon(imon = "IBUFF_CMOS" )
-        iref_5k      = cq.ref_imon(imon = "IREF_5k" )
-        irefbuffer0  = cq.ref_imon(imon = "IREFBUFFER0" )
+        icmos_ref_5k = self.ref_imon(imon = "ICMOS_REF_5k" )
+        isha0_5k     = self.ref_imon(imon = "ISHA0_5k" )
+        iadc0_5k     = self.ref_imon(imon = "IADC0_5k" )
+        isha1_5k     = self.ref_imon(imon = "ISHA1_5k" )
+        iadc1_5k     = self.ref_imon(imon = "IADC1_5k" )
+        ibuff_cmos   = self.ref_imon(imon = "IBUFF_CMOS" )
+        iref_5k      = self.ref_imon(imon = "IREF_5k" )
+        irefbuffer0  = self.ref_imon(imon = "IREFBUFFER0" )
         return (icmos_ref_5k, isha0_5k, iadc0_5k, isha1_5k, iadc1_5k, ibuff_cmos, iref_5k, irefbuffer0 )
 
 
