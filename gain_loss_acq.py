@@ -79,7 +79,7 @@ cq = CMD_ACQ()
 if (adc_sdc_en):
     cq.adc_cfg(adc_sdc="On", adc_db="Bypass", adc_sha="Diff", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
 else:
-    cq.adc_cfg(adc_sdc="Bypass", adc_db="Bypass", adc_sha="Single-Ended", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
+    cq.adc_cfg(adc_sdc="Bypass", adc_db="Bypass", adc_sha="Single-ended", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
 
 rawdir = "D:/ColdADC/"
 rawdir = rawdir + "D2_gainloss_acq/"
@@ -98,7 +98,7 @@ for delay in range(0,50,1):
     cq.bc.fe_pulse_param(delay=delay, period=period, width=0xa00)
     chns = cq.get_adcdata_raw(PktNum=20000 )
 
-    fn = rawdir + "Test%d"%testno + "gainloss_tp%s_"%tp + "sg%d_"%sg[0] + "snc%d"%snc[0] + "dly%02d"%delay +  ".bin"
+    fn = rawdir + "Gainloss_Test%02d_"%testno + tp + sg_str + snc_str + sbf_str + sdc_str + env + "_asicdac%02d"%asic_dac +".bin"
     print (fn)
     with open(fn, 'wb') as f:
         pickle.dump(chns, f)

@@ -115,7 +115,7 @@ for asic_dac in range(3,0x10,1):
     
     chns = cq.get_adcdata_raw(PktNum=(period*avg_n + 1000) )
     
-    fn = rawdir + "Test%d"%testno + "gain_tp%s_"%tp + "sg%d_"%sg[0] + "snc%d"%snc[0] + "asicdac%02d"%asic_dac +  ".bin"
+    fn = rawdir + "Gain_Test%02d_"%testno + tp + sg_str + snc_str + sbf_str + sdc_str + env + "_asicdac%02d"%asic_dac +".bin"
     
     print (fn)
     with open(fn, 'wb') as f:
