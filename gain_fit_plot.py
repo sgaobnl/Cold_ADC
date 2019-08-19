@@ -11,6 +11,7 @@ from sys import exit
 import os.path
 import math
 import time
+import statsmodels.api as sm
 
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -29,10 +30,12 @@ def file_list(runpath):
 def Asic_Cali(data_fs):
     asic_info = []
     for asic_dac in range(3,16,1):
+        print (asic_dac)
         for f in data_fs:
             if f.find("asicdac%02d"%asic_dac) > 0:
                 fn = f_dir + f
                 break
+        print (fn)
         with open (fn, 'rb') as fp:
             chns = pickle.load(fp)
     
@@ -68,7 +71,6 @@ def linear_fit(x, y):
     try:
         results = sm.OLS(y,sm.add_constant(x)).fit()
     except ValueError:
-        print "Gain Error " 
         error_fit = True 
     if ( error_fit == False ):
         error_gain = False 
@@ -107,12 +109,12 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
     fc_per_v = cap / (1.602E-19 * 6250)
     fc_daclsb = asic_dac_fit() * fc_per_v
     xfc = np.array(x)*fc_daclsb
-    fit_results = linear_fit(xfc, yp):
+    fit_results = linear_fit(xfc, yp)
     return x,yp, yn, yped, wfs, fit_results
 
 def Chn_Plot(asic_cali_900mV, asic_cali_200mV, chnno = 0):
-    p9 = Chn_Ana(asic_cali_900mV, chnno = chnno):
-    p2 = Chn_Ana(asic_cali_200mV, chnno = chnno):
+    p9 = Chn_Ana(asic_cali_900mV, chnno = chnno)
+    p2 = Chn_Ana(asic_cali_200mV, chnno = chnno)
     
     fig = plt.figure(figsize=(12,6))
     ax1 = fig.add_subplot(121)
