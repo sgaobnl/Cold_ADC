@@ -46,6 +46,7 @@ if (sg_str == "47mVfC" ):
     sg = 16*[0] #4.7mV/fC   
 elif (sg_str == "14mVfC"):
     sg = 16*[2] #14mV/fC 
+    print (sg_str)
 elif (sg_str == "78mVfC"):
     sg = 16*[1] #14mV/fC 
 elif (sg_str == "25mVfC"):
@@ -92,13 +93,12 @@ else:
     except OSError:
         print ("Error to create folder ")
         sys.exit()
-
-cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sdacsw=sdacsw, fpga_dac=fpga_dac )   
+cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf=sbf, sdc=sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac)   
 chns = cq.get_adcdata_raw(PktNum=2000000 )
 for i in range(len(chns)):
     print (np.mean(chns[i]), np.std(chns[i]))
 
-fn = rawdir + "Noise_Test%2d_"%testno + tp + sg_str + snc_str + sbf_str + sdc_str + env + ".bin"
+fn = rawdir + "Noise_Test%02d_"%testno + tp + sg_str + snc_str + sbf_str + sdc_str + env + ".bin"
 
 print (fn)
 with open(fn, 'wb') as f:
