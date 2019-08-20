@@ -133,8 +133,10 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13, sg="14mV"):
 def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     if (mode16bit):
         fs = 65535
+        adc_bits = "ADC16bit"
     else:
         fs = 4095
+        adc_bits = "ADC12bit"
         
     p = Chn_Ana(asic_cali, chnno = chnno, sg=fpic)  
         
@@ -182,7 +184,7 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     ax2.grid(True)
     ax3.grid(True)
     plt.tight_layout()
-    plt.savefig( fpic + "_ch%d.png"%chnno)
+    plt.savefig( fpic + adc_bits + "_ch%d.png"%chnno)
     plt.close()
 
 mode16bit = False
@@ -221,8 +223,12 @@ for testno in range(17,24):
         chn_gains.append(int(p[5][0]))
         chn_inls.append(p[5][2])
 
-    
-    csv_fn = fr_dir + testno_str + tp + sg + ".csv"
+    if (mode16bit):
+        adc_bits = "ADC16bit"
+    else:
+        adc_bits = "ADC12bit"
+    csv_fn = fr_dir + testno_str + tp + sg + adc_bits + ".csv"
+
     with open(csv_fn, "w") as cfp:
         cfp.write(",".join(str(i) for i in chn_gains) +  "," + "\n")
         cfp.write(",".join(str(i) for i in chn_inls) +  "," + "\n")

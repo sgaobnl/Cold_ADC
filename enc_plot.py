@@ -46,13 +46,18 @@ test_ps = [[17, 17, "05us", "14mVfC"],
            [53, 53, "20us", "78mVfC"],  
            [54, 54, "30us", "78mVfC"],  
            ]
+mode16bit = False
 for ty in range(len(test_ps)):
     noise_testno = test_ps[ty][0] 
     g_testno = test_ps[ty][1] 
     tp =  test_ps[ty][2]
     sg =  test_ps[ty][3]
     
-    mode16bit = False
+    if (mode16bit):
+        adc_bits = "ADC16bit"
+    else:
+        adc_bits = "ADC12bit"
+
     f_dir = "D:/ColdADC/D2_noise_acq/"
     fr_dir = f_dir + "results/"
     if (os.path.exists(fr_dir)):
@@ -85,7 +90,7 @@ for ty in range(len(test_ps)):
     g_testno_str = "Test%02d"%g_testno
     fs = file_list(runpath=fr_dir)
     for f in fs:
-        if (f.find(g_testno_str)>=0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".csv")>0):
+        if (f.find(g_testno_str)>=0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".csv")>0)and (f.find(adc_bits)>0):
             gfn = fr_dir + f
             break
     
@@ -113,7 +118,6 @@ for ty in range(len(test_ps)):
     test_ps[ty].append(np.std(rmss))
     test_ps[ty].append(np.mean(gains))
     print (test_ps[ty])
-    
     
     chns = range(16)
     fig = plt.figure(figsize=(8,6))
@@ -152,7 +156,7 @@ for ty in range(len(test_ps)):
     ax3.grid(True)
     
     plt.tight_layout()
-    plt.savefig( fr_dir + "NoiseTest%d"%test_ps[ty][0]  +"_GainTest%d"%test_ps[ty][1] + test_ps[ty][2] +test_ps[ty][3] + ".png" )
+    plt.savefig( fr_dir + "NoiseTest%d"%test_ps[ty][0]  +"_GainTest%d"%test_ps[ty][1] + test_ps[ty][2] +test_ps[ty][3] + adc_bits +  ".png" )
     plt.close()
 
 
