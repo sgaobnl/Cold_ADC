@@ -34,7 +34,6 @@ def Asic_Cali(data_fs):
             if f.find("asicdac%02d"%asic_dac) > 0:
                 fn = f_dir + f
                 break
-        print (fn)
         with open (fn, 'rb') as fp:
             chns = pickle.load(fp)
     
@@ -108,10 +107,12 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
     enc_per_v = cap / (1.602E-19)
     enc_daclsb = asic_dac_fit() * enc_per_v
     encs = np.array(dacs)*enc_daclsb
-    print (encs/6250)
     pos = np.where(encs >= 6250*40)[0][0]
     fit_results = linear_fit(ps[:pos], encs[:pos] )
-    print (fit_results)
+    oft = int(0-(fit_results[1]/slope))
+    ps = np.array(ps) - oft
+    ns = np.array(ns) - oft
+
     return encs, ps, ns, peds, wfs, fit_results
 
 def Chn_Plot(asic_cali, chnno = 0):
