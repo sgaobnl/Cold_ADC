@@ -134,6 +134,8 @@ def Chn_Plot(asic_cali, chnno = 0):
     x = np.linspace(p[3][0], p[1][10])
     y = (x-p[3][0])*p[5][0]
     ax3.plot( x, y/6250)
+    
+    ax1.set_ylim((0,65535))
 
 #    ax2 = fig.add_subplot(122)
 
