@@ -118,7 +118,7 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
 
     return encs, ps, ns, peds, wfs, fit_results
 
-def Chn_Plot(asic_cali, chnno = 0, mode16bit=True):
+def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     if (mode16bit):
         fs = 65535
     else:
@@ -169,7 +169,7 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True):
     ax2.grid(True)
     ax3.grid(True)
     plt.tight_layout()
-    plt.savefig("d:/ColdADC/pic_gain/gain_meas_ch%d.png"%chnno)
+    plt.savefig(fpic + "_ch%d.png"%chnno)
     plt.close()
 
 testno = 1
@@ -188,8 +188,10 @@ for f in fs:
 
 asic_cali = Asic_Cali(data_fs, mode16bit = False)
 
+fpic = f_dir + f[:f.find("asicdac")]
 for i in range(16):
-    Chn_Plot(asic_cali, chnno = i, mode16bit = False)
+    Chn_Plot(asic_cali, chnno = i, mode16bit = False, fpic=)
+
 #plt.tight_layout()
 #
 #fn_pre = "Test%dgainloss_tp10us_sg2_snc0dly"%(testno)
