@@ -174,8 +174,8 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
 
 mode16bit = False
 
-for testno in range(1,9):
-    tp = "10us"
+for testno in range(17,18):
+    tp = "05us"
     sg = "14mVfC"
     testno_str = "Test%02d"%testno
     f_dir = "D:/ColdADC/D2_gainmeas_acq/"

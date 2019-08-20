@@ -38,23 +38,24 @@
 ::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable 15 RT BJT SDC
 ::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable 16 RT BJT SDC
 
-python noise_acq.py        05us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  17 RT BJT NoSDC
-python gain_measure_acq.py 05us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 17 RT BJT NoSDC
-python noise_acq.py        10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  18 RT BJT NoSDC
-python gain_measure_acq.py 10us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 18 RT BJT NoSDC
-python noise_acq.py        20us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  19 RT BJT NoSDC
-python gain_measure_acq.py 20us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 19 RT BJT NoSDC
-python noise_acq.py        30us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  20 RT BJT NoSDC
-python gain_measure_acq.py 30us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 20 RT BJT NoSDC
+::python noise_acq.py        05us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  17 RT BJT NoSDC
+::python gain_measure_acq.py 05us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 17 RT BJT NoSDC
+::python noise_acq.py        10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  18 RT BJT NoSDC
+::python gain_measure_acq.py 10us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 18 RT BJT NoSDC
+::python noise_acq.py        20us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  19 RT BJT NoSDC
+::python gain_measure_acq.py 20us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 19 RT BJT NoSDC
+::python noise_acq.py        30us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  20 RT BJT NoSDC
+::python gain_measure_acq.py 30us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 20 RT BJT NoSDC
+::
+python noise_acq.py        05us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  21 RT BJT SDC
+python gain_measure_acq.py 05us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 21 RT BJT SDC
+python noise_acq.py        10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  22 RT BJT SDC
+python gain_measure_acq.py 10us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 22 RT BJT SDC
+python noise_acq.py        20us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  23 RT BJT SDC
+python gain_measure_acq.py 20us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 23 RT BJT SDC
+python noise_acq.py        30us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  24 RT BJT SDC
+python gain_measure_acq.py 30us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 24 RT BJT SDC
 
-python noise_acq.py        05us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  21 RT BJT NoSDC
-python gain_measure_acq.py 05us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 21 RT BJT NoSDC
-python noise_acq.py        10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  22 RT BJT NoSDC
-python gain_measure_acq.py 10us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 22 RT BJT NoSDC
-python noise_acq.py        20us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  23 RT BJT NoSDC
-python gain_measure_acq.py 20us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 23 RT BJT NoSDC
-python noise_acq.py        30us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  24 RT BJT NoSDC
-python gain_measure_acq.py 30us 14mVfC PLS_EN  900mV BUF_OFF DC Internal 24 RT BJT NoSDC
 
 
 ::python gain_measure_acq.py 10us 14mVfC PLS_EN 900mV BUF_OFF DC Internal  1 RT BJT NoSDC

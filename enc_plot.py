@@ -44,7 +44,7 @@ else:
         print ("Error to create folder ")
         exit()
 
-noise_testno_str = "Test%02d"%nosie_testno
+noise_testno_str = "Test%02d"%noise_testno
 fs = file_list(runpath=f_dir)
 for f in fs:
     if (f.find(noise_testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0):
@@ -56,16 +56,18 @@ with open (fn, 'rb') as fp:
 
 rmss = []
 for chnno in range(16):
-    rmss.append(np.std(np.array(chns[chnno][0:10000])&0xffff))
-
+    if (mode16bit):
+        rmss.append(np.std(np.array(chns[chnno][0:10000])&0xffff))
+    else:
+        rmss.append( np.std( (np.array( chns[chnno][0:10000] )&0xffff)//16))
 
 f_dir = "D:/ColdADC/D2_gainmeas_acq/"
 fr_dir = f_dir + "results/"
-g_testno_str = "Test%02d"%nosie_testno
+g_testno_str = "Test%02d"%g_testno
 fs = file_list(runpath=fr_dir)
 for f in fs:
-    if (f.find(g_testno_str)>=0) (f.find(".csv")>0):
-        gfn = f_dir + f
+    if (f.find(g_testno_str)>=0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".csv")>0):
+        gfn = fr_dir + f
         break
 
 ccs = []
@@ -77,12 +79,16 @@ with open(gfn, 'r') as fp:
             x.append(i.replace(" ", ""))
         x = x[:-1]
         ccs.append(x)
- 
-gains = ccs[0] 
+        
+gains = []        
+for i in range(len(ccs[0])):
+    gains.append(int(ccs[0][i]) )
+
 
 encs = np.array(rmss)*np.array(gains)
+print (encs)
 
-enc_mean = int(encs/len(encs))
+enc_mean =int (np.std(encs))
 chns = range(16)
 
 fig = plt.figure(figsize=(8,6))
@@ -94,4 +100,34 @@ ax1.plot(chns, rmss, marker = '.')
 ax2.plot(chns, gains, marker = '.')
 ax3.plot(chns, encs, marker = '.', label = "Mean = %d"%enc_mean)
 
+    ax3.legend()
+
+    ax1.set_title("Waveforms Overlap of CH%d"%chnno)
+    ax2.set_title("Waveforms Overlap of CH%d"%chnno)
+    ax3.set_title("Linear Fit of CH%d"%chnno)
+
+    ax1.set_xlabel("Time / $\mu$s")
+    ax2.set_xlabel("Time / $\mu$s")
+    ax3.set_xlabel("ADC counts / bin")
+
+    ax1.set_ylabel("ADC counts / bin")
+    ax2.set_ylabel("ADC counts / bin")
+    ax3.set_ylabel("Charge / fC")
+    
+
+    ax1.set_xlim((0,10))
+    ax2.set_xlim((0,10))
+    ax3.set_xlim((0,fs))
+   
+    ax1.set_ylim((0,fs))
+    ax2.set_ylim((0,fs))
+    ax3.set_ylim((-100,100))
+
+    ax1.grid(True)
+    ax2.grid(True)
+    ax3.grid(True)
+
+plt.tight_layout()
+#plt.savefig( fpic + "_ch%d.png"%chnno)
+#plt.close()
 
