@@ -120,11 +120,14 @@ def Chn_Plot(asic_cali, chnno = 0):
     
     fig = plt.figure(figsize=(12,4))
     ax1 = fig.add_subplot(131)
+    ax2 = fig.add_subplot(132)
     ax3 = fig.add_subplot(133)
-    max_pos = np.where(wf == np.max(wf))[0][0]
+    sps = 20
     for wf in p[4]:
-        sps = 20
-        ax1.plot(np.arange(sps)*0.5, wf[np.max(wf)])
+        max_pos = np.where(wf == np.max(wf))[0][0]
+        ax1.plot(np.arange(sps)*0.5, wf[max_pos-10: max_pos+10])
+        min_pos = np.where(wf == np.min(wf))[0][0]
+        ax2.plot(np.arange(sps)*0.5, wf[min_pos-10: min_pos+10])
     ax3.scatter(np.array(p[1]), np.array(p[0])/6250, marker = 'o')
     ax3.scatter(np.array(p[2]), np.array(p[0])/6250, marker = '*')
     ax3.scatter ([p[3][0]], [0], marker = "s")
