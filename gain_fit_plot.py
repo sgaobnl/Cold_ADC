@@ -141,7 +141,7 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     ax3.scatter ([p[3][0]], [0], marker = "s")
     x = np.linspace(0, fs)
     y = (x-p[3][0])*p[5][0]
-    ax3.plot( x, y/6250, color ='m', label= "Gain = %d (e-/LSB)\n INL = %.2f%%"%(p[5][0], p[5][2]*100)
+    ax3.plot( x, y/6250, color ='m', label= "Gain = %d (e-/LSB)\n INL = %.2f%%"%(p[5][0], p[5][2]*100))
     ax3.legend()
 
     ax1.set_title("Waveforms Overlap of CH%d"%chnno)
@@ -173,43 +173,45 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     plt.close()
 
 testno = 3
-tp = "10us"
-sg = "14mVfC"
-testno_str = "Test%02d"%testno
-f_dir = "D:/ColdADC/D2_gainmeas_acq/"
-fr_dir = f_dir + "results/"
-if (os.path.exists(fr_dir)):
-    pass
-else:
-    try:
-        os.makedirs(fr_dir)
-    except OSError:
-        print ("Error to create folder ")
-        sys.exit()
 
-period = 200
-avg_n = 50
-fs = file_list(runpath=f_dir)
-data_fs = []
-for f in fs:
-    if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0):
-        data_fs.append(f)
-
-asic_cali = Asic_Cali(data_fs, mode16bit = False)
-
-fpic = f_dir + f[:f.find("asicdac")]
-chn_gains = []
-chn_inls = []
-for i in range(16):
-    Chn_Plot(asic_cali, chnno = i, mode16bit = False, fpic=(fr_dir + testno_str) )
-    p = Chn_Ana(asic_cali, chnno = i)
-    chn_gains.append(int(p[5][0]))
-    chn_inls.append(p[5][2])
-
-csv_fn = fr_dir + testno_str + ".csv"
-with open(csv_fn, "w") as cfp:
-    cfp.write(",".join(str(i) for i in chn_gains) +  "," + "\n")
-    cfp.write(",".join(str(i) for i in chn_inls) +  "," + "\n")
-
-print chn_gains
+for testno in range(1,2):
+    tp = "10us"
+    sg = "14mVfC"
+    testno_str = "Test%02d"%testno
+    f_dir = "D:/ColdADC/D2_gainmeas_acq/"
+    fr_dir = f_dir + "results/"
+    if (os.path.exists(fr_dir)):
+        pass
+    else:
+        try:
+            os.makedirs(fr_dir)
+        except OSError:
+            print ("Error to create folder ")
+            exit()
+    
+    period = 200
+    avg_n = 50
+    fs = file_list(runpath=f_dir)
+    data_fs = []
+    for f in fs:
+        if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0):
+            data_fs.append(f)
+    
+    asic_cali = Asic_Cali(data_fs, mode16bit = True)
+    
+    fpic = f_dir + f[:f.find("asicdac")]
+    chn_gains = []
+    chn_inls = []
+    for i in range(16):
+        Chn_Plot(asic_cali, chnno = i, mode16bit = True, fpic=(fr_dir + testno_str + tp + sg) )
+        p = Chn_Ana(asic_cali, chnno = i)
+        chn_gains.append(int(p[5][0]))
+        chn_inls.append(p[5][2])
+    
+    csv_fn = fr_dir + testno_str + tp + sg + ".csv"
+    with open(csv_fn, "w") as cfp:
+        cfp.write(",".join(str(i) for i in chn_gains) +  "," + "\n")
+        cfp.write(",".join(str(i) for i in chn_inls) +  "," + "\n")
+    
+    print (chn_gains)
 
