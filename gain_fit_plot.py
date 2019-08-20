@@ -172,9 +172,9 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     plt.savefig( fpic + "_ch%d.png"%chnno)
     plt.close()
 
-testno = 3
+mode16bit = False
 
-for testno in range(1,2):
+for testno in range(1,9):
     tp = "10us"
     sg = "14mVfC"
     testno_str = "Test%02d"%testno
@@ -197,13 +197,13 @@ for testno in range(1,2):
         if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0):
             data_fs.append(f)
     
-    asic_cali = Asic_Cali(data_fs, mode16bit = True)
+    asic_cali = Asic_Cali(data_fs, mode16bit = mode16bit )
     
     fpic = f_dir + f[:f.find("asicdac")]
     chn_gains = []
     chn_inls = []
     for i in range(16):
-        Chn_Plot(asic_cali, chnno = i, mode16bit = True, fpic=(fr_dir + testno_str + tp + sg) )
+        Chn_Plot(asic_cali, chnno = i, mode16bit = mode16bit , fpic=(fr_dir + testno_str + tp + sg) )
         p = Chn_Ana(asic_cali, chnno = i)
         chn_gains.append(int(p[5][0]))
         chn_inls.append(p[5][2])
