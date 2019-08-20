@@ -15,6 +15,7 @@ import pickle
 import os
 import sys
 
+cq = CMD_ACQ()
 tp = sys.argv[1]
 sg_str = sys.argv[2]
 pls_str =  sys.argv[3]
