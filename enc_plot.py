@@ -100,32 +100,31 @@ ax1.plot(chns, rmss, marker = '.')
 ax2.plot(chns, gains, marker = '.')
 ax3.plot(chns, encs, marker = '.', label = "Mean = %d"%enc_mean)
 
-    ax3.legend()
+ax3.legend()
 
-    ax1.set_title("Waveforms Overlap of CH%d"%chnno)
-    ax2.set_title("Waveforms Overlap of CH%d"%chnno)
-    ax3.set_title("Linear Fit of CH%d"%chnno)
+ax1.set_title("RMS Noise ")
+ax2.set_title("Gain (e-/LSB)")
+ax3.set_title("ENC (e-)")
 
-    ax1.set_xlabel("Time / $\mu$s")
-    ax2.set_xlabel("Time / $\mu$s")
-    ax3.set_xlabel("ADC counts / bin")
+ax1.set_xlabel("Channel No")
+ax2.set_xlabel("Channel No")
+ax3.set_xlabel("Channel No")
 
-    ax1.set_ylabel("ADC counts / bin")
-    ax2.set_ylabel("ADC counts / bin")
-    ax3.set_ylabel("Charge / fC")
-    
+ax1.set_ylabel("RMS (LSB) ")
+ax2.set_ylabel("Gain (e-/LSB)")
+ax3.set_ylabel("ENC (e-)")
 
-    ax1.set_xlim((0,10))
-    ax2.set_xlim((0,10))
-    ax3.set_xlim((0,fs))
-   
-    ax1.set_ylim((0,fs))
-    ax2.set_ylim((0,fs))
-    ax3.set_ylim((-100,100))
+ax1.set_xlim((0,16))
+ax2.set_xlim((0,16))
+ax3.set_xlim((0,16))
 
-    ax1.grid(True)
-    ax2.grid(True)
-    ax3.grid(True)
+ax1.set_ylim((0,10))
+ax2.set_ylim((0,1000))
+ax3.set_ylim((0,1000))
+
+ax1.grid(True)
+ax2.grid(True)
+ax3.grid(True)
 
 plt.tight_layout()
 #plt.savefig( fpic + "_ch%d.png"%chnno)
