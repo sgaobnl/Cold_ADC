@@ -27,7 +27,7 @@ def file_list(runpath):
             break
     return files
 
-def Asic_Cali(data_fs):
+def Asic_Cali(data_fs, mode16bit = True):
     asic_info = []
     for asic_dac in range(3,16,1):
         for f in data_fs:
@@ -59,8 +59,11 @@ def Asic_Cali(data_fs):
             chn_pkn = np.min(avg_chns)
             chn_ped = (avg_chns[0])  
             chn_ploc = np.where( avg_chns == chn_pkp )[0][0]
-            chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-20:chn_ploc+80]])
-
+            if (mode16bit):
+                chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-20:chn_ploc+80]])
+            else:
+                chns_info.append([asic_dac, chn_pkp//16, chn_pkn//16, chn_ped//16, avg_chns[chn_ploc-20:chn_ploc+80]//16])
+                
         asic_info.append(chns_info)
     return asic_info
 
@@ -115,10 +118,15 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
 
     return encs, ps, ns, peds, wfs, fit_results
 
-def Chn_Plot(asic_cali, chnno = 0):
+def Chn_Plot(asic_cali, chnno = 0, mode16bit=True):
+    if (mode16bit):
+        fs = 65535
+    else:
+        fs = 4095
     p = Chn_Ana(asic_cali, chnno = chnno)
     
     fig = plt.figure(figsize=(12,4))
+    #plt.title("Gain Measurment of Channel %d"%chnno)
     ax1 = fig.add_subplot(131)
     ax2 = fig.add_subplot(132)
     ax3 = fig.add_subplot(133)
@@ -131,14 +139,14 @@ def Chn_Plot(asic_cali, chnno = 0):
     ax3.scatter(np.array(p[1]), np.array(p[0])/6250, marker = 'o')
     ax3.scatter(np.array(p[2]), -np.array(p[0])/6250, marker = '*')
     ax3.scatter ([p[3][0]], [0], marker = "s")
-    x = np.linspace(0, 65535)
+    x = np.linspace(0, fs)
     y = (x-p[3][0])*p[5][0]
     ax3.plot( x, y/6250, color ='m', label= "%d (e-/LSB)"%p[5][0])
     ax3.legend()
 
-    ax1.set_title("Waveforms Overlap")
-    ax2.set_title("Waveforms Overlap")
-    ax3.set_title("Linear Fit")
+    ax1.set_title("Waveforms Overlap of CH%d"%chnno)
+    ax2.set_title("Waveforms Overlap of CH%d"%chnno)
+    ax3.set_title("Linear Fit of CH%d"%chnno)
 
     ax1.set_xlabel("Time / $\mu$s")
     ax2.set_xlabel("Time / $\mu$s")
@@ -147,19 +155,22 @@ def Chn_Plot(asic_cali, chnno = 0):
     ax1.set_ylabel("ADC counts / bin")
     ax2.set_ylabel("ADC counts / bin")
     ax3.set_ylabel("Charge / fC")
+    
 
     ax1.set_xlim((0,10))
     ax2.set_xlim((0,10))
-    ax3.set_xlim((0,65535))
+    ax3.set_xlim((0,fs))
    
-    ax1.set_ylim((0,65535))
-    ax2.set_ylim((0,65535))
+    ax1.set_ylim((0,fs))
+    ax2.set_ylim((0,fs))
     ax3.set_ylim((-100,100))
 
     ax1.grid(True)
     ax2.grid(True)
     ax3.grid(True)
     plt.tight_layout()
+    plt.savefig("d:/ColdADC/pic_gain/gain_meas_ch%d.png"%chnno)
+    plt.close()
 
 testno = 1
 tp = "10us"
@@ -175,9 +186,10 @@ for f in fs:
     if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0):
         data_fs.append(f)
 
-asic_cali = Asic_Cali(data_fs)
+asic_cali = Asic_Cali(data_fs, mode16bit = False)
 
-Chn_Plot(asic_cali, chnno = 0)
+for i in range(16):
+    Chn_Plot(asic_cali, chnno = i, mode16bit = False)
 #plt.tight_layout()
 #
 #fn_pre = "Test%dgainloss_tp10us_sg2_snc0dly"%(testno)
