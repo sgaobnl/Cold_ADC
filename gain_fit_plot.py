@@ -135,7 +135,7 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
         max_pos = np.where(wf == np.max(wf))[0][0]
         ax1.plot(np.arange(sps)*0.5, wf[max_pos-10: max_pos+10])
         min_pos = np.where(wf == np.min(wf))[0][0]
-        ax2.plot(np.arange(sps)*0.5, wf[min_pos-10: min_pos+10])
+        ax2.plot(np.arange(sps)*0.5, wf[max_pos+40: max_pos+60])
     ax3.scatter(np.array(p[1]), np.array(p[0])/6250, marker = 'o')
     ax3.scatter(np.array(p[2]), -np.array(p[0])/6250, marker = '*')
     ax3.scatter ([p[3][0]], [0], marker = "s")
@@ -169,10 +169,10 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     ax2.grid(True)
     ax3.grid(True)
     plt.tight_layout()
-    plt.savefig(fpic + "_ch%d.png"%chnno)
+    plt.savefig("D:/ColdADC/pic_gain/" + fpic + "_ch%d.png"%chnno)
     plt.close()
 
-testno = 1
+testno = 3
 tp = "10us"
 sg = "14mVfC"
 testno_str = "Test%02d"%testno
@@ -190,7 +190,7 @@ asic_cali = Asic_Cali(data_fs, mode16bit = False)
 
 fpic = f_dir + f[:f.find("asicdac")]
 for i in range(16):
-    Chn_Plot(asic_cali, chnno = i, mode16bit = False, fpic=)
+    Chn_Plot(asic_cali, chnno = i, mode16bit = False, fpic=testno_str)
 
 #plt.tight_layout()
 #
