@@ -133,12 +133,8 @@ def Chn_Plot(asic_cali, chnno = 0):
     ax3.scatter ([p[3][0]], [0], marker = "s")
     x = np.linspace(0, 65535)
     y = (x-p[3][0])*p[5][0]
-<<<<<<< HEAD
-    ax3.plot( x, y/6250, label= "%d (e-/LSB)"%p[5][0])
+    ax3.plot( x, y/6250, color ='m', label= "%d (e-/LSB)"%p[5][0])
     ax3.legend()
-=======
-    ax3.plot( x, y/6250, color ='m')
->>>>>>> 4537230475806473a2f316ed2429357682ff70d1
 
     ax1.set_title("Waveforms Overlap")
     ax2.set_title("Waveforms Overlap")
