@@ -131,12 +131,12 @@ def Chn_Plot(asic_cali, chnno = 0):
     ax3.scatter(np.array(p[1]), np.array(p[0])/6250, marker = 'o')
     ax3.scatter(np.array(p[2]), -np.array(p[0])/6250, marker = '*')
     ax3.scatter ([p[3][0]], [0], marker = "s")
-    x = np.linspace(p[3][0], p[1][10])
+    x = np.linspace(0, 65535)
     y = (x-p[3][0])*p[5][0]
-    ax3.plot( x, y/6250)
+    ax3.plot( x, y/6250, color ='m')
 
-    ax1.set_title("Waveform with Positive Charge Pulse")
-    ax2.set_title("Waveform with Negative Charge Pulse")
+    ax1.set_title("Waveforms Overlap")
+    ax2.set_title("Waveforms Overlap")
     ax3.set_title("Linear Fit")
 
     ax1.set_xlabel("Time / $\mu$s")
@@ -158,6 +158,7 @@ def Chn_Plot(asic_cali, chnno = 0):
     ax1.grid(True)
     ax2.grid(True)
     ax3.grid(True)
+    plt.tight_layout()
 
 testno = 1
 tp = "10us"
@@ -176,6 +177,7 @@ for f in fs:
 asic_cali = Asic_Cali(data_fs)
 
 Chn_Plot(asic_cali, chnno = 0)
+#plt.tight_layout()
 #
 #fn_pre = "Test%dgainloss_tp10us_sg2_snc0dly"%(testno)
 #testno = 1
