@@ -46,11 +46,11 @@ test_ps = [[17, 17, "05us", "14mVfC"],
            [53, 53, "20us", "78mVfC"],  
            [54, 54, "30us", "78mVfC"],  
            ]
-for x in range(len(test_ps)):
-    noise_testno = test_ps[x][0] 
-    g_testno = test_ps[x][1] 
-    tp =  test_ps[x][2]
-    sg =  test_ps[x][3]
+for ty in range(len(test_ps)):
+    noise_testno = test_ps[ty][0] 
+    g_testno = test_ps[ty][1] 
+    tp =  test_ps[ty][2]
+    sg =  test_ps[ty][3]
     
     mode16bit = False
     f_dir = "D:/ColdADC/D2_noise_acq/"
@@ -107,12 +107,12 @@ for x in range(len(test_ps)):
     encs = np.array(rmss)*np.array(gains)
     enc_mean =int (np.mean(encs))
     enc_std =int (np.std(encs))
-    test_ps[x].append(enc_mean)
-    test_ps[x].append(enc_std)
-    test_ps[x].append(np.mean(rmss))
-    test_ps[x].append(np.std(rmss))
-    test_ps[x].append(np.mean(gains))
-    print (test_ps[x])
+    test_ps[ty].append(enc_mean)
+    test_ps[ty].append(enc_std)
+    test_ps[ty].append(np.mean(rmss))
+    test_ps[ty].append(np.std(rmss))
+    test_ps[ty].append(np.mean(gains))
+    print (test_ps[ty])
     
     
     chns = range(16)
@@ -139,9 +139,9 @@ for x in range(len(test_ps)):
     ax2.set_ylabel("Gain (e-/LSB)")
     ax3.set_ylabel("ENC (e-)")
     
-    ax1.set_xlim((0,16))
-    ax2.set_xlim((0,16))
-    ax3.set_xlim((0,16))
+    ax1.set_xlim((-2,18))
+    ax2.set_xlim((-2,18))
+    ax3.set_xlim((-2,18))
     
     ax1.set_ylim((0,10))
     ax2.set_ylim((0,1000))
@@ -152,7 +152,7 @@ for x in range(len(test_ps)):
     ax3.grid(True)
     
     plt.tight_layout()
-    plt.savefig( fpic + "_ch%d.png"%chnno)
+    plt.savefig( fr_dir + "NoiseTest%d"%test_ps[ty][0]  +"_GainTest%d"%test_ps[ty][1] + test_ps[ty][2] +test_ps[ty][3] + ".png" )
     plt.close()
 
 
