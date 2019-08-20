@@ -29,42 +29,43 @@ def file_list(runpath):
 
 def Asic_Cali(data_fs, mode16bit = True):
     asic_info = []
-    for asic_dac in range(3,16,1):
+    for asic_dac in range(3,63,1):
         for f in data_fs:
             if f.find("asicdac%02d"%asic_dac) > 0:
                 fn = f_dir + f
-                break
-        with open (fn, 'rb') as fp:
-            chns = pickle.load(fp)
-    
-        poft = 0
-        for j in range(period):
-            if ((chns[0][j]&0x10000) & 0x10000) > 0:
-                poft = j
-                if poft <50:
-                    poft = 200+poft-50
-                else:
-                    poft = poft-50
-                break
-    
-        chns_info = []
-        for chnno in range(len(chns)):
-            for i in range(0,avg_n):
-                if i == 0:
-                    avg_chns = (np.array(chns[chnno][poft+200*i:poft+200+200*i])&0xffff)
-                else:
-                    avg_chns = avg_chns + (np.array(chns[chnno][poft+200*i:poft+200+200*i])&0xffff)
-            avg_chns = avg_chns//avg_n
-            chn_pkp = np.max(avg_chns)  
-            chn_pkn = np.min(avg_chns)
-            chn_ped = (avg_chns[0])  
-            chn_ploc = np.where( avg_chns == chn_pkp )[0][0]
-            if (mode16bit):
-                chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-20:chn_ploc+80]])
+                with open (fn, 'rb') as fp:
+                    chns = pickle.load(fp)
+            
+                poft = 0
+                for j in range(period):
+                    if ((chns[0][j]&0x10000) & 0x10000) > 0:
+                        poft = j
+                        if poft <50:
+                            poft = 200+poft-50
+                        else:
+                            poft = poft-50
+                        break
+            
+                chns_info = []
+                for chnno in range(len(chns)):
+                    for i in range(0,avg_n):
+                        if i == 0:
+                            avg_chns = (np.array(chns[chnno][poft+200*i:poft+200+200*i])&0xffff)
+                        else:
+                            avg_chns = avg_chns + (np.array(chns[chnno][poft+200*i:poft+200+200*i])&0xffff)
+                    avg_chns = avg_chns//avg_n
+                    chn_pkp = np.max(avg_chns)  
+                    chn_pkn = np.min(avg_chns)
+                    chn_ped = (avg_chns[0])  
+                    chn_ploc = np.where( avg_chns == chn_pkp )[0][0]
+                    if (mode16bit):
+                        chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-20:chn_ploc+80]])
+                    else:
+                        chns_info.append([asic_dac, chn_pkp//16, chn_pkn//16, chn_ped//16, avg_chns[chn_ploc-20:chn_ploc+80]//16])
+                        
+                asic_info.append(chns_info)
             else:
-                chns_info.append([asic_dac, chn_pkp//16, chn_pkn//16, chn_ped//16, avg_chns[chn_ploc-20:chn_ploc+80]//16])
-                
-        asic_info.append(chns_info)
+                pass
     return asic_info
 
 def linear_fit(x, y):
@@ -95,7 +96,18 @@ def linear_fit(x, y):
     peakinl = max(inl)
     return slope, constant, peakinl, error_gain
 
-def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
+def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13, sg="14mV"):
+    if ("47mV") in sg:
+        fcs = 40
+    elif ("78mV") in fpic:
+        fcs = 40 
+    elif ("14mV") in fpic:
+        fcs = 40
+    elif ("25mV") in fpic:
+        fcs = 25
+    else:
+        fcs = 35
+        
     dacs = []
     ps = []
     ns = []
@@ -110,12 +122,12 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
     enc_per_v = cap / (1.602E-19)
     enc_daclsb = asic_dac_fit() * enc_per_v
     encs = np.array(dacs)*enc_daclsb
-    pos = np.where(encs >= 6250*40)[0][0]
+    pos = np.where(encs >= 6250*fcs)[0][0]
     fit_results = linear_fit(ps[:pos], encs[:pos] )
-    oft = int(0-(fit_results[1]/fit_results[0]))
-    ps = np.array(ps) - oft + peds[0]
-    ns = np.array(ns) + oft - peds[0]
+    oft = fit_results[0]*peds[0] + fit_results[1]
+    encs = np.array(encs) - oft
 
+    
     return encs, ps, ns, peds, wfs, fit_results
 
 def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
@@ -123,8 +135,9 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
         fs = 65535
     else:
         fs = 4095
-    p = Chn_Ana(asic_cali, chnno = chnno)
-    
+        
+    p = Chn_Ana(asic_cali, chnno = chnno, sg=fpic)  
+        
     fig = plt.figure(figsize=(12,4))
     #plt.title("Gain Measurment of Channel %d"%chnno)
     ax1 = fig.add_subplot(131)
@@ -174,9 +187,7 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
 
 mode16bit = False
 
-for testno in range(17,18):
-    tp = "05us"
-    sg = "14mVfC"
+for testno in range(17,24):
     testno_str = "Test%02d"%testno
     f_dir = "D:/ColdADC/D2_gainmeas_acq/"
     fr_dir = f_dir + "results/"
@@ -194,7 +205,9 @@ for testno in range(17,18):
     fs = file_list(runpath=f_dir)
     data_fs = []
     for f in fs:
-        if (f.find(testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0):
+        if (f.find(testno_str)>=0) and (f.find(".bin")>0):
+            tp = f[f.find("us")-2 : f.find("us")+2]
+            sg = f[f.find("mVfC")-2 : f.find("mVfC")+4]
             data_fs.append(f)
     
     asic_cali = Asic_Cali(data_fs, mode16bit = mode16bit )
@@ -204,9 +217,10 @@ for testno in range(17,18):
     chn_inls = []
     for i in range(16):
         Chn_Plot(asic_cali, chnno = i, mode16bit = mode16bit , fpic=(fr_dir + testno_str + tp + sg) )
-        p = Chn_Ana(asic_cali, chnno = i)
+        p = Chn_Ana(asic_cali, chnno = i, sg=sg)
         chn_gains.append(int(p[5][0]))
         chn_inls.append(p[5][2])
+
     
     csv_fn = fr_dir + testno_str + tp + sg + ".csv"
     with open(csv_fn, "w") as cfp:
@@ -214,4 +228,5 @@ for testno in range(17,18):
         cfp.write(",".join(str(i) for i in chn_inls) +  "," + "\n")
     
     print (chn_gains)
+
 
