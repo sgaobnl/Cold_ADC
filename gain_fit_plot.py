@@ -30,7 +30,6 @@ def file_list(runpath):
 def Asic_Cali(data_fs):
     asic_info = []
     for asic_dac in range(3,16,1):
-        print (asic_dac)
         for f in data_fs:
             if f.find("asicdac%02d"%asic_dac) > 0:
                 fn = f_dir + f
@@ -61,7 +60,7 @@ def Asic_Cali(data_fs):
             chn_pkn = np.min(avg_chns)
             chn_ped = (avg_chns[0])  
             chn_ploc = np.where( avg_chns == chn_pkp )[0][0]
-            chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-40:chn_ploc+60]])
+            chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-10:chn_ploc+20]])
 
         asic_info.append(chns_info)
     return asic_info
@@ -95,32 +94,43 @@ def linear_fit(x, y):
     return slope, constant, peakinl, error_gain
 
 def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
-    x = []
-    yp = []
-    yn = []
-    yped = []
+    dacs = []
+    ps = []
+    ns = []
+    peds = []
     wfs  =[]
     for t in asic_cali:
-        x.append(t[chnno][0])
-        yp.append(t[chnno][1])
-        yn.append(t[chnno][2])
-        yped.append(t[chnno][3])
+        dacs.append(t[chnno][0])
+        ps.append(t[chnno][1])
+        ns.append(t[chnno][2])
+        peds.append(t[chnno][3])
         wfs.append(t[chnno][4])
-    fc_per_v = cap / (1.602E-19 * 6250)
-    fc_daclsb = asic_dac_fit() * fc_per_v
-    xfc = np.array(x)*fc_daclsb
-    fit_results = linear_fit(xfc, yp)
-    return x,yp, yn, yped, wfs, fit_results
+    enc_per_v = cap / (1.602E-19)
+    enc_daclsb = asic_dac_fit() * enc_per_v
+    encs = np.array(dacs)*enc_daclsb
+    print (encs/6250)
+    pos = np.where(encs >= 6250*40)[0][0]
+    fit_results = linear_fit(ps[:pos], encs[:pos] )
+    print (fit_results)
+    return encs, ps, ns, peds, wfs, fit_results
 
 def Chn_Plot(asic_cali, chnno = 0):
     p = Chn_Ana(asic_cali, chnno = chnno)
     
     fig = plt.figure(figsize=(12,6))
     ax1 = fig.add_subplot(121)
+    ax2 = fig.add_subplot(122)
     for wf in p[4]:
         sps = len(wf)
-        ax1.plot(np.range(sps)*0.5, wf, marker = '.')
-    ax2 = fig.add_subplot(122)
+        ax1.plot(np.arange(sps)*0.5, wf, marker = '.')
+    ax2.scatter(np.array(p[1]), np.array(p[0])/6250, marker = 'o')
+    ax2.scatter(np.array(p[2]), np.array(p[0])/6250, marker = '*')
+    ax2.scatter ([p[3][0]], [0], marker = "s")
+    x = np.linspace(p[3][0], p[1][10])
+    y = x*p[5][0] + p[5][1]
+    ax2.plot( x, y/6250)
+
+#    ax2 = fig.add_subplot(122)
 
 testno = 1
 tp = "10us"
