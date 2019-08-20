@@ -90,7 +90,7 @@ else:
         print ("Error to create folder ")
         sys.exit()
 
-for asic_dac in range(3,0x10,1):
+for asic_dac in range(3,0x1f,1):
     chn1_p = []
     cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf = sbf, sdc = sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac, delay = 0 )   
     period = 200
