@@ -133,7 +133,8 @@ def Chn_Plot(asic_cali, chnno = 0):
     ax3.scatter ([p[3][0]], [0], marker = "s")
     x = np.linspace(p[3][0], p[1][10])
     y = (x-p[3][0])*p[5][0]
-    ax3.plot( x, y/6250)
+    ax3.plot( x, y/6250, label= "%d (e-/LSB)"%p[5][0])
+    ax3.legend()
 
     ax1.set_title("Waveform with Positive Charge Pulse")
     ax2.set_title("Waveform with Negative Charge Pulse")
