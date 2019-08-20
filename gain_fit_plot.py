@@ -59,7 +59,7 @@ def Asic_Cali(data_fs):
             chn_pkn = np.min(avg_chns)
             chn_ped = (avg_chns[0])  
             chn_ploc = np.where( avg_chns == chn_pkp )[0][0]
-            chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-10:chn_ploc+20]])
+            chns_info.append([asic_dac, chn_pkp, chn_pkn, chn_ped, avg_chns[chn_ploc-20:chn_ploc+80]])
 
         asic_info.append(chns_info)
     return asic_info
@@ -109,27 +109,28 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13):
     encs = np.array(dacs)*enc_daclsb
     pos = np.where(encs >= 6250*40)[0][0]
     fit_results = linear_fit(ps[:pos], encs[:pos] )
-    oft = int(0-(fit_results[1]/slope))
-    ps = np.array(ps) - oft
-    ns = np.array(ns) - oft
+    oft = int(0-(fit_results[1]/fit_results[0]))
+    ps = np.array(ps) - oft + peds[0]
+    ns = np.array(ns) + oft - peds[0]
 
     return encs, ps, ns, peds, wfs, fit_results
 
 def Chn_Plot(asic_cali, chnno = 0):
     p = Chn_Ana(asic_cali, chnno = chnno)
     
-    fig = plt.figure(figsize=(12,6))
-    ax1 = fig.add_subplot(121)
-    ax2 = fig.add_subplot(122)
+    fig = plt.figure(figsize=(12,4))
+    ax1 = fig.add_subplot(131)
+    ax3 = fig.add_subplot(133)
+    max_pos = np.where(wf == np.max(wf))[0][0]
     for wf in p[4]:
-        sps = len(wf)
-        ax1.plot(np.arange(sps)*0.5, wf, marker = '.')
-    ax2.scatter(np.array(p[1]), np.array(p[0])/6250, marker = 'o')
-    ax2.scatter(np.array(p[2]), np.array(p[0])/6250, marker = '*')
-    ax2.scatter ([p[3][0]], [0], marker = "s")
+        sps = 20
+        ax1.plot(np.arange(sps)*0.5, wf[np.max(wf)])
+    ax3.scatter(np.array(p[1]), np.array(p[0])/6250, marker = 'o')
+    ax3.scatter(np.array(p[2]), np.array(p[0])/6250, marker = '*')
+    ax3.scatter ([p[3][0]], [0], marker = "s")
     x = np.linspace(p[3][0], p[1][10])
-    y = x*p[5][0] + p[5][1]
-    ax2.plot( x, y/6250)
+    y = (x-p[3][0])*p[5][0]
+    ax3.plot( x, y/6250)
 
 #    ax2 = fig.add_subplot(122)
 
