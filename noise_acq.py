@@ -24,8 +24,6 @@ sdc_str = sys.argv[6]
 sdacsw_str =  sys.argv[7]
 testno = int(sys.argv[8])
 env = sys.argv[9]
-flg_bjt_r = (sys.argv[10] == "BJT")
-adc_sdc_en = (sys.argv[11] == "SDC")
 
 if tp == "05us":
     tpi = 1
@@ -76,12 +74,6 @@ elif (sdacsw_str == "Internal"):
 fpga_dac = 0
 asic_dac = 0
  
-
-cq = CMD_ACQ() 
-if (adc_sdc_en):
-    cq.adc_cfg(adc_sdc="On", adc_db="Bypass", adc_sha="Diff", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
-else:
-    cq.adc_cfg(adc_sdc="Bypass", adc_db="Bypass", adc_sha="Single-ended", adc_curr_src="BJT-sd", env=env, flg_bjt_r=flg_bjt_r)
 
 rawdir = "D:/ColdADC/"
 rawdir = rawdir + "D2_noise_acq/"
