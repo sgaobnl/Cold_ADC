@@ -18,6 +18,11 @@ import matplotlib.patches as mpatches
 import matplotlib.mlab as mlab
 
 import pickle
+def file_list(runpath):
+    if (os.path.exists(runpath)):
+        for root, dirs, files in os.walk(runpath):
+            break
+    return files
 
 f_dir = "D:/ColdADC/D2_gain_loss/"
 testno = 1
@@ -27,28 +32,37 @@ fig = plt.figure(figsize=(12,6))
 ax1 = fig.add_subplot(121)
 ax2 = fig.add_subplot(122)
 
-for fn_pre in ["Test1gainloss_tp10us_sg2_snc0dly", 
-               "Test2gainloss_tp10us_sg2_snc1dly",
-               "Test3gainloss_tp10us_sg2_snc0dly",
-               "Test4gainloss_tp10us_sg2_snc1dly",
-               "Test5gainloss_tp10us_sg2_snc0dly",
-               "Test6gainloss_tp10us_sg2_snc1dly",
-               "Test7gainloss_tp10us_sg2_snc0dly",
-               "Test8gainloss_tp10us_sg2_snc1dly",
-
-               "Test9gainloss_tp10us_sg2_snc0dly",
-               "Test10gainloss_tp10us_sg2_snc1dly",
-               "Test11gainloss_tp10us_sg2_snc0dly",
-               "Test12gainloss_tp10us_sg2_snc1dly",
-               "Test13gainloss_tp10us_sg2_snc0dly",
-               "Test14gainloss_tp10us_sg2_snc1dly",
-               "Test15gainloss_tp10us_sg2_snc0dly",
-               "Test16gainloss_tp10us_sg2_snc1dly",
+for fn_pre in [
+#               "Gainloss_Test61_10us14mVfC200mVBUF_ONDCRT_delay"
+               "Gainloss_Test61"
+               "Gainloss_Test62"
+#               "Test1gainloss_tp10us_sg2_snc0dly", 
+#               "Test2gainloss_tp10us_sg2_snc1dly",
+#               "Test3gainloss_tp10us_sg2_snc0dly",
+#               "Test4gainloss_tp10us_sg2_snc1dly",
+#               "Test5gainloss_tp10us_sg2_snc0dly",
+#               "Test6gainloss_tp10us_sg2_snc1dly",
+#               "Test7gainloss_tp10us_sg2_snc0dly",
+#               "Test8gainloss_tp10us_sg2_snc1dly",
+#
+#               "Test9gainloss_tp10us_sg2_snc0dly",
+#               "Test10gainloss_tp10us_sg2_snc1dly",
+#               "Test11gainloss_tp10us_sg2_snc0dly",
+#               "Test12gainloss_tp10us_sg2_snc1dly",
+#               "Test13gainloss_tp10us_sg2_snc0dly",
+#               "Test14gainloss_tp10us_sg2_snc1dly",
+#               "Test15gainloss_tp10us_sg2_snc0dly",
+#               "Test16gainloss_tp10us_sg2_snc1dly",
 
                ]:
+    fs = file_list(f_dir)
+
     dly_avg_chns = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
     for dly in range(0, 50, 1):
-        fn = f_dir + fn_pre + "%02d.bin"%dly
+        for fi in fs:
+            if (fn_pre in fi) and ("delay%02d.bin"%dly in fi):
+                break
+        fn = f_dir + fi
         with open (fn, 'rb') as fp:
             chns = pickle.load(fp)
         oft = 100
