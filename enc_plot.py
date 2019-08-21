@@ -26,27 +26,30 @@ def file_list(runpath):
             break
     return files
 
-test_ps = [[17, 17, "05us", "14mVfC"], 
-           [18, 18, "10us", "14mVfC"],  
-           [19, 19, "20us", "14mVfC"],  
-           [20, 20, "30us", "14mVfC"],  
+test_ps = [
+           [1, 1, "05us", "14mVfC"], 
+           [2, 2, "10us", "14mVfC"],  
+           [3, 3, "20us", "14mVfC"],  
+           [4, 4, "30us", "14mVfC"],  
 
+           [11, 11, "05us", "47mVfC"], 
+           [12, 12, "10us", "47mVfC"],  
+           [13, 13, "20us", "47mVfC"],  
+           [14, 14, "30us", "47mVfC"],  
+
+           [21, 21, "05us", "78mVfC"], 
+           [22, 22, "10us", "78mVfC"],  
+           [23, 23, "20us", "78mVfC"],  
+           [24, 24, "30us", "78mVfC"],  
+           
            [31, 31, "05us", "25mVfC"],  
            [32, 32, "10us", "25mVfC"],  
            [33, 33, "20us", "25mVfC"],  
            [34, 34, "30us", "25mVfC"],  
  
-           [41, 41, "05us", "47mVfC"],  
-           [42, 42, "10us", "47mVfC"],  
-           [43, 43, "20us", "47mVfC"],  
-           [44, 44, "30us", "47mVfC"],  
- 
-           [51, 51, "05us", "78mVfC"],  
-           [52, 52, "10us", "78mVfC"],  
-           [53, 53, "20us", "78mVfC"],  
-           [54, 54, "30us", "78mVfC"],  
+  
            ]
-mode16bit = False
+mode16bit = True
 for ty in range(len(test_ps)):
     noise_testno = test_ps[ty][0] 
     g_testno = test_ps[ty][1] 
@@ -106,7 +109,7 @@ for ty in range(len(test_ps)):
             
     gains = []        
     for i in range(len(ccs[0])):
-        gains.append(int(ccs[0][i]) )
+        gains.append(float(ccs[0][i]) )
     
     
     encs = np.array(rmss)*np.array(gains)
