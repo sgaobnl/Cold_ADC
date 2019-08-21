@@ -104,7 +104,7 @@ def Chn_Ana(asic_cali, chnno = 0, cap=1.85E-13, sg="14mV"):
     elif ("14mV") in fpic:
         fcs = 40
     elif ("25mV") in fpic:
-        fcs = 25
+        fcs = 30
     else:
         fcs = 35
         
@@ -215,7 +215,7 @@ for testno in range(31,39):
     
     asic_cali = Asic_Cali(data_fs, mode16bit = mode16bit )
 
-    fpic = fr_dir + fs[0][:f.find("asicdac")]
+    fpic = fr_dir + data_fs[0][:f.find("asicdac")]
     chn_gains = []
     chn_inls = []
     for i in range(16):

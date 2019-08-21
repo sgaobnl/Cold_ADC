@@ -36,8 +36,8 @@ with open (fn, 'rb') as fp:
 #                                          enc  std        rms           std               gain          
 #[8, 8, '30us', '14mVfC', '200mV', 'SDC', 539, 40, 49.34276008740476, 3.7582430361394032, 10.934308572889488]
 
-BL = "200mV"
-sdc = "NoSDC"
+BL = "900mV"
+sdc = "SDC"
 
 enc_gs = []
 estd_gs = []
@@ -50,7 +50,7 @@ ax1 = plt.subplot2grid((6, 2), (0, 0), colspan=2, rowspan=2)
 ax2 = plt.subplot2grid((6, 2), (2, 0), colspan=2, rowspan=2)
 ax3 = plt.subplot2grid((6, 2), (4, 0), colspan=2, rowspan=2)
 
-
+print (len(test_ps))
 for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]: 
     enc_tp  = []
     estd_tp = []
@@ -65,9 +65,10 @@ for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]:
                 adc_tp.append(ti[8])
                 astd_tp.append(ti[9])
                 gain_tp.append(ti[10])
-            break
+                break
 
     x = [0.5, 1.0, 2.0, 3.0]
+    print (x, enc_tp, estd_tp)
     ax1.errorbar(x, enc_tp, estd_tp, label= g)
     ax2.errorbar(x, adc_tp, astd_tp, label= g)
     ax3.plot(x, gain_tp, label= g)
