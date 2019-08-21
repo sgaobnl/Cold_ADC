@@ -108,27 +108,27 @@ python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  42 RT
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  DC disable  43 RT 
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  44 RT 
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF AC disable  45 RT 
-python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  46 RT 
+::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  46 RT 
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable  47 RT 
-python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  48 RT 
+::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  48 RT 
 
 python ADC_CFG_INIT.py RT BJT SDC
 python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  51 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  52 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  52 RT 
 python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  DC disable  53 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  54 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  54 RT 
 python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF AC disable  55 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  56 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  56 RT 
 python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable  57 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  58 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  58 RT 
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  51 RT 
-python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  52 RT 
+::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  52 RT 
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  DC disable  53 RT 
-python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  54 RT 
+::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  54 RT 
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF AC disable  55 RT 
-python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  56 RT 
+::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  56 RT 
 python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable  57 RT 
-python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  58 RT 
+::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  58 RT 
 
 ::python noise_acq.py 10us 47mVfC PLS_DIS 900mV BUF_OFF DC disable  1 RT BJT NoSDC
 ::python noise_acq.py 10us 47mVfC PLS_DIS 900mV BUF_OFF DC disable  9 RT BJT SDC

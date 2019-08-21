@@ -188,8 +188,9 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     plt.close()
 
 mode16bit = True
+BL = "900mV"
 
-for testno in range(31,35):
+for testno in range(31,39):
     testno_str = "Test%02d"%testno
     f_dir = "D:/ColdADC/D2_gainmeas_acq/"
     fr_dir = f_dir + "results/"
@@ -207,18 +208,18 @@ for testno in range(31,35):
     fs = file_list(runpath=f_dir)
     data_fs = []
     for f in fs:
-        if (f.find(testno_str)>=0) and (f.find(".bin")>0):
+        if (f.find(testno_str)>=0) and (f.find(".bin")>0) and (f.find(BL)>0):
             tp = f[f.find("us")-2 : f.find("us")+2]
             sg = f[f.find("mVfC")-2 : f.find("mVfC")+4]
             data_fs.append(f)
     
     asic_cali = Asic_Cali(data_fs, mode16bit = mode16bit )
-    
-    fpic = f_dir + f[:f.find("asicdac")]
+
+    fpic = fr_dir + fs[0][:f.find("asicdac")]
     chn_gains = []
     chn_inls = []
     for i in range(16):
-#        Chn_Plot(asic_cali, chnno = i, mode16bit = mode16bit , fpic=(fr_dir + testno_str + tp + sg) )
+#        Chn_Plot(asic_cali, chnno = i, mode16bit = mode16bit , fpic= fpic )
         p = Chn_Ana(asic_cali, chnno = i, sg=sg)
         chn_gains.append((p[5][0]))
         chn_inls.append(p[5][2])
@@ -227,7 +228,7 @@ for testno in range(31,35):
         adc_bits = "ADC16bit"
     else:
         adc_bits = "ADC12bit"
-    csv_fn = fr_dir + testno_str + tp + sg + adc_bits + ".csv"
+    csv_fn = fr_dir + testno_str + tp + sg + adc_bits + "BL%s"%BL + ".csv"
 
     with open(csv_fn, "w") as cfp:
         cfp.write(",".join(str(i) for i in chn_gains) +  "," + "\n")
