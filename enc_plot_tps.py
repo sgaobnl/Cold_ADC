@@ -50,7 +50,6 @@ ax1 = plt.subplot2grid((6, 2), (0, 0), colspan=2, rowspan=2)
 ax2 = plt.subplot2grid((6, 2), (2, 0), colspan=2, rowspan=2)
 ax3 = plt.subplot2grid((6, 2), (4, 0), colspan=2, rowspan=2)
 
-print (len(test_ps))
 for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]: 
     enc_tp  = []
     estd_tp = []
@@ -66,12 +65,11 @@ for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]:
                 astd_tp.append(ti[9])
                 gain_tp.append(ti[10])
                 break
-
     x = [0.5, 1.0, 2.0, 3.0]
-    print (x, enc_tp, estd_tp)
     ax1.errorbar(x, enc_tp, estd_tp, label= g)
     ax2.errorbar(x, adc_tp, astd_tp, label= g)
     ax3.plot(x, gain_tp, label= g)
+    print (x, enc_tp, estd_tp)
 
 ax1.legend()
 ax2.legend()
@@ -89,31 +87,30 @@ ax1.set_ylabel("ENC / (e-) ")
 ax2.set_ylabel("RMS(ADC) / LSB")
 ax3.set_ylabel("Gain (e-/LSB)")
 
-#xlim = (-2, 18) 
-#ax1.set_xlim(xlim)
-#ax2.set_xlim(xlim)
-#ax3.set_xlim(xlim)
-#
-#if (mode16bit):
-#    ax1_ylim = (0, 200)
-#    ax2_ylim = (0, 50)
-#    ax3_ylim = (0, 1500)
-#else:
-#    ax1_ylim = (0, 20)
-#    ax2_ylim = (0, 1000)
-#    ax3_ylim = (0, 1500)
-#ax1.set_ylim(ax1_ylim)
-#ax2.set_ylim(ax2_ylim)
-#ax3.set_ylim(ax3_ylim)
+xlim = (0, 4) 
+ax1.set_xlim(xlim)
+ax2.set_xlim(xlim)
+ax3.set_xlim(xlim)
+
+if (mode16bit):
+    ax1_ylim = (0, 1500)
+    ax2_ylim = (0, 200)
+    ax3_ylim = (0, 40)
+else:
+    ax1_ylim = (0, 20)
+    ax2_ylim = (0, 1000)
+    ax3_ylim = (0, 1500)
+ax1.set_ylim(ax1_ylim)
+ax2.set_ylim(ax2_ylim)
+ax3.set_ylim(ax3_ylim)
 
 ax1.grid(True)
 ax2.grid(True)
 ax3.grid(True)
 
 plt.tight_layout()
-#plt.savefig( nfr_dir + "NoiseTest%d"%test_ps[ty][0] +"_GainTest%d"%test_ps[ty][1] \
-#            + test_ps[ty][2] +test_ps[ty][3] + test_ps[ty][4] +test_ps[ty][5] + adc_bits +  ".png" )
-#plt.close()
+plt.savefig( nfr_dir + "NoiseTest%d_"+ adc_bits + BL + sdc ".png" )
+plt.close()
 
 #    y = enc_tp
 #
