@@ -187,10 +187,10 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     plt.savefig( fpic + adc_bits + "_ch%d.png"%chnno)
     plt.close()
 
-mode16bit = False
-BL = "900mV"
+mode16bit = True
+BL = "200mV"
 
-testnos = list(range(1,9)) + list(range(11, 19)) + list(range(21, 29)) + list(range(31, 39))
+testnos = list(range(1,9)) #+ list(range(11, 19)) + list(range(21, 29)) + list(range(31, 39))
 for testno in testnos:
     testno_str = "Test%02d"%testno
     f_dir = "D:/ColdADC/D2_gainmeas_acq/"

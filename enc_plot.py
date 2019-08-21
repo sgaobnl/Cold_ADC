@@ -27,6 +27,15 @@ def file_list(runpath):
     return files
 
 test_ps = [
+           [1, 1, "05us", "14mVfC", "200mV", "NoSDC"], 
+           [2, 2, "10us", "14mVfC", "200mV", "NoSDC"],  
+           [3, 3, "20us", "14mVfC", "200mV", "NoSDC"],  
+           [4, 4, "30us", "14mVfC", "200mV", "NoSDC"],  
+           [5, 5, "05us", "14mVfC", "200mV", "SDC"], 
+           [6, 6, "10us", "14mVfC", "200mV", "SDC"],  
+           [7, 7, "20us", "14mVfC", "200mV", "SDC"],  
+           [8, 8, "30us", "14mVfC", "200mV", "SDC"],  
+           
            [1, 1, "05us", "14mVfC", "900mV", "NoSDC"], 
            [2, 2, "10us", "14mVfC", "900mV", "NoSDC"],  
            [3, 3, "20us", "14mVfC", "900mV", "NoSDC"],  
@@ -67,14 +76,7 @@ test_ps = [
            [37, 37, "20us", "25mVfC", "900mV", "SDC"],  
            [38, 38, "30us", "25mVfC", "900mV", "SDC"],  
  
-           [1, 1, "05us", "14mVfC", "200mV", "NoSDC"], 
-           [2, 2, "10us", "14mVfC", "200mV", "NoSDC"],  
-           [3, 3, "20us", "14mVfC", "200mV", "NoSDC"],  
-           [4, 4, "30us", "14mVfC", "200mV", "NoSDC"],  
-           [5, 5, "05us", "14mVfC", "200mV", "SDC"], 
-           [6, 6, "10us", "14mVfC", "200mV", "SDC"],  
-           [7, 7, "20us", "14mVfC", "200mV", "SDC"],  
-           [8, 8, "30us", "14mVfC", "200mV", "SDC"],  
+
 
            ]
 mode16bit = True
