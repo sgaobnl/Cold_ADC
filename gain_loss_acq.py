@@ -75,7 +75,7 @@ asic_dac = 8
 print ("sdacsw = %d, fpga_dac = %d, asic_dac = %d"%(sdacsw, fpga_dac, asic_dac) )
 
 rawdir = "D:/ColdADC/"
-rawdir = rawdir + "D2_gainloss_acq/"
+rawdir = rawdir + "D2_gainloss_acq_CMOS/"
 if (os.path.exists(rawdir)):
     pass
 else:

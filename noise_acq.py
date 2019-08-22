@@ -77,7 +77,7 @@ asic_dac = 0
  
 
 rawdir = "D:/ColdADC/"
-rawdir = rawdir + "D2_noise_acq/"
+rawdir = rawdir + "D2_noise_acq_CMOS/"
 if (os.path.exists(rawdir)):
     pass
 else:
