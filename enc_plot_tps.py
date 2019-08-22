@@ -24,7 +24,7 @@ nf_dir = "D:/ColdADC/D2_noise_acq/"
 nfr_dir = nf_dir + "results/"
 
 mode16bit = True
-BL = "200mV"
+BL = "900mV"
 sdc = "SDC"
 
 if (mode16bit):
@@ -52,9 +52,9 @@ ax1 = plt.subplot2grid((6, 2), (0, 0), colspan=2, rowspan=2)
 ax2 = plt.subplot2grid((6, 2), (2, 0), colspan=2, rowspan=2)
 ax3 = plt.subplot2grid((6, 2), (4, 0), colspan=2, rowspan=2)
 
-for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]: 
-#for BL in [ "900mV", "200mV"]: 
-#    g = "14mVfC"
+#for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]: 
+for BL in [ "900mV", "200mV"]: 
+    g = "14mVfC"
     enc_tp  = []
     estd_tp = []
     adc_tp  =[]

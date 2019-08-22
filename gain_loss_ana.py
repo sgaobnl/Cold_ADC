@@ -24,18 +24,20 @@ def file_list(runpath):
             break
     return files
 
-f_dir = "D:/ColdADC/D2_gain_loss/"
+f_dir = "D:/ColdADC/D2_gainloss_acq/"
 testno = 1
 fn_pre = "Test%dgainloss_tp10us_sg2_snc0dly"%(testno)
 chn_sel = 4
-fig = plt.figure(figsize=(12,6))
+fig = plt.figure(figsize=(10,4))
 ax1 = fig.add_subplot(121)
 ax2 = fig.add_subplot(122)
 
 for fn_pre in [
 #               "Gainloss_Test61_10us14mVfC200mVBUF_ONDCRT_delay"
-               "Gainloss_Test61"
-               "Gainloss_Test62"
+               "Gainloss_Test71",
+               "Gainloss_Test73",
+               "Gainloss_Test75",
+               "Gainloss_Test77",
 #               "Test1gainloss_tp10us_sg2_snc0dly", 
 #               "Test2gainloss_tp10us_sg2_snc1dly",
 #               "Test3gainloss_tp10us_sg2_snc0dly",
@@ -59,10 +61,17 @@ for fn_pre in [
 
     dly_avg_chns = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
     for dly in range(0, 50, 1):
+        ff = False
         for fi in fs:
             if (fn_pre in fi) and ("delay%02d.bin"%dly in fi):
+                ff = True
                 break
+        if (not ff):
+            print ("File is not found")
+            exit()
+            
         fn = f_dir + fi
+        print (fn)
         with open (fn, 'rb') as fp:
             chns = pickle.load(fp)
         oft = 100
@@ -90,10 +99,12 @@ for fn_pre in [
     x = np.arange(sps)*0.01
     peak_pos = np.where(dly_chn[0:1000] == np.max(dly_chn[0:1000]))[0][0]
 #    ax1.plot(x[0:2000], np.array(dly_chn[peak_pos-200:peak_pos+1800]) - dly_chn[0], label = fn_pre[0:5] )#, marker ='.')
-    if "snc1" in fn_pre:
-        ax2.plot(x[0:2000], np.array(dly_chn[peak_pos-200:peak_pos+1800]) - dly_chn[0], label = fn_pre[0:6])#, marker ='.')
+    snc = int(fn_pre[-1])
+    print (snc)
+    if (snc==5) or (snc==7):
+        ax2.plot(x[0:2000], np.array(dly_chn[peak_pos-200:peak_pos+1800]) - dly_chn[0], label = fn_pre[9:])#, marker ='.')
     else:
-        ax1.plot(x[0:2000], np.array(dly_chn[peak_pos-200:peak_pos+1800]) - dly_chn[0], label = fn_pre[0:6])#, marker ='.')
+        ax1.plot(x[0:2000], np.array(dly_chn[peak_pos-200:peak_pos+1800]) - dly_chn[0], label = fn_pre[9:])#, marker ='.')
 ax1.set_xlim([0, 10])
 ax1.set_xlabel("Time / $\mu$s")
 ax1.set_ylim([-5000, 20000])
@@ -105,12 +116,12 @@ ax2.set_xlim([0, 10])
 ax2.set_xlabel("Time / $\mu$s")
 ax2.set_ylabel("ADC counts / bin")
 ax2.set_ylim([-5000, 20000])
-ax2.set_title ("Waveforms with 200mV BL (BL substracted)")
+ax2.set_title ("Waveforms with 900mV BL (BL substracted)")
 ax2.grid(True)
 ax2.legend()
 
 plt.tight_layout()
-plt.savefig("d:/ColdADC/noise/gain_loss_comp.png")
+plt.savefig("d:/ColdADC/noise/gain_loss_comp_buf_on_off_900mV_AC_bufonoff.png")
 plt.close()
 #plt.show()
 

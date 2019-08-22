@@ -27,54 +27,56 @@ def file_list(runpath):
     return files
 
 test_ps = [
-           [1, 1, "05us", "14mVfC", "200mV", "NoSDC"], 
-           [2, 2, "10us", "14mVfC", "200mV", "NoSDC"],  
-           [3, 3, "20us", "14mVfC", "200mV", "NoSDC"],  
-           [4, 4, "30us", "14mVfC", "200mV", "NoSDC"],  
-           [5, 5, "05us", "14mVfC", "200mV", "SDC"], 
-           [6, 6, "10us", "14mVfC", "200mV", "SDC"],  
-           [7, 7, "20us", "14mVfC", "200mV", "SDC"],  
-           [8, 8, "30us", "14mVfC", "200mV", "SDC"],  
-           
+#            [91, 2, "10us", "14mVfC", "900mV", "NoSDC"], 
+#            [92, 2, "10us", "14mVfC", "900mV", "SDC"],             
+#           [1, 1, "05us", "14mVfC", "200mV", "NoSDC"], 
+#           [2, 2, "10us", "14mVfC", "200mV", "NoSDC"],  
+#           [3, 3, "20us", "14mVfC", "200mV", "NoSDC"],  
+#           [4, 4, "30us", "14mVfC", "200mV", "NoSDC"],  
+#           [5, 5, "05us", "14mVfC", "200mV", "SDC"], 
+#           [6, 6, "10us", "14mVfC", "200mV", "SDC"],  
+#           [7, 7, "20us", "14mVfC", "200mV", "SDC"],  
+#           [8, 8, "30us", "14mVfC", "200mV", "SDC"],  
+#           
            [1, 1, "05us", "14mVfC", "900mV", "NoSDC"], 
            [2, 2, "10us", "14mVfC", "900mV", "NoSDC"],  
            [3, 3, "20us", "14mVfC", "900mV", "NoSDC"],  
            [4, 4, "30us", "14mVfC", "900mV", "NoSDC"],  
-
-           [11, 11, "05us", "47mVfC", "900mV", "NoSDC"], 
-           [12, 12, "10us", "47mVfC", "900mV", "NoSDC"],  
-           [13, 13, "20us", "47mVfC", "900mV", "NoSDC"],  
-           [14, 14, "30us", "47mVfC", "900mV", "NoSDC"],  
-
-           [21, 21, "05us", "78mVfC", "900mV", "NoSDC"], 
-           [22, 22, "10us", "78mVfC", "900mV", "NoSDC"],  
-           [23, 23, "20us", "78mVfC", "900mV", "NoSDC"],  
-           [24, 24, "30us", "78mVfC", "900mV", "NoSDC"],  
-           
-           [31, 31, "05us", "25mVfC", "900mV", "NoSDC"],  
-           [32, 32, "10us", "25mVfC", "900mV", "NoSDC"],  
-           [33, 33, "20us", "25mVfC", "900mV", "NoSDC"],  
-           [34, 34, "30us", "25mVfC", "900mV", "NoSDC"],  
-
+#
+#           [11, 11, "05us", "47mVfC", "900mV", "NoSDC"], 
+#           [12, 12, "10us", "47mVfC", "900mV", "NoSDC"],  
+#           [13, 13, "20us", "47mVfC", "900mV", "NoSDC"],  
+#           [14, 14, "30us", "47mVfC", "900mV", "NoSDC"],  
+#
+#           [21, 21, "05us", "78mVfC", "900mV", "NoSDC"], 
+#           [22, 22, "10us", "78mVfC", "900mV", "NoSDC"],  
+#           [23, 23, "20us", "78mVfC", "900mV", "NoSDC"],  
+#           [24, 24, "30us", "78mVfC", "900mV", "NoSDC"],  
+#           
+#           [31, 31, "05us", "25mVfC", "900mV", "NoSDC"],  
+#           [32, 32, "10us", "25mVfC", "900mV", "NoSDC"],  
+#           [33, 33, "20us", "25mVfC", "900mV", "NoSDC"],  
+#           [34, 34, "30us", "25mVfC", "900mV", "NoSDC"],  
+#
            [5, 5, "05us", "14mVfC", "900mV", "SDC"], 
            [6, 6, "10us", "14mVfC", "900mV", "SDC"],  
            [7, 7, "20us", "14mVfC", "900mV", "SDC"],  
            [8, 8, "30us", "14mVfC", "900mV", "SDC"],  
-
-           [15, 15, "05us", "47mVfC", "900mV", "SDC"], 
-           [16, 16, "10us", "47mVfC", "900mV", "SDC"],  
-           [17, 17, "20us", "47mVfC", "900mV", "SDC"],  
-           [18, 18, "30us", "47mVfC", "900mV", "SDC"],  
-
-           [25, 25, "05us", "78mVfC", "900mV", "SDC"], 
-           [26, 26, "10us", "78mVfC", "900mV", "SDC"],  
-           [27, 27, "20us", "78mVfC", "900mV", "SDC"],  
-           [28, 28, "30us", "78mVfC", "900mV", "SDC"],  
-           
-           [35, 35, "05us", "25mVfC", "900mV", "SDC"],  
-           [36, 36, "10us", "25mVfC", "900mV", "SDC"],  
-           [37, 37, "20us", "25mVfC", "900mV", "SDC"],  
-           [38, 38, "30us", "25mVfC", "900mV", "SDC"],  
+#
+#           [15, 15, "05us", "47mVfC", "900mV", "SDC"], 
+#           [16, 16, "10us", "47mVfC", "900mV", "SDC"],  
+#           [17, 17, "20us", "47mVfC", "900mV", "SDC"],  
+#           [18, 18, "30us", "47mVfC", "900mV", "SDC"],  
+#
+#           [25, 25, "05us", "78mVfC", "900mV", "SDC"], 
+#           [26, 26, "10us", "78mVfC", "900mV", "SDC"],  
+#           [27, 27, "20us", "78mVfC", "900mV", "SDC"],  
+#           [28, 28, "30us", "78mVfC", "900mV", "SDC"],  
+#           
+#           [35, 35, "05us", "25mVfC", "900mV", "SDC"],  
+#           [36, 36, "10us", "25mVfC", "900mV", "SDC"],  
+#           [37, 37, "20us", "25mVfC", "900mV", "SDC"],  
+#           [38, 38, "30us", "25mVfC", "900mV", "SDC"],  
  
 
 

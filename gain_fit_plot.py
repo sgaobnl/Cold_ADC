@@ -188,9 +188,9 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
     plt.close()
 
 mode16bit = True
-BL = "200mV"
+BL = "900mV"
 
-testnos = list(range(1,9)) #+ list(range(11, 19)) + list(range(21, 29)) + list(range(31, 39))
+testnos = list(range(31,39)) #+ list(range(11, 19)) + list(range(21, 29)) + list(range(31, 39))
 for testno in testnos:
     testno_str = "Test%02d"%testno
     f_dir = "D:/ColdADC/D2_gainmeas_acq/"
@@ -220,7 +220,7 @@ for testno in testnos:
     chn_gains = []
     chn_inls = []
     for i in range(16):
-#        Chn_Plot(asic_cali, chnno = i, mode16bit = mode16bit , fpic= fpic )
+        Chn_Plot(asic_cali, chnno = i, mode16bit = mode16bit , fpic= fpic )
         p = Chn_Ana(asic_cali, chnno = i, sg=sg)
         chn_gains.append((p[5][0]))
         chn_inls.append(p[5][2])
