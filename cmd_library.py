@@ -76,9 +76,9 @@ class CMD_ACQ:
             self.bc.adc_bias_curr_src("CMOS_INTR")
             print ("Bias currents come from CMOS-basedreference with internal R")  
             if (env == "RT"):
-                vrefp_voft = 0xce
-                vrefn_voft = 0x2b
-                vcmi_voft = 0x5b
+                vrefp_voft = 0xe1
+                vrefn_voft = 0x0f
+                vcmi_voft = 0x5c
                 vcmo_voft = 0x7b
             else:
                 vrefp_voft = 0xc6
