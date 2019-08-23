@@ -5,7 +5,7 @@ Author: GSS
 Mail: gao.hillhill@gmail.com
 Description: 
 Created Time: 7/15/2016 11:47:39 AM
-Last modified: Fri Aug 23 10:43:46 2019
+Last modified: 8/23/2019 10:44:54 AM
 """
 
 #defaut setting for scientific caculation
@@ -130,7 +130,8 @@ def chn_fft_psd(chndata, fs = 2000000.0, fft_s = 2000, avg_cycle = 50): #power s
     p = 10*np.log10(p)
     return f,p
 
-fn = "D:/ColdADC/D2_noise_acq/"
+import pickle
+fn = "D:/ColdADC/D2_noise_acq/Noise_Test04_30us14mVfC900mVBUF_OFFDCRT.bin"
 with open (fn, 'rb') as fp:
     chns = pickle.load(fp)
 
@@ -138,7 +139,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.patches as mpatches
 import matplotlib.mlab as mlab
-f, p = chn_rfft_psd(chndata, fs = 2000000.0, fft_s = 4096, avg_cycle = 50)
+f, p = chn_rfft_psd(chns[0], fs = 2000000.0, fft_s = 16384, avg_cycle = 50)
 fig = plt.figure(figsize=(8,6))
 plt.plot(f,p)
 plt.show()
