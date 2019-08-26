@@ -131,7 +131,7 @@ def chn_fft_psd(chndata, fs = 2000000.0, fft_s = 2000, avg_cycle = 50): #power s
     return f,p
 
 import pickle
-fn = "D:/ColdADC/D2_noise_acq/Noise_Test04_30us14mVfC900mVBUF_OFFDCRT.bin"
+fn = "D:/ColdADC/D2_noise_acq_CMOS/Noise_Test95_10us14mVfC900mVBUF_OFFDCRTN900_500.bin"
 with open (fn, 'rb') as fp:
     chns = pickle.load(fp)
 

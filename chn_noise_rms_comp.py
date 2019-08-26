@@ -33,29 +33,29 @@ test_ps = [
             [97, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMO", 2], 
             [98, 2, "10us", "14mVfC", "900mV", "SDC",   "VCMO", 2],             
 
-            [93, 2, "10us", "14mVfC", "900mV", "NoSDC", "900mV", 3], 
-            [94, 2, "10us", "14mVfC", "900mV", "SDC",   "900mV", 3],             
+            [93, 2, "10us", "14mVfC", "900mV", "NoSDC", "900mV", 5], 
+            [94, 2, "10us", "14mVfC", "900mV", "SDC",   "900mV", 5],             
 
-            [95, 2, "10us", "14mVfC", "900mV", "NoSDC", "200mV", 4], 
-            [96, 2, "10us", "14mVfC", "900mV", "SDC",   "200mV", 4],             
+            [95, 2, "10us", "14mVfC", "900mV", "NoSDC", "200mV", 3], 
+            [96, 2, "10us", "14mVfC", "900mV", "SDC",   "200mV", 3],             
 
-            [82, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd0pF_FE4.7mV/fC", 5], 
-            [86, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd0pF_FE4.7mV/fC", 5],             
+            [82, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd0pF_FE4.7mV/fC", 4], 
+            [86, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd0pF_FE4.7mV/fC", 4],             
             [82, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd0pF_FE7.8mV/fC", 6], 
             [86, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd0pF_FE7.8mV/fC", 6],             
-            [82, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd0pF_FE14mV/fC", 7], 
-            [86, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd0pF_FE14mV/fC", 7],             
-            [82, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd0pF_FE25mV/fC", 8], 
-            [86, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd0pF_FE25mV/fC", 8],             
-
-            [12, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd150pF_FE4.7mV/fC", 9], 
-            [16, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd150pF_FE4.7mV/fC", 9],             
-            [22, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd150pF_FE7.8mV/fC", 10], 
-            [26, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd150pF_FE7.8mV/fC", 10],             
-            [ 2, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd150pF_FE14mV/fC", 11], 
-            [ 6, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd150pF_FE14mV/fC", 11],             
-            [32, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd150pF_FE25mV/fC", 12], 
-            [36, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd150pF_FE25mV/fC", 12],             
+#            [82, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd0pF_FE14mV/fC", 7], 
+#            [86, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd0pF_FE14mV/fC", 7],             
+#            [82, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd0pF_FE25mV/fC", 8], 
+#            [86, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd0pF_FE25mV/fC", 8],             
+#
+#            [12, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd150pF_FE4.7mV/fC", 9], 
+#            [16, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd150pF_FE4.7mV/fC", 9],             
+#            [22, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd150pF_FE7.8mV/fC", 10], 
+#            [26, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd150pF_FE7.8mV/fC", 10],             
+#            [ 2, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd150pF_FE14mV/fC", 11], 
+#            [ 6, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd150pF_FE14mV/fC", 11],             
+#            [32, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd150pF_FE25mV/fC", 12], 
+#            [36, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd150pF_FE25mV/fC", 12],             
 
            ]
 mode16bit = True
@@ -105,9 +105,21 @@ for ty in range(len(test_ps)):
         data_slice = np.array(chns[chnno][0:10000])&0xffff
         rmss.append(np.std(data_slice))
 
-    rmss_mean = np.std(rmss)
+    rmss_mean = np.mean(rmss)
     rmss_std = np.std(rmss)
-    plt.errorbar ( [xloc], [rmss_mean], [rmss_std])
+    print (test_ps[ty], rmss_mean, rmss_std)
+    if test_ps[ty][5] == "NoSDC":
+        clor = 'b'
+    else:
+        clor = 'r'
+    if test_ps[ty][7] == 1: 
+        plt.errorbar ( [xloc], [rmss_mean], [rmss_std], color = clor, marker='o', label=test_ps[ty][5])
+    else:
+        plt.errorbar ( [xloc], [rmss_mean], [rmss_std], color = clor, marker='o')
+    plt.text(xloc, rmss_mean,test_ps[ty][6] )
+        
+        
+plt.legend()
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
 plt.show()
 
