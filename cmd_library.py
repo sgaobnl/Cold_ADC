@@ -43,8 +43,8 @@ class CMD_ACQ:
             self.bc.adc_bias_curr_src("BJT")
             print ("Bias currents come from BJT-based references")
             if (env == "RT"):
-                vrefp_voft = 0xf0#0xe4
-                vrefn_voft = 0x08#0x24
+                vrefp_voft = 0xf0#0xe4#0xf0#0xe4
+                vrefn_voft = 0x08#0x24#0x08#0x24
                 vcmi_voft = 0x5c#0x60#0x50#0x60
                 vcmo_voft = 0x82#0x82
                 vrefp_ioft = 1
@@ -52,9 +52,9 @@ class CMD_ACQ:
                 vcmi_ioft = 1
                 vcmo_ioft = 1
             else:
-                vrefp_voft = 0xf1
-                vrefn_voft = 0x29
-                vcmi_voft = 0x65
+                vrefp_voft = 0xd4#0xf1
+                vrefn_voft = 0x28#0x29
+                vcmi_voft = 0x58#0x65
                 vcmo_voft = 0x8d
                 vrefp_ioft = 1
                 vrefn_ioft = 1
@@ -76,13 +76,13 @@ class CMD_ACQ:
             self.bc.adc_bias_curr_src("CMOS_INTR")
             print ("Bias currents come from CMOS-basedreference with internal R")  
             if (env == "RT"):
-                vrefp_voft = 0xe1
-                vrefn_voft = 0x0f
-                vcmi_voft = 0x5c
+                vrefp_voft = 0xce#0xe1
+                vrefn_voft = 0x2b#0x0f
+                vcmi_voft = 0x5b#0x5c
                 vcmo_voft = 0x7b
             else:
-                vrefp_voft = 0xc6
-                vrefn_voft = 0x30
+                vrefp_voft = 0xc8#0xd0
+                vrefn_voft = 0x2e#0x10
                 vcmi_voft = 0x5b
                 vcmo_voft = 0x7b
             self.bc.adc_set_cmos_vrefs(vrefp_voft, vrefn_voft, vcmi_voft, vcmo_voft)

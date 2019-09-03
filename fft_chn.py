@@ -112,7 +112,7 @@ def chn_fft_psd(chndata, fs = 2000000.0, fft_s = 2000, avg_cycle = 50): #power s
         x = chndata[i*fft_s:(i+1)*fft_s]
         if ( i == 0 ):
             pt = (fft(x)/fft_s)# fft computing and normalization 
-            p = (np.abs(pt[0:fft_s/2+1]))**2 # take only positive frequency terms, other half identical# power ~ voltage squared, power in each bin. 
+            p = (np.abs(pt[0:int(fft_s/2)+1]))**2 # take only positive frequency terms, other half identical# power ~ voltage squared, power in each bin. 
             # p[0] is the dc term
             # p[nfft/2] is the Nyquist term, note that Python 2.X indexing does NOT 
             # include the last element, therefore we need to use 0:nfft/2+1 to have an array
@@ -120,7 +120,7 @@ def chn_fft_psd(chndata, fs = 2000000.0, fft_s = 2000, avg_cycle = 50): #power s
             # p[nfft/2-x] = conjugate(p[nfft/2+x])
         else:
             pt = (fft(x)/fft_s)# fft computing and normalization
-            p = p +  (np.abs(pt[0:fft_s/2+1]))**2  
+            p = p +  (np.abs(pt[0:int(fft_s/2)+1]))**2  
     f = np.linspace(0,fs/2,len(p)) # frequency range of the fft spans from DC (0 Hz) to  Nyquist (Fs/2).
     p = p / avg_cycle_tmp  #averaging
     p = p / ( fs/fft_s)  # power is energy over -fs/2 to fs/2, with nfft bins
@@ -131,7 +131,7 @@ def chn_fft_psd(chndata, fs = 2000000.0, fft_s = 2000, avg_cycle = 50): #power s
     return f,p
 
 import pickle
-fn = "D:/ColdADC/D2_noise_acq_CMOS/Noise_Test95_10us14mVfC900mVBUF_OFFDCRTN900_500.bin"
+fn = "D:/ColdADC/D2_noise_acq_CMOS/Noise_Test91_10us14mVfC900mVBUF_OFFDCRT.bin"
 with open (fn, 'rb') as fp:
     chns = pickle.load(fp)
 
@@ -139,7 +139,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.patches as mpatches
 import matplotlib.mlab as mlab
-f, p = chn_rfft_psd(chns[0], fs = 2000000.0, fft_s = 16384, avg_cycle = 50)
+f, p = chn_rfft_psd(chns[0], fs = 2000000.0, fft_s = 16384, avg_cycle = 1)
 fig = plt.figure(figsize=(8,6))
 plt.plot(f,p)
 plt.show()

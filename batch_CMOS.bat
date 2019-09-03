@@ -72,87 +72,6 @@
 ::python gain_measure_acq.py 20us 25mVfC PLS_EN  900mV BUF_OFF DC Internal 37 RT 
 ::python gain_measure_acq.py 30us 25mVfC PLS_EN  900mV BUF_OFF DC Internal 38 RT 
 ::
-::python ADC_CFG_INIT.py RT CMOS NoSDC
-::python noise_acq.py        05us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  01 RT 
-::python noise_acq.py        10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  02 RT 
-::python noise_acq.py        20us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  03 RT 
-::python noise_acq.py        30us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  04 RT 
-::python gain_measure_acq.py 05us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 01 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 02 RT 
-::python gain_measure_acq.py 20us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 03 RT 
-::python gain_measure_acq.py 30us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 04 RT 
-::
-::python ADC_CFG_INIT.py RT CMOS SDC
-::python noise_acq.py        05us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  05 RT 
-::python noise_acq.py        10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  06 RT 
-::python noise_acq.py        20us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  07 RT 
-::python noise_acq.py        30us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  08 RT 
-::python gain_measure_acq.py 05us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 05 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 06 RT 
-::python gain_measure_acq.py 20us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 07 RT 
-::python gain_measure_acq.py 30us 14mVfC PLS_EN  200mV BUF_OFF DC Internal 08 RT 
-
-::python ADC_CFG_INIT.py RT CMOS NoSDC
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  41 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  42 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  DC disable  43 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  44 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF AC disable  45 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  46 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable  47 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  48 RT 
-::
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  41 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  42 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  DC disable  43 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  44 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF AC disable  45 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  46 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable  47 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  48 RT 
-
-::python ADC_CFG_INIT.py RT CMOS SDC
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  51 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  52 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  DC disable  53 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  54 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF AC disable  55 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  56 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable  57 RT 
-::python noise_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  58 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  51 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF DC disable  52 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  DC disable  53 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  DC disable  54 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF AC disable  55 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_OFF AC disable  56 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 900mV BUF_ON  AC disable  57 RT 
-::python gain_measure_acq.py 10us 14mVfC PLS_DIS 200mV BUF_ON  AC disable  58 RT 
-
-::python ADC_CFG_INIT.py RT CMOS NoSDC
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_OFF DC Internal  61 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  DC Internal  63 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF DC Internal  62 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  DC Internal  64 RT 
-::
-::python ADC_CFG_INIT.py RT CMOS SDC
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_OFF DC Internal  65 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  DC Internal  67 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF DC Internal  66 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  DC Internal  68 RT 
-
-::python ADC_CFG_INIT.py RT CMOS NoSDC
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_OFF AC Internal  71 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  AC Internal  73 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF AC Internal  72 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  AC Internal  74 RT 
-::
-::python ADC_CFG_INIT.py RT CMOS SDC
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_OFF AC Internal  75 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 900mV BUF_ON  AC Internal  77 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_OFF AC Internal  76 RT 
-::python gain_loss_acq.py 10us 14mVfC PLS_EN 200mV BUF_ON  AC Internal  78 RT 
-
 
 ::Cd = 0pf FE to ADC
 ::python ADC_CFG_INIT.py RT CMOS NoSDC
@@ -226,32 +145,32 @@
 ::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  94 RT 
 
 ::900mV-902mV,differen BW(50,100,200,500,800kHz) DC+noise from 33600A 
-python ADC_CFG_INIT.py RT CMOS NoSDC
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
-python ADC_CFG_INIT.py RT CMOS SDC
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
-
-::900mV-908mV,differen BW(50,100,200,500,800kHz) DC+noise from 33600A 
-python ADC_CFG_INIT.py RT CMOS NoSDC
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
-python ADC_CFG_INIT.py RT CMOS SDC
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
-python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
+::python ADC_CFG_INIT.py RT CMOS NoSDC
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  95 RT 
+::python ADC_CFG_INIT.py RT CMOS SDC
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  96 RT 
+::
+::::900mV-908mV,differen BW(50,100,200,500,800kHz) DC+noise from 33600A 
+::python ADC_CFG_INIT.py RT CMOS NoSDC
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  97 RT 
+::python ADC_CFG_INIT.py RT CMOS SDC
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
+::python noise_acq.py 10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  98 RT 
 
 ::200mV DC from 33600A 
 ::python ADC_CFG_INIT.py RT CMOS NoSDC
