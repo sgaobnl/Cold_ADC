@@ -27,25 +27,15 @@ def file_list(runpath):
     return files
 
 test_ps = [
-            [91, 2, "10us", "14mVfC", "900mV", "NoSDC"], 
-            [92, 2, "10us", "14mVfC", "900mV", "SDC"],             
-            [93, 2, "10us", "14mVfC", "900mV", "NoSDC"], 
-            [94, 2, "10us", "14mVfC", "900mV", "SDC"],             
-            [95, 2, "10us", "14mVfC", "900mV", "NoSDC"], 
-            [96, 2, "10us", "14mVfC", "900mV", "SDC"],             
-            [97, 2, "10us", "14mVfC", "900mV", "NoSDC"], 
-            [98, 2, "10us", "14mVfC", "900mV", "SDC"],             
-            [90, 2, "10us", "14mVfC", "900mV", "NoSDC"], 
-            [99, 2, "10us", "14mVfC", "900mV", "SDC"],             
-
+            [2, 2, "10us", "14mVfC", "900mV", "NoSDC"], 
            ]
-mode16bit = True
+mode16bit = False
 if (mode16bit):
     adc_bits = "ADC16bit"
 else:
     adc_bits = "ADC12bit"
 
-nf_dir = "D:/ColdADC/D2_noise_acq/"
+nf_dir = "D:/ColdADC/ChipN_noise/"
 nfr_dir = nf_dir + "results/"
     
 for ty in range(len(test_ps)):

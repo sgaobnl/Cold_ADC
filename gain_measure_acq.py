@@ -73,7 +73,7 @@ asic_dac = 8
 print ("sdacsw = %d, fpga_dac = %d, asic_dac = %d"%(sdacsw, fpga_dac, asic_dac) )
    
 rawdir = "D:/ColdADC/"
-rawdir = rawdir + "D2_gainmeas_acq_Cap_LN/"
+rawdir = rawdir + "ChipN_gain/"
 if (os.path.exists(rawdir)):
     pass
 else:
@@ -83,7 +83,7 @@ else:
         print ("Error to create folder ")
         sys.exit()
 
-for asic_dac in range(3,0x1f,1):
+for asic_dac in range(3,0x10,1):
     chn1_p = []
     cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf = sbf, sdc = sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac, delay = 0 )   
     period = 200

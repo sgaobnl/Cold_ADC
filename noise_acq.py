@@ -45,7 +45,6 @@ if (sg_str == "47mVfC" ):
     sg = 16*[0] #4.7mV/fC   
 elif (sg_str == "14mVfC"):
     sg = 16*[2] #14mV/fC 
-    print (sg_str)
 elif (sg_str == "78mVfC"):
     sg = 16*[1] #14mV/fC 
 elif (sg_str == "25mVfC"):
@@ -77,7 +76,7 @@ asic_dac = 0
  
 
 rawdir = "D:/ColdADC/"
-rawdir = rawdir + "D2_noise_acq_LN/"
+rawdir = rawdir + "ChipN_Noise/"
 if (os.path.exists(rawdir)):
     pass
 else:
@@ -87,7 +86,7 @@ else:
         print ("Error to create folder ")
         sys.exit()
 cq.fe_cfg(sts=sts, snc=snc, sg=sg, st=st, sbf=sbf, sdc=sdc, sdacsw=sdacsw, fpga_dac=fpga_dac, asic_dac= asic_dac)   
-chns = cq.get_adcdata_raw(PktNum=2000000 )
+chns = cq.get_adcdata_raw(PktNum=200000 )
 for i in range(len(chns)):
     print (np.mean(chns[i]), np.std(chns[i]))
 

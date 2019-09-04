@@ -20,12 +20,12 @@ import matplotlib.mlab as mlab
 
 import pickle
 
-nf_dir = "D:/ColdADC/D2_noise_acq_CMOS_LN/"
+nf_dir = "D:/ColdADC/ChipN_noise/"
 nfr_dir = nf_dir + "results/"
 
 mode16bit = False
 BL = "900mV"
-sdc = "SDC"
+sdc = "NoSDC"
 Cd = "150pF"
 
 if (mode16bit):
@@ -40,8 +40,6 @@ with open (fn, 'rb') as fp:
 #                                          enc  std        rms           std               gain          
 #[8, 8, '30us', '14mVfC', '200mV', 'SDC', 539, 40, 49.34276008740476, 3.7582430361394032, 10.934308572889488]
 
-
-
 enc_gs = []
 estd_gs = []
 adc_gs = []
@@ -53,9 +51,8 @@ ax1 = plt.subplot2grid((6, 2), (0, 0), colspan=2, rowspan=2)
 ax2 = plt.subplot2grid((6, 2), (2, 0), colspan=2, rowspan=2)
 ax3 = plt.subplot2grid((6, 2), (4, 0), colspan=2, rowspan=2)
 
-for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]: 
-#for BL in [ "900mV", "200mV"]: 
-#    g = "14mVfC"
+#for g in ["47mVfC","78mVfC", "14mVfC", "25mVfC" ]: 
+for g in [ "14mVfC" ]: 
     enc_tp  = []
     estd_tp = []
     adc_tp  =[]
@@ -118,21 +115,4 @@ plt.tight_layout()
 plt.savefig( nfr_dir + "NoiseTest_"+ adc_bits + BL + sdc + Cd + ".png" )
 plt.close()
 
-#    y = enc_tp
-#
-#    title = "ENC Measurement"
-#
-#    enc_gs.append(  enc_tp  )
-#    estd_gs.append( estd_tp ) 
-#    adc_gs.append(  adc_tp  ) 
-#    astd_gs.append( astd_tp )
-#    gain_gs.append( gain_tp )
-#
-#    
-#        x = tp_us
-#        y = [xenc_tps[0][0], xenc_tps[1][0], xenc_tps[2][0], xenc_tps[3][0]]
-#        maxy = np.max(y)
-#        e = [xenc_tps[0][1], xenc_tps[1][1], xenc_tps[2][1], xenc_tps[3][1]]
-#        label = "%d"%xchns +" X " +  "wires" 
-#        ax.errorbar(x, y, e, label=label, color='g', marker='o')
-#
+
