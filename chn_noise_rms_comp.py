@@ -27,10 +27,10 @@ def file_list(runpath):
     return files
 
 test_ps = [
-#            [91, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMI", 1], 
+            [91, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMI", 1], 
 #            [92, 2, "10us", "14mVfC", "900mV", "SDC",   "VCMI", 1],             
 #
-#            [97, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMO", 2], 
+            [97, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMO", 2], 
 #            [98, 2, "10us", "14mVfC", "900mV", "SDC",   "VCMO", 2],             
 #
 #            [93, 2, "10us", "14mVfC", "900mV", "NoSDC", "900mV", 4], 
@@ -39,23 +39,23 @@ test_ps = [
 #            [95, 2, "10us", "14mVfC", "900mV", "NoSDC", "200mV", 3], 
 #            [96, 2, "10us", "14mVfC", "900mV", "SDC",   "200mV", 3],             
 #
-#            [82, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd0pF_FE4.7mV/fC", 5], 
+            [82, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd0pF_FE4.7mV/fC", 3], 
 #            [86, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd0pF_FE4.7mV/fC", 5],             
-#            [82, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd0pF_FE7.8mV/fC", 6], 
+            [82, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd0pF_FE7.8mV/fC", 4], 
 #            [86, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd0pF_FE7.8mV/fC", 6],             
-            [82, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd0pF_FE14mV/fC", 7], 
-            [86, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd0pF_FE14mV/fC", 7],             
-            [82, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd0pF_FE25mV/fC", 8], 
-            [86, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd0pF_FE25mV/fC", 8],             
+            [82, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd0pF_FE14mV/fC", 5], 
+#            [86, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd0pF_FE14mV/fC", 7],             
+            [82, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd0pF_FE25mV/fC", 6], 
+#            [86, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd0pF_FE25mV/fC", 8],             
 
-            [12, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd150pF_FE4.7mV/fC", 9], 
-            [16, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd150pF_FE4.7mV/fC", 9],             
-            [22, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd150pF_FE7.8mV/fC", 10], 
-            [26, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd150pF_FE7.8mV/fC", 10],             
-            [ 2, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd150pF_FE14mV/fC", 11], 
-            [ 6, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd150pF_FE14mV/fC", 11],             
-            [32, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd150pF_FE25mV/fC", 12], 
-            [36, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd150pF_FE25mV/fC", 12],             
+            [12, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd150pF_FE4.7mV/fC", 7], 
+#            [16, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd150pF_FE4.7mV/fC", 9],             
+            [22, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd150pF_FE7.8mV/fC", 8], 
+#            [26, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd150pF_FE7.8mV/fC", 10],             
+            [ 2, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd150pF_FE14mV/fC", 9], 
+#            [ 6, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd150pF_FE14mV/fC", 11],             
+            [32, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd150pF_FE25mV/fC", 10], 
+#            [36, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd150pF_FE25mV/fC", 12],             
 
         
 #            [93, 2, "10us", "14mVfC", "900mV", "NoSDC", "2 mV", 2], 
@@ -78,7 +78,7 @@ test_ps = [
 #            [94, 2, "10us", "14mVfC", "900mV", "SDC",   "10 mV", 10],    
             
            ]
-mode16bit = True
+mode16bit = False
 if (mode16bit):
     adc_bits = "ADC16bit"
 else:
@@ -87,7 +87,7 @@ else:
 nf_dir = "D:/ColdADC/D2_noise_acq/"
 nfr_dir = nf_dir + "results/"
     
-fig = plt.figure(figsize=(8,6))
+fig = plt.figure(figsize=(8,8))
 
 ticks = []
 xlocs =[]
@@ -124,7 +124,7 @@ for ty in range(len(test_ps)):
     
     rmss = []
     for chnno in range(16):
-        data_slice = np.array(chns[chnno][0:10000])&0xffff
+        data_slice = (np.array(chns[chnno][0:10000])&0xffff)//16
         rmss.append(np.std(data_slice))
 
     rmss_mean = np.mean(rmss)
@@ -135,7 +135,7 @@ for ty in range(len(test_ps)):
         ticks.append(test_ps[ty][6] )
         xlocs.append(xloc)
         label = "SDC Bypassed"
-#        plt.text(xloc, rmss_mean+1,test_ps[ty][6] )
+        plt.text(xloc-0.2, rmss_mean+0.1,"%.2f"%rmss_mean ) #test_ps[ty][6] )
     else:
         clor = 'r'
         label = "SDC ON"
@@ -146,8 +146,8 @@ for ty in range(len(test_ps)):
         plt.errorbar ( [xloc], [rmss_mean], [rmss_std], color = clor, marker='o')
 
 plt.xticks(xlocs, ticks, rotation=45)
-plt.xlim((6, 13))        
-plt.ylim((0,150))
+plt.xlim((0, 11))        
+plt.ylim((0,10))
 #plt.xlabel("33600A Random Noise Amplitude ( BW = 1MHz )" )
 plt.xlabel("ADC Input" )
 plt.ylabel("RMS(ADC) / LSB")
@@ -157,7 +157,7 @@ plt.grid(True)
 plt.legend(loc=2)
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
 #plt.show()
-plt.savefig( nfr_dir + "RMS_SDC_COMP_7_12.png" )
+plt.savefig( nfr_dir + "RMS_noSDC_COMP_1_10_12bit.png" )
 plt.close()
 
 
