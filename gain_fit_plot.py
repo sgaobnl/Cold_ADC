@@ -190,10 +190,10 @@ def Chn_Plot(asic_cali, chnno = 0, mode16bit=True, fpic = "gain.png"):
 mode16bit = False
 BL = "900mV"
 
-testnos = list(range(1,5)) #+ list(range(11, 19)) + list(range(21, 29)) + list(range(31, 39))
+testnos = list(range(1,5)) + list(range(11, 19)) + list(range(21, 29)) + list(range(31, 39))
 for testno in testnos:
     testno_str = "Test%02d"%testno
-    f_dir = "D:/ColdADC/D2_gainmeas_acq_Cap_LN/"
+    f_dir = "D:/ColdADC/D2_gainmeas_acq_LN/"
     fr_dir = f_dir + "results/"
     if (os.path.exists(fr_dir)):
         pass

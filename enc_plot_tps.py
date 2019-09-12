@@ -20,13 +20,13 @@ import matplotlib.mlab as mlab
 
 import pickle
 
-nf_dir = "D:/ColdADC/D2_noise_acq_CMOS_LN/"
+nf_dir = "D:/ColdADC/D2_noise_acq_LN/"
 nfr_dir = nf_dir + "results/"
 
-mode16bit = False
+mode16bit = True
 BL = "900mV"
-sdc = "SDC"
-Cd = "150pF"
+sdc = "NoSDC"
+Cd = "0pF"
 
 if (mode16bit):
     adc_bits = "ADC16bit"
@@ -116,6 +116,7 @@ ax3.grid(True)
 
 plt.tight_layout()
 plt.savefig( nfr_dir + "NoiseTest_"+ adc_bits + BL + sdc + Cd + ".png" )
+print ( nfr_dir + "NoiseTest_"+ adc_bits + BL + sdc + Cd + ".png" )
 plt.close()
 
 #    y = enc_tp

@@ -42,37 +42,37 @@ test_ps = [
            [2, 2, "10us", "14mVfC", "900mV", "NoSDC"],  
            [3, 3, "20us", "14mVfC", "900mV", "NoSDC"],  
            [4, 4, "30us", "14mVfC", "900mV", "NoSDC"],  
-           [5, 5, "05us", "14mVfC", "900mV", "SDC"], 
-           [6, 6, "10us", "14mVfC", "900mV", "SDC"],  
-           [7, 7, "20us", "14mVfC", "900mV", "SDC"],  
-           [8, 8, "30us", "14mVfC", "900mV", "SDC"],  
+#           [5, 5, "05us", "14mVfC", "900mV", "SDC"], 
+#           [6, 6, "10us", "14mVfC", "900mV", "SDC"],  
+#           [7, 7, "20us", "14mVfC", "900mV", "SDC"],  
+#           [8, 8, "30us", "14mVfC", "900mV", "SDC"],  
 
            [11, 11, "05us", "47mVfC", "900mV", "NoSDC"], 
            [12, 12, "10us", "47mVfC", "900mV", "NoSDC"],  
            [13, 13, "20us", "47mVfC", "900mV", "NoSDC"],  
            [14, 14, "30us", "47mVfC", "900mV", "NoSDC"],  
-           [15, 15, "05us", "47mVfC", "900mV", "SDC"], 
-           [16, 16, "10us", "47mVfC", "900mV", "SDC"],  
-           [17, 17, "20us", "47mVfC", "900mV", "SDC"],  
-           [18, 18, "30us", "47mVfC", "900mV", "SDC"],  
+#           [15, 15, "05us", "47mVfC", "900mV", "SDC"], 
+#           [16, 16, "10us", "47mVfC", "900mV", "SDC"],  
+#           [17, 17, "20us", "47mVfC", "900mV", "SDC"],  
+#           [18, 18, "30us", "47mVfC", "900mV", "SDC"],  
 
            [21, 21, "05us", "78mVfC", "900mV", "NoSDC"], 
            [22, 22, "10us", "78mVfC", "900mV", "NoSDC"],  
            [23, 23, "20us", "78mVfC", "900mV", "NoSDC"],  
            [24, 24, "30us", "78mVfC", "900mV", "NoSDC"],  
-           [25, 25, "05us", "78mVfC", "900mV", "SDC"], 
-           [26, 26, "10us", "78mVfC", "900mV", "SDC"],  
-           [27, 27, "20us", "78mVfC", "900mV", "SDC"],  
-           [28, 28, "30us", "78mVfC", "900mV", "SDC"],  
+#           [25, 25, "05us", "78mVfC", "900mV", "SDC"], 
+#           [26, 26, "10us", "78mVfC", "900mV", "SDC"],  
+#           [27, 27, "20us", "78mVfC", "900mV", "SDC"],  
+#           [28, 28, "30us", "78mVfC", "900mV", "SDC"],  
           
            [31, 31, "05us", "25mVfC", "900mV", "NoSDC"],  
            [32, 32, "10us", "25mVfC", "900mV", "NoSDC"],  
            [33, 33, "20us", "25mVfC", "900mV", "NoSDC"],  
            [34, 34, "30us", "25mVfC", "900mV", "NoSDC"],  
-           [35, 35, "05us", "25mVfC", "900mV", "SDC"],  
-           [36, 36, "10us", "25mVfC", "900mV", "SDC"],  
-           [37, 37, "20us", "25mVfC", "900mV", "SDC"],  
-           [38, 38, "30us", "25mVfC", "900mV", "SDC"],  
+#           [35, 35, "05us", "25mVfC", "900mV", "SDC"],  
+#           [36, 36, "10us", "25mVfC", "900mV", "SDC"],  
+#           [37, 37, "20us", "25mVfC", "900mV", "SDC"],  
+#           [38, 38, "30us", "25mVfC", "900mV", "SDC"],  
            
  
 #           [81, 1, "05us", "14mVfC", "900mV", "NoSDC"], 
@@ -120,10 +120,11 @@ mode16bit = False
 if (mode16bit):
     adc_bits = "ADC16bit"
 else:
-    adc_bits = "ADC12bit"
-Cd="150pF"
+    adc_bits = "ADC14bit"
+Cd="0pF"
+env = "_LN"
 
-nf_dir = "D:/ColdADC/D2_noise_acq_CMOS_LN/"
+nf_dir = "D:/ColdADC/D2_noise_acq" + env + "/"
 nfr_dir = nf_dir + "results/"
     
 for ty in range(len(test_ps)):
@@ -149,7 +150,7 @@ for ty in range(len(test_ps)):
     noise_testno_str = "Test%02d"%noise_testno
     fs = file_list(runpath=f_dir)
     for f in fs:
-        if (f.find(noise_testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0) and (f.find(BL)>0):
+        if (f.find(noise_testno_str)>0) and (f.find(tp)>0) and (f.find(sg)>0) and (f.find(".bin")>0) and (f.find(BL)>0) :
             fn = f_dir + f
             break
     with open (fn, 'rb') as fp:
@@ -159,10 +160,10 @@ for ty in range(len(test_ps)):
         if (mode16bit):
             rmss.append(np.std(np.array(chns[chnno][0:10000])&0xffff))
         else:
-            rmss.append( np.std( (np.array( chns[chnno][0:10000] )&0xffff)//16))
+            rmss.append( np.std( (np.array( chns[chnno][0:10000] )&0xffff)//4))
     
     
-    f_dir = "D:/ColdADC/D2_gainmeas_acq_CMOS_LN/"
+    f_dir = "D:/ColdADC/D2_gainmeas_acq" + env + "/"
     fr_dir = f_dir + "results/"
     g_testno_str = "Test%02d"%g_testno
     fs = file_list(runpath=fr_dir)
