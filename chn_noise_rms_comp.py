@@ -27,10 +27,10 @@ def file_list(runpath):
     return files
 
 test_ps = [
-            [91, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMI", 1], 
+#            [91, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMI", 1], 
 #            [92, 2, "10us", "14mVfC", "900mV", "SDC",   "VCMI", 1],             
 #
-            [97, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMO", 2], 
+#            [97, 2, "10us", "14mVfC", "900mV", "NoSDC", "VCMO", 2], 
 #            [98, 2, "10us", "14mVfC", "900mV", "SDC",   "VCMO", 2],             
 #
 #            [93, 2, "10us", "14mVfC", "900mV", "NoSDC", "900mV", 4], 
@@ -39,25 +39,44 @@ test_ps = [
 #            [95, 2, "10us", "14mVfC", "900mV", "NoSDC", "200mV", 3], 
 #            [96, 2, "10us", "14mVfC", "900mV", "SDC",   "200mV", 3],             
 #
-            [82, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd0pF_FE4.7mV/fC", 3], 
+#            [82, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd0pF_FE4.7mV/fC", 3], 
+##            [86, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd0pF_FE4.7mV/fC", 5],             
+#            [82, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd0pF_FE7.8mV/fC", 4], 
+##            [86, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd0pF_FE7.8mV/fC", 6],             
+#            [82, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd0pF_FE14mV/fC", 5], 
+##            [86, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd0pF_FE14mV/fC", 7],             
+#            [82, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd0pF_FE25mV/fC", 6], 
+##            [86, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd0pF_FE25mV/fC", 8],             
+#
+#            [12, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd150pF_FE4.7mV/fC", 7], 
+##            [16, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd150pF_FE4.7mV/fC", 9],             
+#            [22, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd150pF_FE7.8mV/fC", 8], 
+##            [26, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd150pF_FE7.8mV/fC", 10],             
+#            [ 2, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd150pF_FE14mV/fC", 9], 
+##            [ 6, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd150pF_FE14mV/fC", 11],             
+#            [32, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd150pF_FE25mV/fC", 10], 
+##            [36, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd150pF_FE25mV/fC", 12],             
+
+        ######################LN###########################
+            [82, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd150pF_FE4.7mV/fC", 7], 
 #            [86, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd0pF_FE4.7mV/fC", 5],             
-            [82, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd0pF_FE7.8mV/fC", 4], 
+            [82, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd150pF_FE7.8mV/fC", 8], 
 #            [86, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd0pF_FE7.8mV/fC", 6],             
-            [82, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd0pF_FE14mV/fC", 5], 
+            [82, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd150pF_FE14mV/fC", 9], 
 #            [86, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd0pF_FE14mV/fC", 7],             
-            [82, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd0pF_FE25mV/fC", 6], 
+            [82, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd150pF_FE25mV/fC", 10], 
 #            [86, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd0pF_FE25mV/fC", 8],             
 
-            [12, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd150pF_FE4.7mV/fC", 7], 
+            [12, 2, "10us", "47mVfC", "900mV", "NoSDC", "Cd0pF_FE4.7mV/fC", 3], 
 #            [16, 2, "10us", "47mVfC", "900mV", "SDC",   "Cd150pF_FE4.7mV/fC", 9],             
-            [22, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd150pF_FE7.8mV/fC", 8], 
+            [22, 2, "10us", "78mVfC", "900mV", "NoSDC", "Cd0pF_FE7.8mV/fC", 4], 
 #            [26, 2, "10us", "78mVfC", "900mV", "SDC",   "Cd150pF_FE7.8mV/fC", 10],             
-            [ 2, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd150pF_FE14mV/fC", 9], 
+            [ 2, 2, "10us", "14mVfC", "900mV", "NoSDC", "Cd0pF_FE14mV/fC", 5], 
 #            [ 6, 2, "10us", "14mVfC", "900mV", "SDC",   "Cd150pF_FE14mV/fC", 11],             
-            [32, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd150pF_FE25mV/fC", 10], 
-#            [36, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd150pF_FE25mV/fC", 12],             
-
-        
+            [32, 2, "10us", "25mVfC", "900mV", "NoSDC", "Cd0pF_FE25mV/fC", 6], 
+#            [36, 2, "10us", "25mVfC", "900mV", "SDC",   "Cd150pF_FE25mV/fC", 12],    
+        ######################LN###########################
+            
 #            [93, 2, "10us", "14mVfC", "900mV", "NoSDC", "2 mV", 2], 
 #            [94, 2, "10us", "14mVfC", "900mV", "SDC",   "2 mV", 2],             
 #            [93, 2, "10us", "14mVfC", "900mV", "NoSDC", "3 mV", 3], 
@@ -84,7 +103,7 @@ if (mode16bit):
 else:
     adc_bits = "ADC12bit"
 
-nf_dir = "D:/ColdADC/D2_noise_acq/"
+nf_dir = "D:/ColdADC/D2_noise_acq_LN/"
 nfr_dir = nf_dir + "results/"
     
 fig = plt.figure(figsize=(8,8))
@@ -131,7 +150,7 @@ for ty in range(len(test_ps)):
     rmss_std = np.std(rmss)
     print (test_ps[ty], rmss_mean, rmss_std)
     if test_ps[ty][5] == "NoSDC":
-        clor = 'b'
+        clor = 'r'
         ticks.append(test_ps[ty][6] )
         xlocs.append(xloc)
         label = "SDC Bypassed"
