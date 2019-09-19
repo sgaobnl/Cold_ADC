@@ -19,8 +19,11 @@ import matplotlib.patches as mpatches
 import matplotlib.mlab as mlab
 
 import pickle
+import sys
+env = sys.argv[1]
+cid = sys.argv[2]
 
-nf_dir = "D:/ColdADC/ChipN_noise/"
+nf_dir = "D:/ColdADC/%s_Noise_%s/"%(cid, env)
 nfr_dir = nf_dir + "results/"
 
 mode16bit = False
@@ -70,8 +73,14 @@ for g in [ "14mVfC" ]:
                 break
     x = [0.5, 1.0, 2.0, 3.0]
     ax1.errorbar(x, enc_tp, estd_tp, label= g+"  BL" + BL)
+    for i in range(len(x)):
+        ax1.text(x[i], enc_tp[i]*1.1, str(enc_tp[i]))
     ax2.errorbar(x, adc_tp, astd_tp, label= g+"  BL" + BL)
+    for i in range(len(x)):
+        ax2.text(x[i], adc_tp[i]*1.1, "%.3f"%(adc_tp[i]))
     ax3.plot(x, gain_tp, label= g+"  BL" + BL)
+    for i in range(len(x)):
+        ax3.text(x[i], gain_tp[i]*1.1, str(int(gain_tp[i])))
     print (x, enc_tp, estd_tp)
 
 ax1.legend()

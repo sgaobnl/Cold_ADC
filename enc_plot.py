@@ -39,8 +39,11 @@ if (mode16bit):
 else:
     adc_bits = "ADC12bit"
 Cd="150pF"
+import sys
+env = sys.argv[1]
+cid = sys.argv[2]
 
-nf_dir = "D:/ColdADC/ChipN_noise/"
+nf_dir = "D:/ColdADC/%s_Noise_%s/"%(cid, env)
 nfr_dir = nf_dir + "results/"
     
 for ty in range(len(test_ps)):
@@ -79,7 +82,7 @@ for ty in range(len(test_ps)):
             rmss.append( np.std( (np.array( chns[chnno][0:10000] )&0xffff)//16))
     
     
-    f_dir = "D:/ColdADC/ChipN_gain/"
+    f_dir = "D:/ColdADC/%s_gain_%s/"%(cid, env)
     fr_dir = f_dir + "results/"
     g_testno_str = "Test%02d"%g_testno
     fs = file_list(runpath=fr_dir)

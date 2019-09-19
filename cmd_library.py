@@ -52,9 +52,9 @@ class CMD_ACQ:
                 vcmi_ioft = 1
                 vcmo_ioft = 1
             else:
-                vrefp_voft = 0xd4#0xf1
-                vrefn_voft = 0x28#0x29
-                vcmi_voft = 0x58#0x65
+                vrefp_voft = 0xf1#0xd4#0xf1
+                vrefn_voft = 0x29#0x28#0x29
+                vcmi_voft = 0x65#0x58#0x65
                 vcmo_voft = 0x8d
                 vrefp_ioft = 1
                 vrefn_ioft = 1
@@ -229,21 +229,21 @@ class CMD_ACQ:
                 for i in range(10):
                     chns = self.get_adcdata(PktNum=128)
                     if(( (chns[0][1] & 0xFFFF) > 0xE000) and 
-                       ( (chns[1][1] & 0xFFFF) > 0x4000) and  ((chns[1][1] &0xFFFF)  < 0xE000) and
-                       ( (chns[2][1] & 0xFFFF) < 0x4000) and 
-                       ( (chns[3][1] & 0xFFFF) > 0x4000) and  ((chns[2][1] &0xFFFF)  < 0xE000) and            
-                       ( (chns[4][1] & 0xFFFF) > 0x4000) and  ((chns[4][1] &0xFFFF)  < 0xE000) and               
-                       ( (chns[5][1] & 0xFFFF) > 0x4000) and  ((chns[5][1] &0xFFFF)  < 0xE000) and               
-                       ( (chns[6][1] & 0xFFFF) > 0x4000) and  ((chns[6][1] &0xFFFF)  < 0xE000) and               
-                       ( (chns[7][1] & 0xFFFF) > 0x4000) and  ((chns[7][1] &0xFFFF)  < 0xE000) and               
+                       ( (chns[1][1] & 0xFFFF) > 0x6000) and  ((chns[1][1] &0xFFFF)  < 0xE000) and
+                       ( (chns[2][1] & 0xFFFF) < 0x6000) and 
+                       ( (chns[3][1] & 0xFFFF) > 0x6000) and  ((chns[2][1] &0xFFFF)  < 0xE000) and            
+                       ( (chns[4][1] & 0xFFFF) > 0x6000) and  ((chns[4][1] &0xFFFF)  < 0xE000) and               
+                       ( (chns[5][1] & 0xFFFF) > 0x6000) and  ((chns[5][1] &0xFFFF)  < 0xE000) and               
+                       ( (chns[6][1] & 0xFFFF) > 0x6000) and  ((chns[6][1] &0xFFFF)  < 0xE000) and               
+                       ( (chns[7][1] & 0xFFFF) > 0x6000) and  ((chns[7][1] &0xFFFF)  < 0xE000) and               
                        ( (chns[8][1] & 0xFFFF) > 0xE000) and 
-                       ( (chns[9][1] & 0xFFFF) > 0x4000) and  ((chns[9][1] &0xFFFF)  < 0xE000) and
-                       ( (chns[10][1]& 0xFFFF) < 0x4000) and  
-                       ( (chns[11][1]& 0xFFFF) > 0x4000) and  ((chns[10][1] &0xFFFF) < 0xE000) and            
-                       ( (chns[12][1]& 0xFFFF) > 0x4000) and  ((chns[12][1] &0xFFFF) < 0xE000) and               
-                       ( (chns[13][1]& 0xFFFF) > 0x4000) and  ((chns[13][1] &0xFFFF) < 0xE000) and               
-                       ( (chns[14][1]& 0xFFFF) > 0x4000) and  ((chns[14][1] &0xFFFF) < 0xE000) and               
-                       ( (chns[15][1]& 0xFFFF) > 0x4000) and  ((chns[15][1] &0xFFFF) < 0xE000) ):             
+                       ( (chns[9][1] & 0xFFFF) > 0x6000) and  ((chns[9][1] &0xFFFF)  < 0xE000) and
+                       ( (chns[10][1]& 0xFFFF) < 0x6000) and  
+                       ( (chns[11][1]& 0xFFFF) > 0x6000) and  ((chns[10][1] &0xFFFF) < 0xE000) and            
+                       ( (chns[12][1]& 0xFFFF) > 0x6000) and  ((chns[12][1] &0xFFFF) < 0xE000) and               
+                       ( (chns[13][1]& 0xFFFF) > 0x6000) and  ((chns[13][1] &0xFFFF) < 0xE000) and               
+                       ( (chns[14][1]& 0xFFFF) > 0x6000) and  ((chns[14][1] &0xFFFF) < 0xE000) and               
+                       ( (chns[15][1]& 0xFFFF) > 0x6000) and  ((chns[15][1] &0xFFFF) < 0xE000) ):             
                         woc_f = True
                     else:
                         woc_f = False

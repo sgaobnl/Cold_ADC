@@ -25,6 +25,8 @@ sdc_str = sys.argv[6]
 sdacsw_str =  sys.argv[7]
 testno = int(sys.argv[8])
 env = sys.argv[9]
+cid = sys.argv[10]
+FE_ver = "V8" 
 
 if tp == "05us":
     tpi = 1
@@ -41,14 +43,24 @@ if (pls_str == "PLS_EN"):
 else:
     sts=16*[0]
 
-if (sg_str == "47mVfC" ):
-    sg = 16*[0] #4.7mV/fC   
-elif (sg_str == "14mVfC"):
-    sg = 16*[2] #14mV/fC 
-elif (sg_str == "78mVfC"):
-    sg = 16*[1] #14mV/fC 
-elif (sg_str == "25mVfC"):
-    sg = 16*[3] #14mV/fC 
+if FE_ver == "V8" :
+    if (sg_str == "47mVfC" ):
+        sg = 16*[3]
+    elif (sg_str == "14mVfC"):
+        sg = 16*[0] 
+    elif (sg_str == "78mVfC"):
+        sg = 16*[2]
+    elif (sg_str == "25mVfC"):
+        sg = 16*[1] 
+else:
+    if (sg_str == "47mVfC" ):
+        sg = 16*[0]
+    elif (sg_str == "14mVfC"):
+        sg = 16*[2] 
+    elif (sg_str == "78mVfC"):
+        sg = 16*[1]
+    elif (sg_str == "25mVfC"):
+        sg = 16*[3] 
     
 if (snc_str == "900mV"):
     snc = 16*[0] #900mV
@@ -76,7 +88,7 @@ asic_dac = 0
  
 
 rawdir = "D:/ColdADC/"
-rawdir = rawdir + "ChipN_Noise/"
+rawdir = rawdir + "%s_Noise_%s/"%(cid, env)
 if (os.path.exists(rawdir)):
     pass
 else:
