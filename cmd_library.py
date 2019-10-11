@@ -28,6 +28,14 @@ class CMD_ACQ:
     def __init__(self):
         self.bc = Brd_Config()
 
+    def ss_chk(self ):
+
+        tmp1 = self.bc.adc.I2C_read(4, 2, 1)
+        tmp2 = self.bc.adc.I2C_read(4, 2, 2)
+        tmp3 = self.bc.adc.I2C_read(4, 2, 3)
+        print (hex(tmp1), hex(tmp2), hex(tmp3))
+
+        
     def init_chk(self ):
         self.bc.Acq_start_stop(0)
         print ("ADC hard reset after power on")
@@ -35,6 +43,17 @@ class CMD_ACQ:
         init_str = self.bc.adc_read_reg(0)
         if (init_str == '0x52'):
             print ("ADC hard reset is done, I2C link looks good!")
+        tmp1 = self.bc.adc.I2C_read(4, 2, 1)
+        tmp2 = self.bc.adc.I2C_read(4, 2, 2)
+        tmp3 = self.bc.adc.I2C_read(4, 2, 3)
+        print (hex(tmp1), hex(tmp2), hex(tmp3))
+        self.bc.adc_soft_reset()
+#        self.bc.adc.I2C_write(4, 2, 2, 1)
+        tmp1 = self.bc.adc.I2C_read(4, 2, 1)
+        tmp2 = self.bc.adc.I2C_read(4, 2, 2)
+        tmp3 = self.bc.adc.I2C_read(4, 2, 3)
+        print (hex(tmp1), hex(tmp2), hex(tmp3))
+
     
     def ref_set(self, flg_bjt_r = True, env = "RT" ):
         if (flg_bjt_r):
@@ -285,7 +304,7 @@ class CMD_ACQ:
             self.init_chk()
             self.ref_set(flg_bjt_r = flg_bjt_r , env=env)
             time.sleep(1)
-            self.all_ref_vmons( )
+#            self.all_ref_vmons( )
             self.Input_buffer_cfg(sdc = adc_sdc, db = adc_db, sha = adc_sha, curr_src = adc_curr_src)      
             #self.Input_buffer_cfg(sdc = "On", db = "Bypass", sha = "Diff", curr_src = "BJT-sd")      
             self.bc.adc_sha_clk_sel(mode = "internal")
@@ -299,12 +318,12 @@ class CMD_ACQ:
                                  adc_sync_mode ="Normal", adc_test_input = "Normal", 
                                  adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
         
-        print ("Manual Calibration starting, wait...")
-        self.bc.udp.clr_server_buf()
-        self.bc.adc_autocali(avr=20000,saveflag="undef")
-        self.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
-                                 adc_sync_mode ="Normal", adc_test_input = "Normal", 
-                                 adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
+#        print ("Manual Calibration starting, wait...")
+#        self.bc.udp.clr_server_buf()
+#        self.bc.adc_autocali(avr=20000,saveflag="undef")
+#        self.Converter_Config(edge_sel = "Normal", out_format = "offset binary", 
+#                                 adc_sync_mode ="Normal", adc_test_input = "Normal", 
+#                                 adc_output_sel = "cali_ADCdata", adc_bias_uA = 50)
         print ("Manual Calibration is done, back to normal")
 
 #cq = CMD_ACQ() 
