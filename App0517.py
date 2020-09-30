@@ -852,7 +852,7 @@ class MainWindow(QWidget):
         self.cbox_page.addItem("1")
         self.cbox_page.addItem("2")
         self.cbox_page.addItem("0")
-        #self.cbox_page.activated[str].connect(self.Change_I2C_page)
+        self.cbox_page.activated[str].connect(self.Change_I2C_page) 
         lbl_AdcRegAddr = QLabel("Reg")
         lbl_AdcRegVal = QLabel("Val")
         self.ledit_AdcRegAddr = QLineEdit("int")
@@ -1990,7 +1990,16 @@ class MainWindow(QWidget):
             self.brd_config.adc_sha_input(0)
         else:
            self.brd_config.adc_sha_input(1) 
-    
+           
+    def Change_I2C_page(self,text):
+        if text == "1":
+            self.brd_config.page = 1
+        elif text == "2":
+            self.brd_config.page = 2
+        elif text == "0":
+            self.brd_config.page = 0
+        else:
+           self.brd_config.page = 1    
     def fun_currsc(self,text):
         self.brd_config.adc_ibuff_ctrl(text)
     

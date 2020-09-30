@@ -30,6 +30,7 @@ class COLDADC_tool:
         
         
     def I2C_read(self,chip_id,page,addr):
+        print ("Read: chip_id = {}, page = {}, addr = {}".format(chip_id, page, addr))
         if (self.uart_flag):
             if (page ==2):
                 if (addr == 1):
@@ -65,6 +66,8 @@ class COLDADC_tool:
             self.udp.write_reg(2, data + 0x00)
             temp = rddata
         else: 
+            if (page==2):
+                addr = addr -0x80
             #load address
             self.udp.write(self.fpga_reg.i2c_rw,1) #read
             #load data
@@ -86,6 +89,7 @@ class COLDADC_tool:
         return temp
 
     def I2C_write(self,chip_id,page,addr,data):
+        print ("Write: chip_id = {}, page = {}, addr = {}".format(chip_id, page, addr))
         if (self.uart_flag):
             if (page ==2):
                 if (addr == 1):
@@ -117,6 +121,8 @@ class COLDADC_tool:
             time.sleep(0.01)
             self.udp.write_reg(2, data_w + 0x00)
         else: 
+            if (page==2):
+                addr = addr -0x80
             #load address
             self.udp.write(self.fpga_reg.i2c_rw,0) #write
             #load data

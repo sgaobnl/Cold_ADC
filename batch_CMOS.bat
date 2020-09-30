@@ -1,4 +1,4 @@
-::python ADC_CFG_INIT.py RT CMOS NoSDC
+python ADC_CFG_INIT.py RT CMOS NoSDC
 ::python noise_acq.py        05us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  01 RT 
 ::python noise_acq.py        10us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  02 RT 
 ::python noise_acq.py        20us 14mVfC PLS_DIS 900mV BUF_OFF DC disable  03 RT 
