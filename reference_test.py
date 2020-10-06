@@ -57,7 +57,7 @@ xvrefp_300k_9_5uA=[]
 xcode_300k_12_6uA=[]
 xvrefp_300k_12_6uA=[]
 #open 1
-with open('E:\Junbin\DUNEADC_TEST\DUNE_COLDADC\monitor\\vrefp_vdd2p5_300k_vref_bjt_9.5pA.csv') as csvfile:
+with open('D:\\Github\\Cold_ADC\\monitor\\vrefp_vdd2p5_300k_vref_bjt_9.5pA.csv') as csvfile:
     readCSV = csv.reader(csvfile,delimiter=',')
     for row in readCSV:    
         xcode_300k_9_5pA.append(row[0])
@@ -74,7 +74,7 @@ fit_fn_300k_9_5pA = np.poly1d(fit_300k_9_5pA)
 
 
 #open 2
-with open('E:\Junbin\DUNEADC_TEST\DUNE_COLDADC\monitor\\vrefp_vdd2p5_300k_vref_bjt_6.3uA.csv') as csvfile:
+with open('D:\\Github\\Cold_ADC\\monitor\\vrefp_vdd2p5_300k_vref_bjt_6.3uA.csv') as csvfile:
     readCSV = csv.reader(csvfile,delimiter=',')
     for row in readCSV:    
         xcode_300k_6_3uA.append(row[0])
@@ -90,7 +90,7 @@ fit_300k_6_3uA = np.polyfit(xcode_300k_6_3uA,xvrefp_300k_6_3uA,1)
 fit_fn_300k_6_3uA = np.poly1d(fit_300k_6_3uA)
 
 #open 3
-with open('E:\Junbin\DUNEADC_TEST\DUNE_COLDADC\monitor\\vrefp_vdd2p5_300k_vref_bjt_9.5uA.csv') as csvfile:
+with open('D:\\Github\\Cold_ADC\\monitor\\vrefp_vdd2p5_300k_vref_bjt_9.5uA.csv') as csvfile:
     readCSV = csv.reader(csvfile,delimiter=',')
     for row in readCSV:    
         xcode_300k_9_5uA.append(row[0])
@@ -105,7 +105,7 @@ xvrefp_300k_9_5uA = list(map(float,xvrefp_300k_9_5uA))
 fit_300k_9_5uA = np.polyfit(xcode_300k_9_5uA,xvrefp_300k_9_5uA,1)
 fit_fn_300k_9_5uA = np.poly1d(fit_300k_9_5uA)
 #open 4
-with open('E:\Junbin\DUNEADC_TEST\DUNE_COLDADC\monitor\\vrefp_vdd2p5_300k_vref_bjt_12.6uA.csv') as csvfile:
+with open('D:\\Github\\Cold_ADC\\monitor\\vrefp_vdd2p5_300k_vref_bjt_12.6uA.csv') as csvfile:
     readCSV = csv.reader(csvfile,delimiter=',')
     for row in readCSV:    
         xcode_300k_12_6uA.append(row[0])
@@ -124,7 +124,7 @@ fit_fn_300k_12_6uA = np.poly1d(fit_300k_12_6uA)
 xcode_ibuff1_300k=[]
 ibuff1_300k=[]
 #open 5 current
-with open('E:\Junbin\DUNEADC_TEST\DUNE_COLDADC\monitor\ibuff1_vdd2p5_300k_vref_bjt.csv') as csvfile:
+with open('D:\\Github\\Cold_ADC\\monitor\\ibuff1_vdd2p5_300k_vref_bjt.csv') as csvfile:
     readCSV = csv.reader(csvfile,delimiter=',')
     for row in readCSV:    
         xcode_ibuff1_300k.append(row[0])
@@ -144,7 +144,7 @@ fit_fn_ibuff1_300k = np.poly1d(fit_ibuff1_300k)
 xcode_ivdac1_300k=[]
 ivdac1_300k=[]
 #open 5 current
-with open('E:\Junbin\DUNEADC_TEST\DUNE_COLDADC\monitor\ivdac1_vdd2p5_300k_vref_bjt.csv') as csvfile:
+with open('D:\\Github\\Cold_ADC\\monitor\\ivdac1_vdd2p5_300k_vref_bjt.csv') as csvfile:
     readCSV = csv.reader(csvfile,delimiter=',')
     for row in readCSV:    
         xcode_ivdac1_300k.append(row[0])

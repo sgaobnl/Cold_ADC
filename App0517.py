@@ -1545,8 +1545,25 @@ class MainWindow(QWidget):
         self.data_plot.showGrid(True, True)
         #chn = self.ChannelSelect()
         self.data_plot.addLegend()
-        self.time_curve = self.data_plot.plot(pen=(119,172,48),symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=2, name = "Time Domain Audio")
-        
+
+        self.time_curve = self.data_plot.plot(pen=(119,172,48),symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=2, name = "Time Domain")
+#        self.time_curve0 = self.data_plot.plot(pen='y',symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=4,  name = "Ch0")
+#        self.time_curve1 = self.data_plot.plot(pen='b',symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=4,  name = "Ch1")
+#        self.time_curve2 = self.data_plot.plot(pen='g',symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=4,  name = "Ch2")
+#        self.time_curve3 = self.data_plot.plot(pen='r',symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=4,  name = "Ch3")
+#        self.time_curve4 = self.data_plot.plot(pen='w',symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=4,  name = "Ch4")
+#        self.time_curve5 = self.data_plot.plot(pen='c',symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=4,  name = "Ch5")
+#        self.time_curve6 = self.data_plot.plot(pen='m',symbolBrush=(119,172,48),symbolPen='w',symbol='o',symbolSize=4,  name = "Ch6")
+#        self.time_curve7 = self.data_plot.plot(pen='y',symbolBrush=(119,172,48),symbolPen='w',symbol='x',symbolSize=4,  name = "Ch7")
+#        self.time_curve8 = self.data_plot.plot(pen='y',symbolBrush=(119,172,48),symbolPen='w',symbol='s',symbolSize=4,  name = "Ch8")
+#        self.time_curve9 = self.data_plot.plot(pen='b',symbolBrush=(119,172,48),symbolPen='w',symbol='s',symbolSize=4,  name = "Ch9")
+#        self.time_curvea = self.data_plot.plot(pen='g',symbolBrush=(119,172,48),symbolPen='w',symbol='s',symbolSize=4,  name = "Cha")
+#        self.time_curveb = self.data_plot.plot(pen='r',symbolBrush=(119,172,48),symbolPen='w',symbol='s',symbolSize=4,  name = "Chb")
+#        self.time_curvec = self.data_plot.plot(pen='w',symbolBrush=(119,172,48),symbolPen='w',symbol='s',symbolSize=4,  name = "Chc")
+#        self.time_curved = self.data_plot.plot(pen='c',symbolBrush=(119,172,48),symbolPen='w',symbol='s',symbolSize=4,  name = "Chd")
+#        self.time_curvee = self.data_plot.plot(pen='m',symbolBrush=(119,172,48),symbolPen='w',symbol='s',symbolSize=4,  name = "Che")
+#        self.time_curvef = self.data_plot.plot(pen='y',symbolBrush=(119,172,48),symbolPen='w',symbol='+',symbolSize=4,  name = "Chf")
+   
         # create a plot for the frequency domain data
         Canvas.nextRow()
         self.fft_plot = Canvas.addPlot(title="Frequency Domain") 
@@ -2454,6 +2471,25 @@ class MainWindow(QWidget):
             self.Channel = self.ChannelSelect()
             # plot real time and FFt data
             self.time_curve.setData(chns_data[self.Channel])
+
+#            self.time_curve0.setData(chns_data[0])
+#            self.time_curve1.setData(chns_data[1])
+#            self.time_curve2.setData(chns_data[2])
+#            self.time_curve3.setData(chns_data[3])
+#            self.time_curve4.setData(chns_data[4])
+#            self.time_curve5.setData(chns_data[5])
+#            self.time_curve6.setData(chns_data[6])
+#            self.time_curve7.setData(chns_data[7])
+#            self.time_curve8.setData(chns_data[8])
+#            self.time_curve9.setData(chns_data[9])
+#            self.time_curvea.setData(chns_data[0xa])
+#            self.time_curveb.setData(chns_data[0xb])
+#            self.time_curvec.setData(chns_data[0xc])
+#            self.time_curved.setData(chns_data[0xd])
+#            self.time_curvee.setData(chns_data[0xe])
+#            self.time_curvef.setData(chns_data[0xf])
+
+            
             self.fft_curve.setData(fn[self.Channel],pn[self.Channel])
             
     def Update_histo(self,result1):
